@@ -1,0 +1,13 @@
+**/target/
+/target/
+*/target/*
+.mtj.tmp/
+hs_err_pid*
+
+**/.idea/
+*.iml
+
+*.jar
+*.war
+*.ear
+*.class
