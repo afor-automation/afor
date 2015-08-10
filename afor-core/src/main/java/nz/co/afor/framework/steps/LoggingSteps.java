@@ -15,9 +15,11 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
+ * Copyright afor
  * Created by Matt Belcher on 3/08/2015.
  */
 public class LoggingSteps {
@@ -41,8 +43,8 @@ public class LoggingSteps {
         assertThat(log, is(not(nullValue())));
     }
 
-    @When("^I log to (debug|info|error)$")
-    public void I_log_to_debug(String logLevel) throws Throwable {
+    @When("^I log to (debug|info|error|trace)$")
+    public void I_log_to(String logLevel) throws Throwable {
         switch (logLevel) {
             case "debug":
                 log.debug("debug log level");
@@ -53,6 +55,9 @@ public class LoggingSteps {
             case "error":
                 log.error("error log level");
                 break;
+            case "trace":
+                log.trace("trace log level");
+                break;
             default:
                 throw new RuntimeException(String.format("logLevel '%s' is not recognised as a valid log level", logLevel));
 
@@ -62,5 +67,10 @@ public class LoggingSteps {
     @Then("^I my information should be logged$")
     public void I_my_information_should_be_logged() throws Throwable {
         verify(appenderMock).doAppend((LoggingEvent) anyObject());
+    }
+
+    @Then("^I my information should not be logged$")
+    public void I_my_information_should_not_be_logged() throws Throwable {
+        verify(appenderMock, never()).doAppend((LoggingEvent) anyObject());
     }
 }

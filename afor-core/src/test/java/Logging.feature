@@ -5,7 +5,7 @@ Feature: Spring dependencies
   So that I can write well structured tests
 
   @log
-  Scenario Outline: Logging levels
+  Scenario Outline: Logged logging levels
     Given I have a new log instance
     When I log to <logLevel>
     Then I my information should be logged
@@ -14,3 +14,9 @@ Feature: Spring dependencies
       | debug    |
       | info     |
       | error    |
+
+  @log
+  Scenario: Ignored logging levels
+    Given I have a new log instance
+    When I log to trace
+    Then I my information should not be logged
