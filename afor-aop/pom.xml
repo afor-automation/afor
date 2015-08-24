@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>nz.co.afor.framework</groupId>
+    <artifactId>afor-aop</artifactId>
+    <version>1.1-RELEASE</version>
+    <packaging>jar</packaging>
+    <description>afor-aop to enable Aspect Oriented Programming</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>nz.co.afor.framework</groupId>
+            <artifactId>afor-core</artifactId>
+            <version>1.1-RELEASE</version>
+        </dependency>
+
+        <!-- Aspect Oriented Programming -->
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-aspects</artifactId>
+            <version>0.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.6</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Aspect oriented programming -->
+            <plugin>
+                <groupId>com.jcabi</groupId>
+                <artifactId>jcabi-maven-plugin</artifactId>
+                <version>0.8</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <classesDirectory>target/test-classes</classesDirectory>
+                        </configuration>
+                        <goals>
+                            <goal>ajc</goal>
+                        </goals>
+                        <phase>process-test-classes</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

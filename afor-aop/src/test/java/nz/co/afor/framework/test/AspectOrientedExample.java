@@ -25,7 +25,6 @@ public class AspectOrientedExample {
     @Timeable(limit = 1, unit = TimeUnit.MILLISECONDS)
     public void timeout() throws InterruptedException {
         Thread.sleep(2000);
-        Thread.sleep(2000);
     }
 
     @RetryOnFailure(attempts = 3)

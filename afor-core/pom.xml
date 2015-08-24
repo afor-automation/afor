@@ -6,7 +6,9 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-core</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>1.1-RELEASE</version>
+    <packaging>jar</packaging>
+    <description>afor-core provides a basis for core dependencies of the afor framework</description>
 
     <dependencies>
         <!-- Cucumber framework -->
@@ -30,22 +32,22 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.1.7.RELEASE</version>
+            <version>4.2.0.RELEASE</version>
         </dependency>
 
         <!-- Unit testing -->
@@ -71,19 +73,6 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
-        </dependency>
-
-        <!-- Aspect Oriented Programming -->
-        <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-aspects</artifactId>
-            <version>0.22</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.6</version>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -122,57 +111,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Aspect oriented programming -->
-            <plugin>
-                <groupId>com.jcabi</groupId>
-                <artifactId>jcabi-maven-plugin</artifactId>
-                <version>0.8</version>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <classesDirectory>target/test-classes</classesDirectory>
-                        </configuration>
-                        <goals>
-                            <goal>ajc</goal>
-                        </goals>
-                        <phase>process-test-classes</phase>
-                    </execution>
-                </executions>
-            </plugin>
-<!--
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjrt</artifactId>
-                        <version>1.8.6</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>1.8.6</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <complianceLevel>1.7</complianceLevel>
-                    <encoding>UTF-8</encoding>
-                    <outxml>true</outxml>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
--->
             <!-- Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
