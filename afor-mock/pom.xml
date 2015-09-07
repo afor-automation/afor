@@ -6,7 +6,7 @@
 
     <groupId>nz.co.afor.framework.mock</groupId>
     <artifactId>afor-mock</artifactId>
-    <version>1.1-RELEASE</version>
+    <version>1.2-RELEASE</version>
     <packaging>jar</packaging>
     <description>afor-framework mock services, to enable integration tests for afor-framework</description>
 
@@ -83,4 +83,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>afor.co.nz</id>
+            <name>afor repository</name>
+            <layout>default</layout>
+            <url>http://nexus.afor.co.nz/nexus/content/repositories/nz.co.afor.framework/</url>
+        </repository>
+    </distributionManagement>
 </project>

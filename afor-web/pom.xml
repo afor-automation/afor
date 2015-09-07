@@ -6,7 +6,7 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-web</artifactId>
-    <version>1.1-RELEASE</version>
+    <version>1.2-RELEASE</version>
     <packaging>jar</packaging>
     <description>afor-web enables you to automate web user interfaces</description>
 
@@ -14,12 +14,12 @@
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-core</artifactId>
-            <version>1.1-RELEASE</version>
+            <version>1.2-RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>2.21</version>
+            <version>2.22</version>
         </dependency>
 <!--        <dependency>
             <groupId>io.github.bonigarcia</groupId>
@@ -35,4 +35,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>afor.co.nz</id>
+            <name>afor repository</name>
+            <layout>default</layout>
+            <url>http://nexus.afor.co.nz/nexus/content/repositories/nz.co.afor.framework/</url>
+        </repository>
+    </distributionManagement>
 </project>

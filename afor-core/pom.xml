@@ -6,7 +6,7 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-core</artifactId>
-    <version>1.1-RELEASE</version>
+    <version>1.2-RELEASE</version>
     <packaging>jar</packaging>
     <description>afor-core provides a basis for core dependencies of the afor framework</description>
 
@@ -70,9 +70,15 @@
 
         <!-- Logging -->
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -130,4 +136,13 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <distributionManagement>
+        <repository>
+            <id>afor.co.nz</id>
+            <name>afor repository</name>
+            <layout>default</layout>
+            <url>http://nexus.afor.co.nz/nexus/content/repositories/nz.co.afor.framework/</url>
+        </repository>
+    </distributionManagement>
 </project>
