@@ -6,9 +6,14 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-core</artifactId>
-    <version>1.2-RELEASE</version>
+    <version>1.3-RELEASE</version>
     <packaging>jar</packaging>
     <description>afor-core provides a basis for core dependencies of the afor framework</description>
+
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <!-- Cucumber framework -->
