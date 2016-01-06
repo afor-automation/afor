@@ -1,13 +1,9 @@
 package nz.co.afor.framework.web;
 
-import com.codeborne.selenide.Selenide;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-
-import static com.codeborne.selenide.Selenide.open;
 
 /**
  * Created by Matt Belcher on 1/09/2015.
@@ -25,7 +21,6 @@ public class Configuration {
 
     @PostConstruct
     public void setConfiguration() {
-        open("");
         com.codeborne.selenide.Configuration.baseUrl = getBaseUrl();
         com.codeborne.selenide.Configuration.timeout = getTimeout();
         com.codeborne.selenide.Configuration.pollingInterval = getPollingInterval();

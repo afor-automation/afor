@@ -12,8 +12,7 @@ public class SelenideEventListener extends AbstractWebDriverEventListener {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public void beforeNavigateTo(java.lang.String url, WebDriver driver) {
+    public void beforeNavigateTo(String url, WebDriver driver) {
         logger.info(String.format("Navigating to the url '%s'", url));
     }
 }

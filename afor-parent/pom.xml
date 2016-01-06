@@ -4,22 +4,45 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
+
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-parent</artifactId>
-    <version>1.4</version>
+    <version>0.1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <url>http://www.afor.co.nz</url>
     <description>afor-parent provides a basis for core dependencies of the afor framework</description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>matt.belcher</id>
+            <name>Matt Belcher</name>
+        </developer>
+    </developers>
 
     <modules>
         <module>../afor-core</module>
         <module>../afor-web</module>
         <module>../afor-aop</module>
+        <module>../afor-cucumber</module>
     </modules>
 
-    <properties>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-    </properties>
+    <scm>
+        <connection>scm:git:http://selenium.googlecode.com/git</connection>
+        <developerConnection>scm:git:https://selenium.googlecode.com/git</developerConnection>
+        <url>http://selenium.googlecode.com/git</url>
+    </scm>
 
     <build>
         <plugins>
@@ -82,7 +105,6 @@
                 <version>2.10.3</version>
             </plugin>
         </plugins>
-
     </build>
 
     <reporting>
@@ -97,11 +119,13 @@
     </reporting>
 
     <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>afor.co.nz</id>
-            <name>afor repository</name>
-            <layout>default</layout>
-            <url>http://nexus.afor.co.nz/nexus/content/repositories/nz.co.afor.framework/</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 </project>
