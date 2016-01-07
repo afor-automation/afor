@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nz.co.afor.framework.mock</groupId>
     <artifactId>afor-mock</artifactId>
-    <version>0.1.5-SNAPSHOT</version>
+    <version>0.1.5</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-framework mock services, to enable integration tests for afor-framework</description>
 
@@ -42,7 +40,8 @@
         <connection>scm:git@github.com:afor-automation/afor.git</connection>
         <developerConnection>scm:git:git@github.com:afor-automation/afor.git</developerConnection>
         <url>git@github.com:afor-automation/afor.git</url>
-    </scm>
+      <tag>afor-mock-0.1.5</tag>
+  </scm>
 
     <dependencies>
         <!-- Spring framework -->
