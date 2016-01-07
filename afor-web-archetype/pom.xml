@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>nz.co.afor.archetype</groupId>
     <artifactId>afor-web-archetype</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>0.1.5-SNAPSHOT</version>
     <name>Archetype - afor-web-archetype</name>
     <url>http://www.afor.co.nz</url>
 

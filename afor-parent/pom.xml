@@ -14,6 +14,7 @@
     <version>0.1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>http://www.afor.co.nz</url>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-parent provides a basis for core dependencies of the afor framework</description>
 
     <licenses>
@@ -28,6 +29,8 @@
         <developer>
             <id>matt.belcher</id>
             <name>Matt Belcher</name>
+            <organization>afor</organization>
+            <organizationUrl>http://www.afor.co.nz</organizationUrl>
         </developer>
     </developers>
 
@@ -39,9 +42,9 @@
     </modules>
 
     <scm>
-        <connection>scm:git:http://selenium.googlecode.com/git</connection>
-        <developerConnection>scm:git:https://selenium.googlecode.com/git</developerConnection>
-        <url>http://selenium.googlecode.com/git</url>
+        <connection>scm:git@github.com:afor-automation/afor.git</connection>
+        <developerConnection>scm:git@github.com:afor-automation/afor.git</developerConnection>
+        <url>git@github.com:afor-automation/afor.git</url>
     </scm>
 
     <build>
@@ -67,7 +70,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Enforce at least java 1.7 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -101,22 +103,46 @@
             <!-- Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-        </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
-            <!-- Javadoc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-    </reporting>
+    </build>
 
     <distributionManagement>
         <snapshotRepository>
