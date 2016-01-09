@@ -10,7 +10,7 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-parent</artifactId>
-    <version>0.1.6-SNAPSHOT</version>
+    <version>0.1.6</version>
     <packaging>pom</packaging>
     <url>http://www.afor.co.nz</url>
     <name>${project.groupId}:${project.artifactId}</name>
@@ -43,7 +43,8 @@
         <connection>scm:git@github.com:afor-automation/afor.git</connection>
         <developerConnection>scm:git:git@github.com:afor-automation/afor.git</developerConnection>
         <url>git@github.com:afor-automation/afor.git</url>
-    </scm>
+      <tag>afor-0.1.6</tag>
+  </scm>
 
     <build>
         <plugins>
