@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.1.6-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -19,22 +18,22 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.2.0.RELEASE</version>
+            <version>4.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.2.0.RELEASE</version>
+            <version>4.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>4.2.0.RELEASE</version>
+            <version>4.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.2.0.RELEASE</version>
+            <version>4.2.4.RELEASE</version>
         </dependency>
 
         <!-- Unit testing -->
@@ -95,4 +94,40 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Ensure that we always have the latest version of spring and cucumber in our pom -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <id>versions</id>
+                        <goals>
+                            <goal>use-latest-releases</goal>
+                            <goal>commit</goal>
+                        </goals>
+                        <configuration>
+                            <allowMinorUpdates>true</allowMinorUpdates>
+                            <allowMajorUpdates>true</allowMajorUpdates>
+                            <allowIncrementalUpdates>true</allowIncrementalUpdates>
+                            <allowSnapshots>true</allowSnapshots>
+                            <includes>
+                                <include>org.springframework:spring-core</include>
+                                <include>org.springframework:spring-context</include>
+                                <include>org.springframework:spring-beans</include>
+                                <include>org.springframework:spring-test</include>
+                                <include>info.cukes:cucumber-java</include>
+                                <include>info.cukes:cucumber-junit</include>
+                                <include>info.cukes:cucumber-spring</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

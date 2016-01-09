@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.5-SNAPSHOT</version>
+        <version>0.1.6-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -24,7 +22,7 @@
         <dependency>
             <groupId>nz.co.afor.framework.mock</groupId>
             <artifactId>afor-mock</artifactId>
-            <version>1.3-RELEASE</version>
+            <version>0.1.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -67,6 +65,7 @@
                             <allowSnapshots>true</allowSnapshots>
                             <includes>
                                 <include>com.codeborne:selenide</include>
+                                <include>io.github.bonigarcia:webdrivermanager</include>
                             </includes>
                         </configuration>
                     </execution>
