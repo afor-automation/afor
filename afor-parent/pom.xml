@@ -40,9 +40,9 @@
     </modules>
 
     <scm>
-        <connection>scm:git@github.com:afor-automation/afor.git</connection>
+        <connection>scm:git:git://github.com/afor-automation/afor.git</connection>
         <developerConnection>scm:git:git@github.com:afor-automation/afor.git</developerConnection>
-        <url>git@github.com:afor-automation/afor.git</url>
+        <url>https://github.com/afor-automation/afor.git</url>
     </scm>
 
     <build>
