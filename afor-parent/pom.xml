@@ -35,8 +35,9 @@
 
     <modules>
         <module>../afor-core</module>
-        <module>../afor-web</module>
         <module>../afor-cucumber</module>
+        <module>../afor-api</module>
+        <module>../afor-web</module>
     </modules>
 
     <scm>

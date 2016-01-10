@@ -22,4 +22,9 @@ public class HtmlController {
         model.addAttribute("parameter", parameter);
         return "plainTextWithParameter";
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/plainText")
+    public String plainTextPost() {
+        return "plainText";
+    }
 }
