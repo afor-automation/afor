@@ -15,8 +15,8 @@ import java.net.URI;
  * Created by Matt Belcher on 10/10/2015.
  */
 @Component
-public class Poster {
-    private static Log log = LogFactory.getLog(Poster.class);
+public class Post {
+    private static Log log = LogFactory.getLog(Post.class);
 
     private HttpHeaders headers = new HttpHeaders();
 
