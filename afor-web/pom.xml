@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.7-SNAPSHOT</version>
+        <version>0.1.7</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>nz.co.afor.framework.mock</groupId>
             <artifactId>afor-mock</artifactId>
-            <version>0.1.6</version>
+            <version>0.1.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>
