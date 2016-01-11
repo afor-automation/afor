@@ -1,3 +1,6 @@
 {
-  "test": "data"
+  "valid": {
+    "username": "user1",
+    "password": "password1"
+  }
 }
