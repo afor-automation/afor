@@ -8,3 +8,8 @@ Feature: Fixtures
     Given I have a new fixture instance
     When I read the fixture data
     Then I should have fixture data
+
+  Scenario: Read fixture information using the classpath
+    Given I have a new fixture instance
+    When I read the fixture data by classpath
+    Then I should have fixture data

@@ -35,6 +35,12 @@ public class FixtureSteps {
         }.getType());
     }
 
+    @When("^I read the fixture data by classpath$")
+    public void I_read_the_fixture_data_by_classpath() throws Throwable {
+        model = fixture.getFixture("fixture.json", new TypeToken<Map<String, Customer>>() {
+        }.getType());
+    }
+
     @Then("^I should have fixture data$")
     public void I_should_have_fixture_data() throws Throwable {
         assertThat(model, is(not(nullValue())));

@@ -22,4 +22,8 @@ public class Fixture {
     public <T> T getFixture(Type classOfT) throws IOException {
         return gsonFactory.getGson().fromJson(fixtureReader.getFixtureReader(), classOfT);
     }
+
+    public <T> T getFixture(String fixturePath, Type classOfT) throws IOException {
+        return gsonFactory.getGson().fromJson(fixtureReader.getFixtureReader(fixturePath), classOfT);
+    }
 }
