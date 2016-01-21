@@ -12,8 +12,10 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.ssl.SSLContexts;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
@@ -32,7 +34,7 @@ import java.security.SecureRandom;
  * Created by Matt Belcher on 10/10/2015.
  */
 @SuppressWarnings("deprecation")
-@Component
+@Configuration
 public class RestTemplateFactory {
     private static Log log = LogFactory.getLog(RestTemplateFactory.class);
 
@@ -81,7 +83,7 @@ public class RestTemplateFactory {
         requestFactory = new HttpComponentsClientHttpRequestFactory(httpClientBuilder.build());
     }
 
-    @Bean
+    @Bean(name = "aforRestTemplate")
     public RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         restTemplate.setErrorHandler(new RestTemplateErrorHandler());

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertThat;
 @Component
 public class FixtureReader {
 
-    @Value("${nz.co.afor.fixture.path}")
+    @Value("${nz.co.afor.fixture.path:}")
     private String fixturePath;
 
     private String getFixturePath() {
