@@ -1,0 +1,6 @@
+details, summary {display: block;}
+details[data-open='closed'] > * {display: none;}
+details[data-open='closed'] > summary {display: block;}
+details[data-open='open']   > summary {display: block;}
+details[data-open='closed'] > summary:before {cursor: default; display: inline-block; content: "\25b6"; padding: 0 0.1em; margin-right: 0.4em; font-size: 0.9em;}
+details[data-open='open']   > summary:before {cursor: default; display: inline-block; content: "\25bc"; padding: 0; margin-right: 0.35em;}
