@@ -12,21 +12,20 @@ import gherkin.formatter.model.*;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Matt on 12/03/2016.
  */
 public class HTML implements Formatter, Reporter {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Date CREATED_DATE = new Date();
     private static final String JS_FORMATTER_VAR = "formatter";
     private static final String JS_REPORT_FILENAME = "report.js";
     private static final String JS_SUMMARY_FORMATTER_VAR = "formatterSummary";
     private static final String JS_SUMMARY_REPORT_FILENAME = "summaryreport.js";
-    private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/formatter.js", "/nz/co/afor/reports/formatter/details-shim.min.js", "/nz/co/afor/reports/formatter/index.html", "/nz/co/afor/reports/formatter/jquery-1.8.2.min.js", "/nz/co/afor/reports/formatter/loader.js", "/nz/co/afor/reports/formatter/render-charts.js", "/nz/co/afor/reports/formatter/style.css", "/nz/co/afor/reports/formatter/details-shim.min.css", "/nz/co/afor/reports/formatter/font1.woff2", "/nz/co/afor/reports/formatter/font3.woff2", "/nz/co/afor/reports/formatter/font2.woff2", "/nz/co/afor/reports/formatter/aforLogoLargeGradient.png"};
+    private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/formatter.js", "/nz/co/afor/reports/formatter/details-shim.min.js", "/nz/co/afor/reports/formatter/index.html", "/nz/co/afor/reports/formatter/jquery-1.8.2.min.js", "/nz/co/afor/reports/formatter/moment.min.js", "/nz/co/afor/reports/formatter/loader.js", "/nz/co/afor/reports/formatter/render-charts.js", "/nz/co/afor/reports/formatter/style.css", "/nz/co/afor/reports/formatter/details-shim.min.css", "/nz/co/afor/reports/formatter/font1.woff2", "/nz/co/afor/reports/formatter/font3.woff2", "/nz/co/afor/reports/formatter/font2.woff2", "/nz/co/afor/reports/formatter/aforLogoLargeGradient.png"};
     private static final Map<String, String> MIME_TYPES_EXTENSIONS = new HashMap<String, String>() {
         {
             put("image/bmp", "bmp");
@@ -109,6 +108,8 @@ public class HTML implements Formatter, Reporter {
     public void done() {
         if (!firstFeature) {
             jsOut().append("});");
+            SimpleDateFormat javascriptFormat = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+            jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", javascriptFormat.format(CREATED_DATE)));
             jsSummaryOut().append(String.format("var %s = %s", JS_SUMMARY_FORMATTER_VAR, gson.toJson(featureResults)));
             copyReportFiles();
         }

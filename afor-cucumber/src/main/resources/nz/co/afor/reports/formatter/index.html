@@ -10,6 +10,7 @@
     <link href="zfs6I-5mjWQ3nxqccMoL2A.woff2" rel="stylesheet" type="text/css">
     <link href="y7lebkjgREBJK96VQi37Zo4P5ICox8Kq3LLUNMylGO4.woff2" rel="stylesheet" type="text/css">
     <script src="jquery-1.8.2.min.js"></script>
+    <script src="moment.min.js"></script>
     <script src="formatter.js"></script>
     <script src="report.js"></script>
     <script src="summaryreport.js"></script>
@@ -20,14 +21,14 @@
   <body>
     <div class="title-section">
         <a href="http://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png" alt="afor automation"></a>
-        <span class="title-heading">Automation Results</span>
+        <div class="title-heading"><span class="title-heading">Automation Results</span><span class="title-heading title-heading-date"></span></div>
     </div>
     <div class="afor-summary grid3">
   	    <h2>Summary</h2>
   	    <section class="blockelement summary">
-  	    	<article id="featurePieChart" class="pieChart col"></article>
-  	        <article id="scenarioPieChart" class="pieChart col"></article>
-  	        <article id="stepPieChart" class="pieChart col"></article>
+  	        <article id="scenarioPieChart" class="chart col"></article>
+  	        <article id="featureScenarioBarChart" class="chart col"></article>
+  	        <article id="featureScenarioTableChart" class="chart col"></article>
   	    </section>
   	</div>
     <div class="afor-report">
