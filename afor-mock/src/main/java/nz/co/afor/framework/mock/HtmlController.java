@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HtmlController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/plainText")
-    public @ResponseBody String plainText() {
+    @RequestMapping(method = RequestMethod.GET, value = "/plainHtml")
+    public String plainText() {
         return "plainText";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/plainTextWithParameter")
-    public @ResponseBody String plainTextWithParameter(@RequestParam(value = "parameter", required = false, defaultValue = "default parameter") String parameter, Model model) {
+    @RequestMapping(method = RequestMethod.GET, value = "/plainHtmlWithParameter")
+    public String plainTextWithParameter(@RequestParam(value = "parameter", required = false, defaultValue = "default parameter") String parameter, Model model) {
         model.addAttribute("parameter", parameter);
         return "plainTextWithParameter";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/plainText")
-    public @ResponseBody String plainTextPost() {
+    @RequestMapping(method = RequestMethod.POST, value = "/plainHtml")
+    public String plainTextPost() {
         return "plainText";
     }
 }
