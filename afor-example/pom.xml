@@ -6,18 +6,23 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-example</artifactId>
-    <version>0.1.7-SNAPSHOT</version>
+    <version>0.1.12-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
+            <artifactId>afor-api</artifactId>
+            <version>0.1.12</version>
+        </dependency>
+        <dependency>
+            <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-web</artifactId>
-            <version>0.1.6</version>
+            <version>0.1.12</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-cucumber</artifactId>
-            <version>0.1.6</version>
+            <version>0.1.12</version>
         </dependency>
     </dependencies>
 </project>

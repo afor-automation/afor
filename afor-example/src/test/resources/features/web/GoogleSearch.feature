@@ -1,7 +1,7 @@
-Feature: Search on google
+Feature: Search on Google
 
   As a customer
-  I want to be able to search on google
+  I want to be able to search on Google
   So that I can find information in areas of interest
 
   Scenario: Search for an example piece of text
