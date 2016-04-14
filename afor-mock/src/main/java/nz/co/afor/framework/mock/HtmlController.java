@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by Matt Belcher on 18/08/2015.
@@ -14,18 +13,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HtmlController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/plainHtml")
-    public String plainText() {
-        return "plainText";
+    public String plainHtml() {
+        return "plainHtml";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/plainHtmlWithParameter")
-    public String plainTextWithParameter(@RequestParam(value = "parameter", required = false, defaultValue = "default parameter") String parameter, Model model) {
+    public String plainHtmlWithParameter(@RequestParam(value = "parameter", required = false, defaultValue = "default parameter") String parameter, Model model) {
         model.addAttribute("parameter", parameter);
-        return "plainTextWithParameter";
+        return "plainHtmlWithParameter";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/plainHtml")
-    public String plainTextPost() {
-        return "plainText";
+    public String plainHtmlPost() {
+        return "plainHtml";
     }
 }
