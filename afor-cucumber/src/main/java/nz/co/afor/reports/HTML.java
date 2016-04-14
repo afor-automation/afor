@@ -9,6 +9,8 @@ import gherkin.formatter.Mappable;
 import gherkin.formatter.NiceAppendable;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.*;
+import nz.co.afor.reports.results.ResultFinalValue;
+import nz.co.afor.reports.results.ResultSummary;
 
 import java.io.*;
 import java.net.URL;
@@ -19,13 +21,15 @@ import java.util.*;
  * Created by Matt on 12/03/2016.
  */
 public class HTML implements Formatter, Reporter {
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").setPrettyPrinting().create();
     private static final Date CREATED_DATE = new Date();
     private static final String JS_FORMATTER_VAR = "formatter";
     private static final String JS_REPORT_FILENAME = "report.js";
+    private static final String JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR = "formatterHighLevelSummary";
     private static final String JS_SUMMARY_FORMATTER_VAR = "formatterSummary";
+    private static final String JS_DURATION_VAR = "formatterSummaryDuration";
     private static final String JS_SUMMARY_REPORT_FILENAME = "summaryreport.js";
-    private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/formatter.js", "/nz/co/afor/reports/formatter/details-shim.min.js", "/nz/co/afor/reports/formatter/index.html", "/nz/co/afor/reports/formatter/jquery-1.8.2.min.js", "/nz/co/afor/reports/formatter/moment.min.js", "/nz/co/afor/reports/formatter/loader.js", "/nz/co/afor/reports/formatter/render-charts.js", "/nz/co/afor/reports/formatter/style.css", "/nz/co/afor/reports/formatter/details-shim.min.css", "/nz/co/afor/reports/formatter/font1.woff2", "/nz/co/afor/reports/formatter/font3.woff2", "/nz/co/afor/reports/formatter/font2.woff2", "/nz/co/afor/reports/formatter/aforLogoLargeGradient.png"};
+    private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/formatter.js", "/nz/co/afor/reports/formatter/details-shim.min.js", "/nz/co/afor/reports/formatter/index.html", "/nz/co/afor/reports/formatter/jquery-1.8.2.min.js", "/nz/co/afor/reports/formatter/moment.min.js", "/nz/co/afor/reports/formatter/loader.js", "/nz/co/afor/reports/formatter/jquery.throttledresize.js", "/nz/co/afor/reports/formatter/render-charts.js", "/nz/co/afor/reports/formatter/style.css", "/nz/co/afor/reports/formatter/print.css", "/nz/co/afor/reports/formatter/details-shim.min.css", "/nz/co/afor/reports/formatter/font1.woff2", "/nz/co/afor/reports/formatter/font3.woff2", "/nz/co/afor/reports/formatter/font2.woff2", "/nz/co/afor/reports/formatter/aforLogoLargeGradient.png", "/nz/co/afor/reports/formatter/favicon-16x16.png", "/nz/co/afor/reports/formatter/favicon-32x32.png", "/nz/co/afor/reports/formatter/favicon-96x96.png", "/nz/co/afor/reports/formatter/favicon-120x120.png", "/nz/co/afor/reports/formatter/favicon-152x152.png", "/nz/co/afor/reports/formatter/favicon-180x180.png"};
     private static final Map<String, String> MIME_TYPES_EXTENSIONS = new HashMap<String, String>() {
         {
             put("image/bmp", "bmp");
@@ -104,15 +108,56 @@ public class HTML implements Formatter, Reporter {
     public void syntaxError(String state, String event, List<String> legalEvents, String uri, Integer line) {
     }
 
+    public ResultSummary getSummaryTotals() {
+        ResultSummary resultSummary = new ResultSummary();
+        for (FeatureResult featureResult : featureResults) {
+            ResultFinalValue featureResultFinalValue = new ResultFinalValue();
+            for (ScenarioResult scenarioResult : featureResult.getScenarios()) {
+                ResultFinalValue scenarioResultFinalValue = new ResultFinalValue();
+                for (StepResult stepResult : scenarioResult.getSteps()) {
+                    if (null != stepResult.getResult()) {
+                        String status = stepResult.getResult().getStatus();
+                        resultSummary.getSteps().addResult(status);
+                        scenarioResultFinalValue.addStatus(status);
+                    }
+                }
+                resultSummary.getScenarios().addResult(scenarioResultFinalValue.getResultValue());
+                featureResultFinalValue.addStatus(scenarioResultFinalValue.getResultValue());
+            }
+            resultSummary.getFeatures().addResult(featureResultFinalValue.getResultValue());
+        }
+        return resultSummary;
+    }
+
     @Override
     public void done() {
-        if (!firstFeature) {
-            jsOut().append("});");
-            SimpleDateFormat javascriptFormat = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
-            jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", javascriptFormat.format(CREATED_DATE)));
-            jsSummaryOut().append(String.format("var %s = %s", JS_SUMMARY_FORMATTER_VAR, gson.toJson(featureResults)));
-            copyReportFiles();
+        jsOut().append("});");
+        SimpleDateFormat javascriptFormat = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
+        if (null != ReportContextProvider.getDateFormat())
+            javascriptFormat = new SimpleDateFormat(ReportContextProvider.getDateFormat());
+        if (null != ReportContextProvider.getReportTitle())
+            jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-name\").text(\"%s\");$(\"html title\").append(document.createTextNode(\" - %s\"))});\n", ReportContextProvider.getReportTitle(), ReportContextProvider.getReportTitle()));
+        jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", javascriptFormat.format(CREATED_DATE)));
+        jsSummaryOut().append(String.format("var %s = '%s';\n", JS_DURATION_VAR, getDuration()));
+        jsSummaryOut().append(String.format("var %s = %s;\n", JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR, gson.toJson(getSummaryTotals())));
+        jsSummaryOut().append(String.format("var %s = %s;\n", JS_SUMMARY_FORMATTER_VAR, gson.toJson(featureResults)));
+        copyReportFiles();
+    }
+
+    private String getDuration() {
+        long totalDuration = new Date().getTime() - CREATED_DATE.getTime();
+        long hours = Math.abs(totalDuration / (60 * 60 * 1000));
+        long minutes = Math.abs(((totalDuration - (hours * 60 * 60 * 100))) / (60 * 1000));
+        long seconds = Math.abs(((totalDuration - (hours * 60 * 60 * 1000)) - (minutes * 60 * 1000)) / 1000);
+        String duration;
+        if (hours > 0) {
+            duration = String.format("%s hour%s, %s min%s", hours, hours > 1 ? "s" : "", minutes, minutes > 1 ? "s" : "");
+        } else if (minutes > 0) {
+            duration = String.format("%s min%s, %s sec%s", minutes, minutes > 1 ? "s" : "", seconds, seconds > 1 ? "s" : "");
+        } else {
+            duration = String.format("%s second%s", seconds, seconds > 1 ? "s" : "");
         }
+        return duration;
     }
 
     @Override

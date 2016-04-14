@@ -3,6 +3,7 @@ package nz.co.afor.reports;
 import gherkin.formatter.model.Scenario;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**

@@ -2,9 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Afor Automation - Cucumber Features</title>
+    <title>Afor Automation</title>
     <meta name="description" content="Afor Automation Cucumber Report">
     <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="print" href="print.css" />
     <link href="details-shim.min.css" rel="stylesheet">
     <link href="IQHow_FEYlDC4Gzy_m8fcoWiMMZ7xLd792ULpGE4W_Y.woff2" rel="stylesheet" type="text/css">
     <link href="zfs6I-5mjWQ3nxqccMoL2A.woff2" rel="stylesheet" type="text/css">
@@ -16,19 +17,32 @@
     <script src="summaryreport.js"></script>
     <script src="details-shim.min.js"></script>
     <script src="loader.js"></script>
+    <script src="jquery.throttledresize.js"></script>
     <script src="render-charts.js"></script>
+    <link rel="shortcut icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
+    <link rel="shortcut icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
+    <link rel="shortcut icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+    <link rel="shortcut icon" type="image/png" href="favicon-120x120.png" sizes="120x120">
+    <link rel="shortcut icon" type="image/png" href="favicon-152x152.png" sizes="152x152">
+    <link rel="shortcut icon" type="image/png" href="favicon-180x180.png" sizes="180x180">
   </head>
   <body>
     <div class="title-section">
-        <a href="http://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png" alt="afor automation"></a>
-        <div class="title-heading"><span class="title-heading">Automation Results</span><span class="title-heading title-heading-date"></span></div>
+        <div class="logo">
+    	    <a href="http://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png" alt="afor automation"></a>
+        </div>
+        <div class="title-heading"><span class="title-heading title-heading-name">Automation Results</span><span class="title-heading title-heading-date"></span></div>
     </div>
     <div class="afor-summary grid3">
   	    <h2>Summary</h2>
   	    <section class="blockelement summary">
   	        <article id="scenarioPieChart" class="chart col"></article>
   	        <article id="featureScenarioBarChart" class="chart col"></article>
-  	        <article id="featureScenarioTableChart" class="chart col"></article>
+  	        <article class="chart col chart-table"><div class="chartHeading chartHeadingTable">Feature Result Statistics</div><div id="featureScenarioTableChart" class="chart-table"></div></article>
+  	    </section>
+  	    <section class="blockelement summary">
+  	        <article id="scenarioPerformanceLineChart" class="chart col chart-table"></article>
+  	        <article id="scenarioSummaryBreakdown" class="col breakdown"></article>
   	    </section>
   	</div>
     <div class="afor-report">

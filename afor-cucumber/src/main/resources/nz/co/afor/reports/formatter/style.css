@@ -32,7 +32,12 @@ h6 {
     font-weight: 700
 }
 
-.logo {
+div.logo {
+    vertical-align:middle;
+    display: inline-block;
+}
+
+img.logo {
     max-width: 50px;
     max-height: 50px;
     min-width: 25px;
@@ -46,26 +51,55 @@ h6 {
 
 div.title-heading {
     display: inline-block; 
-    vertical-align:middle;
+    vertical-align: middle;
     margin-left: 25px;
+    width:auto;
+    height:auto;
+    max-width:500px;
 }
 
 span.title-heading {
     vertical-align:middle;
     font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 700;
-    font-size: 22pt;
     margin: 0px;
+    font-size: 20pt;
 }
 
 span.title-heading-date {
     padding-left: 10px;
+    font-size: 20pt;
+}
+
+@media screen and (max-width: 1024px) {
+    span.title-heading {
+        font-size: 20pt !important;
+        font-size: 2.5vw !important;
+    }
+    .title-heading-date {
+        font-size: 12pt !important;
+        font-size: 1.5vw !important;
+    }
 }
 
 @media screen and (max-width: 750px) {
     .title-heading-date:before {
         content: '\A';
         white-space: pre;
+    }
+    span.title-heading {
+        font-size: 20pt !important;
+        font-size: 3vw !important;
+    }
+    .title-heading-date {
+        font-size: 12pt !important;
+        font-size: 2vw !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    span.title-heading {
+        font-size: 14pt !important;
     }
     .title-heading-date {
         font-size: 12pt !important;
@@ -179,13 +213,22 @@ section.blockelement.scenario {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b0d633', endColorstr='#8fb700',GradientType=1 ); /* IE6-9 */
 }
 
-.afor-report .undefined, .afor-report .pending {
+.afor-report .pending {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eaec2d+0,d1d100+100 */
     background: rgb(234,236,45); /* Old browsers */
     background: -moz-linear-gradient(left,  rgba(234,236,45,1) 0%, rgba(209,209,0,1) 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left,  rgba(234,236,45,1) 0%,rgba(209,209,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right,  rgba(234,236,45,1) 0%,rgba(209,209,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaec2d', endColorstr='#d1d100',GradientType=1 ); /* IE6-9 */
+}
+
+.afor-report .undefined {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e07a3e+0,d16100+100 */
+    background: rgb(224,122,62); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgba(224,122,62,1) 0%, rgba(209,97,0,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  rgba(224,122,62,1) 0%,rgba(209,97,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  rgba(224,122,62,1) 0%,rgba(209,97,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e07a3e', endColorstr='#d16100',GradientType=1 ); /* IE6-9 */
 }
 
 .afor-report .skipped {
@@ -251,6 +294,8 @@ div.title-section {
     -webkit-box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.5);
     box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+    overflow: auto;
 }
 
 span.duration {
@@ -342,7 +387,7 @@ MEDIA QUERIES
 }
 
 /* reset cols to fullwidth */
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 1104px) {
     /* grid4 */
     .col {
         width: 100% !important;
@@ -352,12 +397,36 @@ MEDIA QUERIES
 }
 
 .chart {
-    margin: auto;
+    margin: 10px 10px 10px 10px;
+    overflow:hidden;
+    position: relative;
+    width: 100%;
+    min-height: 350px;
+    height: auto;
+    display:block;
+}
+
+.chart-table {
+    min-height: 0px !important;
+    margin-top: 5px;
 }
 
 tr.tableRow td {
     text-align: center;
 }
+tr.headerRow th:nth-child(2) {
+    background-color: #b0d633;
+}
+tr.headerRow th:nth-child(3) {
+    background-color: #ed2525;
+}
+tr.headerRow th:nth-child(4) {
+    background-color: #e07a3e;
+}
+tr.headerRow th:nth-child(5) {
+    background-color: #eaec2d;
+}
+
 tr.tableRow td:nth-child(2) {
     background-color: #b0d633;
 }
@@ -365,8 +434,51 @@ tr.tableRow td:nth-child(3) {
     background-color: #ed2525;
 }
 tr.tableRow td:nth-child(4) {
-    background-color: #eaec2d;
+    background-color: #e07a3e;
 }
 tr.tableRow td:nth-child(5) {
-    background-color: #00b7b7;
+    background-color: #eaec2d;
+}
+tr.tableRow td:empty {
+    background-color: none !important;
+}
+
+.chartHeading {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.chartHeadingTable {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.breakdown {
+    padding: 20px;
+}
+
+.breakdownRow {
+    margin-top: 5px;
+}
+
+.breakdownRow .passed {
+    color: #b0d633;
+}
+
+.breakdownRow .pending {
+    color: #eaec2d;
+}
+
+.breakdownRow .undefined {
+    color: #ffc500;
+}
+
+.breakdownRow .skipped {
+    color: #2deaec;
+}
+
+.breakdownRow .failed {
+    color: #ff0000;
 }

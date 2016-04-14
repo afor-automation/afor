@@ -41,7 +41,6 @@ CucumberHTML.DOMFormatter = function(rootNode) {
     if (step.doc_string) {
       docString = $('.doc_string', $templates).clone();
       docString.appendTo(stepElement);
-      // TODO: use a syntax highlighter based on the content_type
       docString.text(step.doc_string.value);
     }
     if (step.rows) {
