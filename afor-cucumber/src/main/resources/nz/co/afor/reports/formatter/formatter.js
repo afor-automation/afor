@@ -81,12 +81,16 @@ CucumberHTML.DOMFormatter = function(rootNode) {
       populateStepError(currentStep, result.error_message);
     }
     currentElement.addClass(result.status);
+    if (null != result.duration) {
+		var incrementalDuration = currentElement.attr('duration-nanoseconds') == null ? 0 : currentElement.attr('duration-nanoseconds');
+		currentElement.attr('duration-nanoseconds', parseInt(incrementalDuration) + parseInt(result.duration));
+	}
     var isLastStep = currentSteps.find('li:nth-child(' + currentStepIndex + ')').length == 0;
     if (isLastStep) {
-      if (null != result.duration) {
-		  currentElement.attr('duration-whole-seconds', Math.round(result.duration / 1000000000));
-          currentElement.attr('duration-seconds', (Math.round((result.duration / 1000000) + 0.00001) * 1000) / 1000000);
-          currentElement.attr('duration-milliseconds', (Math.round((result.duration / 1000000) + 0.00001) * 1000) / 1000);
+      if (null != currentElement.attr('duration-nanoseconds')) {
+		  currentElement.attr('duration-whole-seconds', Math.round(currentElement.attr('duration-nanoseconds') / 1000000000));
+          currentElement.attr('duration-seconds', (Math.round((currentElement.attr('duration-nanoseconds') / 1000000) + 0.00001) * 1000) / 1000000);
+          currentElement.attr('duration-milliseconds', (Math.round((currentElement.attr('duration-nanoseconds') / 1000000) + 0.00001) * 1000) / 1000);
           currentElement.addClass('duration');
           var titleElement = currentElement.find('.header > .name');
           var formattedDuration = currentElement.attr('duration-seconds') + " seconds";
