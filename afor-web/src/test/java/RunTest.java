@@ -8,6 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @RunWith(Cucumber.class)
 @ContextConfiguration("classpath:cucumber.xml")
-@CucumberOptions(format = {"pretty", "html:target/cucumber"})
+@CucumberOptions(plugin = {"pretty", "nz.co.afor.reports.HTML:target/afor", "junit:target/afor/junit.xml", "rerun:target/afor/rerun.txt"})
 public class RunTest {
 }
