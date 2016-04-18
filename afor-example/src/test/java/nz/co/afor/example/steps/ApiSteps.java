@@ -1,3 +1,5 @@
+package nz.co.afor.example.steps;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -59,6 +61,12 @@ public class ApiSteps {
     public void iHaveANewPost() throws Throwable {
         post = new Post();
         post.setTitle("New Post");
+    }
+
+    @Given("^I have a new Post with title \"([^\"]*)\"$")
+    public void iHaveANewPostWithTitle(String title) throws Throwable {
+        post = new Post();
+        post.setTitle(title);
     }
 
     @When("^I call the Create Post service with my Post$")

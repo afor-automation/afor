@@ -18,3 +18,12 @@ Feature: Perform CRUD operations on a RESTful API
     Given I have a new Post
     When I call the Create Post service with my Post
     Then the Create Post response code should be 201
+
+  Scenario Outline: Create a <title> Post using the REST service
+    Given I have a new Post with title "<title>"
+    When I call the Create Post service with my Post
+    Then the Create Post response code should be 201
+    Examples:
+      | title  |
+      | test 1 |
+      | test 2 |
