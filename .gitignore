@@ -1,4 +1,5 @@
 **/target/
+**/build/
 /target/
 */target/*
 .mtj.tmp/
