@@ -1,5 +1,6 @@
 html {
     background: none !important;
+    width: 1024px !important;
 }
 
 .col {
@@ -16,4 +17,18 @@ article {
 
 section {
     display: block !important;
+}
+
+section.blockelement.feature, section.blockelement.summary {
+    border: 1px SOLID #666;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+div.title-section {
+    border: 1px SOLID #666;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
 }

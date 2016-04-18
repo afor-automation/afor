@@ -309,6 +309,12 @@ span.duration.long {
     font-weight: bold;
 }
 
+@media screen and (max-width: 750px) {
+    span.duration {
+        display: none;
+    }
+}
+
 .col {
     float: left;
     margin-left: 3.2%;

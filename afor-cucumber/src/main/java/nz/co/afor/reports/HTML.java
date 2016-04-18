@@ -77,12 +77,13 @@ public class HTML implements Formatter, Reporter {
 
     @Override
     public void scenario(Scenario scenario) {
-        featureResults.get(featureResults.size() - 1).getScenarios().add(new ScenarioResult(scenario));
+        featureResults.get(featureResults.size() - 1).addScenario(new ScenarioResult(scenario));
         jsFunctionCall("scenario", scenario);
     }
 
     @Override
     public void scenarioOutline(ScenarioOutline scenarioOutline) {
+        featureResults.get(featureResults.size() - 1).addScenarioOutline(new ScenarioOutlineResult(scenarioOutline));
         jsFunctionCall("scenarioOutline", scenarioOutline);
     }
 
@@ -94,9 +95,15 @@ public class HTML implements Formatter, Reporter {
     @Override
     public void step(Step step) {
         FeatureResult featureResult = featureResults.get(featureResults.size() - 1);
-        List<ScenarioResult> scenariosResults = featureResult.getScenarios();
-        ScenarioResult scenarioResult = scenariosResults.get(scenariosResults.size() - 1);
-        scenarioResult.getSteps().add(new StepResult(step));
+        if (featureResult.isScenario()) {
+            List<ScenarioResult> scenariosResults = featureResult.getScenarios();
+            ScenarioResult scenarioResult = scenariosResults.get(scenariosResults.size() - 1);
+            scenarioResult.getSteps().add(new StepResult(step));
+        } else {
+            List<ScenarioOutlineResult> scenarioOutlineResults = featureResult.getScenarioOutlines();
+            ScenarioOutlineResult scenarioOutlineResult = scenarioOutlineResults.get(scenarioOutlineResults.size() - 1);
+            scenarioOutlineResult.getSteps().add(new StepResult(step));
+        }
         jsFunctionCall("step", step);
     }
 
