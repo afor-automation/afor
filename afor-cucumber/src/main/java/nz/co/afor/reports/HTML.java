@@ -275,6 +275,8 @@ public class HTML implements Formatter, Reporter {
     private void writeBytesAndClose(byte[] buf, OutputStream out) {
         try {
             out.write(buf);
+            out.flush();
+            out.close();
         } catch (IOException e) {
             throw new CucumberException("Unable to write to report file item: ", e);
         }

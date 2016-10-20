@@ -1,14 +1,11 @@
 package nz.co.afor.view;
 
-import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.springframework.stereotype.Component;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.be;
-import static com.codeborne.selenide.Selectors.byValue;
-import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -22,7 +19,7 @@ public class GoogleView {
     }
 
     public SelenideElement getSearchButton() {
-        return $("button[value='Search'],input[value='Google Search']");
+        return $$("button[value='Search'],input[value='Google Search']").findBy(visible);
     }
 
     public void search(String searchString) {
@@ -35,5 +32,9 @@ public class GoogleView {
 
     public SelenideElement getResultStats() {
         return $("div#resultStats");
+    }
+
+    public ElementsCollection getResultLinks() {
+        return $$("h3.r a");
     }
 }

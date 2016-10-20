@@ -10,7 +10,7 @@ public class ResultFinalValue {
     String resultValue;
 
     public void addStatus(String status) {
-        switch (status) {
+        switch (null == status ? "undefined" : status) {
             case "passed":
                 if (resultValue == null) {
                     resultValue = "passed";

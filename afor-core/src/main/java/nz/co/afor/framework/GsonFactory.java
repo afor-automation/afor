@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by Matt Belcher on 12/10/2015.
  */
@@ -19,8 +21,9 @@ public class GsonFactory {
     @Value(value = "${nz.co.afor.fixture.dateformat:null}")
     String dateFormat;
 
-    public GsonFactory() {
-        if (null != dateFormat)
+    @PostConstruct
+    private void setup() {
+        if (null != dateFormat && dateFormat.compareTo("null") != 0)
             getGsonBuilder().setDateFormat(dateFormat);
     }
 
