@@ -154,7 +154,7 @@ public class HTML implements Formatter, Reporter {
     private String getDuration() {
         long totalDuration = new Date().getTime() - CREATED_DATE.getTime();
         long hours = Math.abs(totalDuration / (60 * 60 * 1000));
-        long minutes = Math.abs(((totalDuration - (hours * 60 * 60 * 100))) / (60 * 1000));
+        long minutes = Math.abs(((totalDuration - (hours * 60 * 60 * 1000))) / (60 * 1000));
         long seconds = Math.abs(((totalDuration - (hours * 60 * 60 * 1000)) - (minutes * 60 * 1000)) / 1000);
         String duration;
         if (hours > 0) {
