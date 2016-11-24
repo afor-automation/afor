@@ -1,11 +1,14 @@
 package nz.co.afor.framework.mock;
 
+import org.springframework.stereotype.Component;
+
 import javax.swing.*;
 import java.util.Arrays;
 
 /**
  * Created by Matt on 24/11/2016.
  */
+@Component
 public class SwingForm {
     private JButton createUserButton;
     private JTextField usernameTextField;
