@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.15-SNAPSHOT</version>
+        <version>0.1.15</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -17,22 +17,22 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>4.2.5.RELEASE</version>
+            <version>4.3.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.2.5.RELEASE</version>
+            <version>4.3.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>4.2.5.RELEASE</version>
+            <version>4.3.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.2.5.RELEASE</version>
+            <version>4.3.4.RELEASE</version>
         </dependency>
 
         <!-- Unit testing -->
@@ -86,19 +86,19 @@
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>1.2.4</version>
+            <version>1.2.5</version>
             <scope>test</scope>
         </dependency>
 
