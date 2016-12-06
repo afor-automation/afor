@@ -22,7 +22,7 @@
         <dependency>
             <groupId>nz.co.afor.framework.mock</groupId>
             <artifactId>afor-mock</artifactId>
-            <version>0.1.13</version>
+            <version>0.1.16</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -98,6 +98,7 @@
                             <allowIncrementalUpdates>true</allowIncrementalUpdates>
                             <allowSnapshots>true</allowSnapshots>
                             <includes>
+                                <include>nz.co.afor:afor-mock</include>
                                 <include>com.codeborne:selenide</include>
                                 <include>io.github.bonigarcia:webdrivermanager</include>
                                 <include>org.seleniumhq.selenium:selenium-java</include>
