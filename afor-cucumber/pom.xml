@@ -27,6 +27,11 @@
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <version>1.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>1.2.5</version>
         </dependency>
@@ -38,8 +43,14 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
-            <!-- Ensure that we always have the latest version of selenide in our pom -->
+            <!-- Ensure that we always have the latest version of cucumber in our pom -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -59,6 +70,7 @@
                             <allowSnapshots>false</allowSnapshots>
                             <includes>
                                 <include>info.cukes:cucumber-java</include>
+                                <include>info.cukes:cucumber-java8</include>
                                 <include>info.cukes:cucumber-junit</include>
                                 <include>info.cukes:cucumber-spring</include>
                             </includes>

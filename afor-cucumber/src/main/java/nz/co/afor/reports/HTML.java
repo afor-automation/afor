@@ -138,7 +138,8 @@ public class HTML implements Formatter, Reporter {
 
     @Override
     public void done() {
-        jsOut().append("});");
+        if (featureResults.size() > 0)
+            jsOut().append("});");
         SimpleDateFormat javascriptFormat = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
         if (null != ReportContextProvider.getDateFormat())
             javascriptFormat = new SimpleDateFormat(ReportContextProvider.getDateFormat());
@@ -162,7 +163,7 @@ public class HTML implements Formatter, Reporter {
         } else if (minutes > 0) {
             duration = String.format("%s min%s, %s sec%s", minutes, minutes > 1 ? "s" : "", seconds, seconds > 1 ? "s" : "");
         } else {
-            duration = String.format("%s second%s", seconds, seconds > 1 ? "s" : "");
+            duration = String.format("%s second%s", seconds, seconds != 1 ? "s" : "");
         }
         return duration;
     }

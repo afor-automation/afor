@@ -1,6 +1,8 @@
 google.charts.load('current', {packages: ['corechart', 'table']});
 google.charts.setOnLoadCallback(drawCharts);
 
+var projectVersion = '${project.version}';
+
 $(window).on("throttledresize", function (event) {
     drawCharts();
 });
