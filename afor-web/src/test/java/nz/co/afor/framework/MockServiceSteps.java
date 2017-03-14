@@ -31,6 +31,9 @@ public class MockServiceSteps {
     @Value("${local.server.port}")
     private int serverPort;
 
+    @Value("${browser:chrome}")
+    private String browser;
+
     @Given("^I have a mock service running$")
     public void I_have_a_mock_service_running() throws Throwable {
         assertThat(serverPort, is(greaterThan(0)));
@@ -38,6 +41,7 @@ public class MockServiceSteps {
 
     @When("^I open the \"([^\"]*)\" page$")
     public void I_open_the_page(String page) throws Throwable {
+        com.codeborne.selenide.Configuration.browser = browser;
         open(String.format("http://localhost:%s/%s", serverPort, page));
     }
 
