@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>nz.co.afor.framework</groupId>
+        <artifactId>afor-parent</artifactId>
+        <version>0.1.17-SNAPSHOT</version>
+        <relativePath>../afor-parent</relativePath>
+    </parent>
+
+    <artifactId>afor-mobile</artifactId>
+    <description>afor-mobile enables you to automate mobile user interfaces</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>nz.co.afor.framework</groupId>
+            <artifactId>afor-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Test mock dependencies -->
+        <dependency>
+            <groupId>nz.co.afor.framework.mock</groupId>
+            <artifactId>afor-mock</artifactId>
+            <version>0.1.16</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>nz.co.afor.framework</groupId>
+            <artifactId>afor-cucumber</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Ensure that we always have the latest version of selenide in our pom -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <id>versions</id>
+                        <goals>
+                            <goal>use-latest-releases</goal>
+                            <goal>commit</goal>
+                        </goals>
+                        <configuration>
+                            <allowMinorUpdates>true</allowMinorUpdates>
+                            <allowMajorUpdates>false</allowMajorUpdates>
+                            <allowIncrementalUpdates>true</allowIncrementalUpdates>
+                            <allowSnapshots>true</allowSnapshots>
+                            <includes>
+                                <include>nz.co.afor:afor-mock</include>
+                                <include>io.appium:java-client</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
