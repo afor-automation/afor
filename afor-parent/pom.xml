@@ -38,6 +38,7 @@
         <module>../afor-cucumber</module>
         <module>../afor-api</module>
         <module>../afor-web</module>
+        <module>../afor-mobile</module>
     </modules>
 
     <scm>
