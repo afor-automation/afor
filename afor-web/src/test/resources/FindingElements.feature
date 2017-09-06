@@ -18,8 +18,3 @@ Feature: Find elements on a page
     Given I have a mock service running
     When I open the "/plainHtml" page
     Then the page should have the label with text "Label ref by association" and field id "labelRefByAssociation" by association
-
-  Scenario: Retrieve a field by exact text association
-    Given I have a mock service running
-    When I open the "/plainHtml" page
-    Then the page should have the label with exact text "Exact label ref by association" and field id "exactLabelRefByAssociation" by association
