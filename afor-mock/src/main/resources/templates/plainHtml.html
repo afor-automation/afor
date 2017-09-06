@@ -6,5 +6,27 @@
 </head>
 <body>
 <p th:text="'Example with plain text'"/>
+<label for="labelRefById">Label ref by id</label>
+<input type="text" id="labelRefById"/>
+<label>Label ref by association
+    <div><input type="text" id="labelRefByAssociation"/></div>
+</label>
+<label>Exact label ref by association<input type="text" id="exactLabelRefByAssociation"/></label>
+<div class="simplediv">
+    <form>
+        <span class="simplespan">
+            <p>
+                <input type="text" id="username"/>
+            </p>
+            <p>
+                <input type="password" id="password"/>
+            </p>
+            <input type="submit" value="Login"/>
+        </span>
+    </form>
+</div>
+<div class="textdiv">
+    <span>span text</span>
+</div>
 </body>
 </html>
