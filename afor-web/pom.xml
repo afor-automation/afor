@@ -22,7 +22,7 @@
         <dependency>
             <groupId>nz.co.afor.framework.mock</groupId>
             <artifactId>afor-mock</artifactId>
-            <version>0.1.17</version>
+            <version>0.1.18-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -34,27 +34,27 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.3.1</version>
+            <version>3.5.3</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-server</artifactId>
-            <version>3.3.1</version>
+            <version>3.5.3</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-remote-driver</artifactId>
-            <version>3.3.1</version>
+            <version>3.5.3</version>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>4.3</version>
+            <version>4.5.1</version>
         </dependency>
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>phantomjsdriver</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.seleniumhq.selenium</groupId>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>1.6.1</version>
+            <version>1.7.1</version>
         </dependency>
     </dependencies>
 

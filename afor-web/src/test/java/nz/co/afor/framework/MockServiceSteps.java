@@ -45,8 +45,8 @@ public class MockServiceSteps {
         open(String.format("http://localhost:%s/%s", serverPort, page));
     }
 
-    @Then("^I the page should have the text \"([^\"]*)\"$")
-    public void I_the_page_should_have_the_text(String pageText) throws Throwable {
+    @Then("^the page should have the text \"([^\"]*)\"$")
+    public void the_page_should_have_the_text(String pageText) throws Throwable {
         $("body").shouldHave(text(pageText));
     }
 }
