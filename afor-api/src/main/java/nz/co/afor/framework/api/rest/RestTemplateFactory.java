@@ -1,5 +1,6 @@
-package nz.co.afor.framework.api;
+package nz.co.afor.framework.api.rest;
 
+import nz.co.afor.framework.api.SSLTrustManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpHost;
@@ -12,13 +13,11 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.ProxyAuthenticationStrategy;
 import org.apache.http.ssl.SSLContexts;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -50,7 +49,7 @@ public class RestTemplateFactory {
     @Value("${proxy.address:}")
     URI proxyAddress;
 
-    @Value("${api.ssl.selfsigned:false}")
+    @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
 
     HttpClientBuilder httpClientBuilder;

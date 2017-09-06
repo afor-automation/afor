@@ -1,4 +1,4 @@
-package nz.co.afor.framework.api;
+package nz.co.afor.framework.api.rest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
