@@ -1,6 +1,6 @@
 package nz.co.afor.framework.api.soap;
 
-import nz.co.afor.framework.api.SSLTrustManager;
+import nz.co.afor.framework.api.HttpClientFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +9,12 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.soap.client.SoapFaultClientException;
-import org.springframework.ws.transport.http.HttpsUrlConnectionMessageSender;
+import org.springframework.ws.transport.http.HttpComponentsMessageSender;
 
 import javax.annotation.PostConstruct;
-import javax.net.ssl.TrustManager;
+import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,6 +30,18 @@ public class AbstractClient extends WebServiceGatewaySupport {
     private final String contextPath;
     private final SoapActionCallback soapActionCallback;
     private String url;
+
+    @Value("${proxy.username:@null}")
+    String proxyUsername;
+
+    @Value("${proxy.password:@null}")
+    String proxyPassword;
+
+    @Value("${proxy.domain:@null}")
+    String proxyDomain;
+
+    @Value("${proxy.address:}")
+    URI proxyAddress;
 
     @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
@@ -77,18 +91,21 @@ public class AbstractClient extends WebServiceGatewaySupport {
     }
 
     @PostConstruct
-    protected void initialiseWebServiceTemplate() {
+    protected void initialiseWebServiceTemplate() throws NoSuchAlgorithmException, KeyManagementException {
         WebServiceTemplate webServiceTemplate = getWebServiceTemplate();
         webServiceTemplate.setMarshaller(marshaller());
         webServiceTemplate.setUnmarshaller(marshaller());
         ClientInterceptor[] interceptors = ArrayUtils.add(webServiceTemplate.getInterceptors(), soapServiceInterceptor);
         webServiceTemplate.setInterceptors(interceptors);
 
-        if (acceptSelfSignedSSLCertificates) {
-            HttpsUrlConnectionMessageSender sender = new HttpsUrlConnectionMessageSender();
-            sender.setTrustManagers(new TrustManager[]{new SSLTrustManager()});
-            webServiceTemplate.setMessageSender(sender);
-        }
+        HttpClientFactory httpClientFactory = new HttpClientFactory();
+        if (acceptSelfSignedSSLCertificates)
+            httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
+        if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
+            httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
+        HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
+        sender.setHttpClient(httpClientFactory.getHttpClientBuilder().build());
+        webServiceTemplate.setMessageSender(sender);
         setWebServiceTemplate(webServiceTemplate);
     }
 

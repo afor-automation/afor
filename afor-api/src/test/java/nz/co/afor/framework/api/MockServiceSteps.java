@@ -54,24 +54,24 @@ public class MockServiceSteps {
 
     @When("^I send a GET request to the \"([^\"]*)\" endpoint$")
     public void I_send_a_GET_request_to_the_endpoint(String path) throws Throwable {
-        response = get.request(String.format("http://localhost:%s/%s", serverPort, path), String.class);
+        response = get.request(String.format("http://127.0.0.1:%s/%s", serverPort, path), String.class);
     }
 
     @When("^I send a GET request to the \"([^\"]*)\" endpoint with the headers$")
     public void I_send_a_GET_request_to_the_endpoint_with_the_headers(String path, Map<String, String> headers) throws Throwable {
         get.getHeaders().setAll(headers);
-        response = get.request(String.format("http://localhost:%s/%s", serverPort, path), String.class);
+        response = get.request(String.format("http://127.0.0.1:%s/%s", serverPort, path), String.class);
     }
 
     @When("^I send a POST request to the \"([^\"]*)\" endpoint$")
     public void I_send_a_POST_request_to_the_endpoint(String path) throws Throwable {
-        response = post.request(String.format("http://localhost:%s/%s", serverPort, path), "test", String.class);
+        response = post.request(String.format("http://127.0.0.1:%s/%s", serverPort, path), "test", String.class);
     }
 
     @When("^I send a POST request to the \"([^\"]*)\" endpoint with the headers$")
     public void I_send_a_POST_request_to_the_endpoint_with_the_headers(String path, Map<String, String> headers) throws Throwable {
         post.getHeaders().setAll(headers);
-        response = post.request(String.format("http://localhost:%s/%s", serverPort, path), "test", String.class);
+        response = post.request(String.format("http://127.0.0.1:%s/%s", serverPort, path), "test", String.class);
     }
 
     @Then("^I should get an HTTP (\\d+) response$")
