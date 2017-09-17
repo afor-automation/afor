@@ -60,7 +60,7 @@ public class HttpClientFactory {
 
         // Set up proxy authentication if we have all the required proxy details
         if (proxy) {
-            log.info("Using the http client proxy address '{}', username '{}' and domain '{}", proxyAddress, proxyUsername, proxyDomain);
+            log.debug("Using the http client proxy address '{}', username '{}' and domain '{}", proxyAddress, proxyUsername, proxyDomain);
             AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
             CredentialsProvider credential = new BasicCredentialsProvider();
             if (null == proxyDomain) {
@@ -75,7 +75,7 @@ public class HttpClientFactory {
 
         // Accept self signed certificates
         if (acceptSelfSignedSSLCertificates) {
-            log.info("Accepting self signed certificates for API calls");
+            log.debug("Accepting self signed certificates for API calls");
 
             SSLContext sslcontext = SSLContexts.custom().build();
             sslcontext.init(null, new X509TrustManager[]{new SSLTrustManager()}, new SecureRandom());

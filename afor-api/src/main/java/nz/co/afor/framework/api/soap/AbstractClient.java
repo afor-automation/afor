@@ -27,7 +27,7 @@ import static org.hamcrest.core.IsNull.nullValue;
  */
 public class AbstractClient extends WebServiceGatewaySupport {
     private SoapServiceInterceptor soapServiceInterceptor = new SoapServiceInterceptor();
-    private final String contextPath;
+    private String contextPath;
     private final SoapActionCallback soapActionCallback;
     private String url;
 
@@ -48,6 +48,10 @@ public class AbstractClient extends WebServiceGatewaySupport {
 
     protected AbstractClient(String contextPath, String soapActionCallback) {
         this.contextPath = contextPath;
+        this.soapActionCallback = new SoapActionCallback(soapActionCallback);
+    }
+
+    protected AbstractClient(String soapActionCallback) {
         this.soapActionCallback = new SoapActionCallback(soapActionCallback);
     }
 
@@ -80,6 +84,10 @@ public class AbstractClient extends WebServiceGatewaySupport {
         soapActionCallback.addSoapHeader(header, value);
     }
 
+    public void addSoapHeader(Object header) {
+        soapActionCallback.setSoapHeader(header);
+    }
+
     public Map<String, String> getSoapHeaders() {
         return soapActionCallback.getSoapHeaders();
     }
@@ -90,32 +98,54 @@ public class AbstractClient extends WebServiceGatewaySupport {
         return marshaller;
     }
 
-    @PostConstruct
-    protected void initialiseWebServiceTemplate() throws NoSuchAlgorithmException, KeyManagementException {
-        WebServiceTemplate webServiceTemplate = getWebServiceTemplate();
-        webServiceTemplate.setMarshaller(marshaller());
-        webServiceTemplate.setUnmarshaller(marshaller());
-        ClientInterceptor[] interceptors = ArrayUtils.add(webServiceTemplate.getInterceptors(), soapServiceInterceptor);
-        webServiceTemplate.setInterceptors(interceptors);
-
-        HttpClientFactory httpClientFactory = new HttpClientFactory();
-        if (acceptSelfSignedSSLCertificates)
-            httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
-        if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
-            httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
-        HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
-        sender.setHttpClient(httpClientFactory.getHttpClientBuilder().build());
-        webServiceTemplate.setMessageSender(sender);
-        setWebServiceTemplate(webServiceTemplate);
+    protected void setContextPath(Class tClass) throws KeyManagementException, NoSuchAlgorithmException {
+        contextPath = tClass.getPackage().getName();
+        initialiseWebServiceTemplate();
     }
 
-    protected Object send(Object requestPayload) {
+    @PostConstruct
+    protected void initialiseWebServiceTemplate() throws NoSuchAlgorithmException, KeyManagementException {
+        if (null != contextPath) {
+            WebServiceTemplate webServiceTemplate = getWebServiceTemplate();
+            webServiceTemplate.setMarshaller(marshaller());
+            webServiceTemplate.setUnmarshaller(marshaller());
+            ClientInterceptor[] interceptors = ArrayUtils.add(webServiceTemplate.getInterceptors(), soapServiceInterceptor);
+            webServiceTemplate.setInterceptors(interceptors);
+
+            HttpClientFactory httpClientFactory = new HttpClientFactory();
+            if (acceptSelfSignedSSLCertificates)
+                httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
+            if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
+                httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
+            HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
+            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().build());
+            webServiceTemplate.setMessageSender(sender);
+            setWebServiceTemplate(webServiceTemplate);
+        }
+    }
+
+    protected Object send(Object requestPayload) throws KeyManagementException, NoSuchAlgorithmException {
         assertThat("The URL must be specified when calling the service", url, is(not(nullValue())));
+        assertThat("The contextPath must be specified when calling the service", contextPath, is(not(nullValue())));
         try {
             return getWebServiceTemplate()
                     .marshalSendAndReceive(url,
                             requestPayload,
                             soapActionCallback);
+        } catch (SoapFaultClientException soapFaultClientException) {
+            logger.warn("SOAP Fault thrown when unmarshalling response", soapFaultClientException);
+            throw soapFaultClientException;
+        }
+    }
+
+    protected <T> T send(Object requestPayload, Class<T> tClass) throws NoSuchAlgorithmException, KeyManagementException {
+        assertThat("The URL must be specified when calling the service", url, is(not(nullValue())));
+        setContextPath(tClass);
+        try {
+            return tClass.cast(getWebServiceTemplate()
+                    .marshalSendAndReceive(url,
+                            requestPayload,
+                            soapActionCallback));
         } catch (SoapFaultClientException soapFaultClientException) {
             logger.warn("SOAP Fault thrown when unmarshalling response", soapFaultClientException);
             throw soapFaultClientException;

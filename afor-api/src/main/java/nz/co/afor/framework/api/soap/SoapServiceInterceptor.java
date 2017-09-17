@@ -6,9 +6,10 @@ import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.WebServiceIOException;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.context.MessageContext;
+import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
-import org.springframework.ws.transport.http.HttpUrlConnection;
+import org.springframework.ws.transport.http.HttpComponentsConnection;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,9 +40,12 @@ public class SoapServiceInterceptor implements ClientInterceptor {
     @Override
     public boolean handleRequest(MessageContext messageContext) throws WebServiceClientException {
         TransportContext context = TransportContextHolder.getTransportContext();
-        HttpUrlConnection connection = (HttpUrlConnection) context.getConnection();
         for (Map.Entry<String, String> entry : headers.entrySet())
-            connection.getConnection().addRequestProperty(entry.getKey(), entry.getValue());
+            try {
+                ((HttpComponentsConnection) context.getConnection()).addRequestHeader(entry.getKey(), entry.getValue());
+            } catch (IOException e) {
+                throw new WebServiceIOException("Failed to add headers to the SOAP service request", e);
+            }
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         try {
@@ -49,16 +53,20 @@ public class SoapServiceInterceptor implements ClientInterceptor {
         } catch (IOException e) {
             throw new WebServiceIOException(e.getMessage(), e);
         }
-
-        String request = new String(os.toByteArray());
         try {
-            log.info("Client Request URI {}", context.getConnection().getUri());
+            log.info("Client Request URI '{}'", context.getConnection().getUri());
         } catch (URISyntaxException e) {
             log.error("Failed to log Client Request URI", e);
         }
         if (headers.size() > 0)
-            log.info("Client Request Custom Headers {}", headers);
-        log.info("Client Request Message {}", request);
+            log.info("Client Request Custom Headers '{}'", headers);
+
+        String[] soapActions = ((SaajSoapMessage) messageContext.getRequest()).getSaajMessage().getMimeHeaders().getHeader("SOAPAction");
+        if (soapActions.length == 1)
+            log.info("Client Request SOAPAction '{}'", soapActions[0]);
+
+        String request = new String(os.toByteArray());
+        log.info("Client Request Message '{}'", request);
         return true;
     }
 
@@ -73,9 +81,9 @@ public class SoapServiceInterceptor implements ClientInterceptor {
         }
 
         String response = new String(os.toByteArray());
-        log.info("Client Response Message {}", response);
+        log.info("Client Response Message '{}'", response);
         try {
-            if (((HttpUrlConnection) context.getConnection()).hasFault()) {
+            if (((HttpComponentsConnection) context.getConnection()).hasFault()) {
                 log.info("Client Response is a fault");
                 return false;
             }
