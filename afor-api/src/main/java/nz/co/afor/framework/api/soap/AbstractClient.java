@@ -118,7 +118,7 @@ public class AbstractClient extends WebServiceGatewaySupport {
             if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
                 httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
             HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
-            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().build());
+            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().addInterceptorFirst(new HttpComponentsMessageSender.RemoveSoapHeadersInterceptor()).build());
             webServiceTemplate.setMessageSender(sender);
             setWebServiceTemplate(webServiceTemplate);
         }
