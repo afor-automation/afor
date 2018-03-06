@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.22-SNAPSHOT</version>
+        <version>0.1.23-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>nz.co.afor.framework.mock</groupId>
             <artifactId>afor-mock</artifactId>
-            <version>0.1.16</version>
+            <version>0.1.18</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>5.0.3</version>
+            <version>6.0.0-BETA3</version>
         </dependency>
     </dependencies>
 
