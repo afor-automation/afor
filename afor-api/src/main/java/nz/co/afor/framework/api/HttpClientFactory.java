@@ -9,6 +9,8 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.ProxyAuthenticationStrategy;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,8 @@ public class HttpClientFactory {
 
     Boolean proxy = false;
 
+    Boolean useConnectionPool = false;
+
     String proxyUsername;
 
     String proxyPassword;
@@ -40,6 +44,9 @@ public class HttpClientFactory {
     URI proxyAddress;
 
     Boolean acceptSelfSignedSSLCertificates = false;
+    private int maxTotal;
+    private int defaultMaxPerRoute;
+    private int validateAfterInactivity;
 
     public HttpClientFactory withHttpProxy(String proxyUsername, String proxyPassword, String proxyDomain, URI proxyAddress) {
         this.proxy = true;
@@ -50,6 +57,14 @@ public class HttpClientFactory {
         return this;
     }
 
+    public HttpClientFactory withConnectionPooling(int maxTotalConnections, int defaultMaxPerRoute, int validateAfterInactivityMilliseconds) {
+        this.useConnectionPool = true;
+        this.maxTotal = maxTotalConnections;
+        this.defaultMaxPerRoute = defaultMaxPerRoute;
+        this.validateAfterInactivity = validateAfterInactivityMilliseconds;
+        return this;
+    }
+
     public HttpClientFactory withSelfSignedSSLCertificates() {
         acceptSelfSignedSSLCertificates = true;
         return this;
@@ -57,6 +72,16 @@ public class HttpClientFactory {
 
     public HttpClientBuilder getHttpClientBuilder() throws KeyManagementException, NoSuchAlgorithmException {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+
+        if (useConnectionPool) {
+            PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+            connectionManager.setMaxTotal(maxTotal);
+            connectionManager.setDefaultMaxPerRoute(defaultMaxPerRoute);
+            connectionManager.setValidateAfterInactivity(validateAfterInactivity);
+            httpClientBuilder.setConnectionManager(connectionManager);
+        } else {
+            httpClientBuilder.setConnectionManager(new BasicHttpClientConnectionManager());
+        }
 
         // Set up proxy authentication if we have all the required proxy details
         if (proxy) {

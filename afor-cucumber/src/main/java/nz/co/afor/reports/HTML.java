@@ -14,15 +14,18 @@ import nz.co.afor.reports.results.ResultSummary;
 
 import java.io.*;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Matt on 12/03/2016.
  */
 public class HTML implements Formatter, Reporter {
     private static final Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").setPrettyPrinting().create();
-    private static final Date CREATED_DATE = new Date();
+    private static final ZonedDateTime CREATED_DATE = ZonedDateTime.now(ReportContextProvider.getTimezone());
     private static final String JS_FORMATTER_VAR = "formatter";
     private static final String JS_REPORT_FILENAME = "report.js";
     private static final String JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR = "formatterHighLevelSummary";
@@ -140,12 +143,8 @@ public class HTML implements Formatter, Reporter {
     public void done() {
         if (featureResults.size() > 0)
             jsOut().append("});");
-        SimpleDateFormat javascriptFormat = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
-        if (null != ReportContextProvider.getDateFormat())
-            javascriptFormat = new SimpleDateFormat(ReportContextProvider.getDateFormat());
-        if (null != ReportContextProvider.getReportTitle())
-            jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-name\").text(\"%s\");$(\"html title\").append(document.createTextNode(\" - %s\"))});\n", ReportContextProvider.getReportTitle(), ReportContextProvider.getReportTitle()));
-        jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", javascriptFormat.format(CREATED_DATE)));
+        jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-name\").text(\"%s\");$(\"html title\").append(document.createTextNode(\" - %s\"))});\n", ReportContextProvider.getReportTitle(), ReportContextProvider.getReportTitle()));
+        jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", ReportContextProvider.getDateFormat().format(CREATED_DATE)));
         jsSummaryOut().append(String.format("var %s = '%s';\n", JS_DURATION_VAR, getDuration()));
         jsSummaryOut().append(String.format("var %s = %s;\n", JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR, gson.toJson(getSummaryTotals())));
         jsSummaryOut().append(String.format("var %s = %s;\n", JS_SUMMARY_FORMATTER_VAR, gson.toJson(featureResults)));
@@ -153,7 +152,7 @@ public class HTML implements Formatter, Reporter {
     }
 
     private String getDuration() {
-        long totalDuration = new Date().getTime() - CREATED_DATE.getTime();
+        long totalDuration = ZonedDateTime.now(ReportContextProvider.getTimezone()).toEpochSecond() - CREATED_DATE.toEpochSecond();
         long hours = Math.abs(totalDuration / (60 * 60 * 1000));
         long minutes = Math.abs(((totalDuration - (hours * 60 * 60 * 1000))) / (60 * 1000));
         long seconds = Math.abs(((totalDuration - (hours * 60 * 60 * 1000)) - (minutes * 60 * 1000)) / 1000);

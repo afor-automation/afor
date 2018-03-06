@@ -40,6 +40,17 @@ public class RestTemplateFactory {
     @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
 
+    @Value("${api.pool.enabled:false}")
+    Boolean useConnectionPool;
+
+    @Value("${api.pool.connections.max:10}")
+    Integer maxTotalConnections;
+
+    @Value("${api.pool.connections.route.max:5}")
+    Integer defaultMaxPerRoute;
+
+    @Value("${api.pool.inactivity.validate:2000}")
+    Integer validateAfterInactivityMilliseconds;
 
     HttpClientBuilder httpClientBuilder;
     ClientHttpRequestFactory requestFactory;
@@ -47,6 +58,8 @@ public class RestTemplateFactory {
     @PostConstruct
     public void setupClientConfig() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
         HttpClientFactory httpClientFactory = new HttpClientFactory();
+        if (useConnectionPool)
+            httpClientFactory = httpClientFactory.withConnectionPooling(maxTotalConnections, defaultMaxPerRoute, validateAfterInactivityMilliseconds);
         if (acceptSelfSignedSSLCertificates)
             httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
         if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)

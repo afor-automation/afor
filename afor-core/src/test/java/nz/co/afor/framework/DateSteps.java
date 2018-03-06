@@ -1,9 +1,9 @@
-import cucumber.api.PendingException;
+package nz.co.afor.framework;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import nz.co.afor.framework.GsonFactory;
 import nz.co.afor.framework.model.Customer;
 import org.exparity.hamcrest.date.DateMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
