@@ -2,8 +2,8 @@ import nz.co.afor.framework.mock.Application;
 import nz.co.afor.framework.mock.SwingSpringApplicationContextLoader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,10 +16,11 @@ import static org.hamcrest.core.Is.is;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class, loader = SwingSpringApplicationContextLoader.class)
-@WebIntegrationTest({"server.port=0", "management.port=0"})
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MockServiceTest {
-    @Value("${local.server.port}")
-    private int serverPort;
+
+    @LocalServerPort
+    int serverPort;
 
     @Test
     public void testPortIsSet() {

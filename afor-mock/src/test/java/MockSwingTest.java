@@ -7,7 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -18,7 +17,6 @@ import javax.swing.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Application.class, loader = SwingSpringApplicationContextLoader.class)
-@IntegrationTest
 public class MockSwingTest {
 
     private FrameFixture window;
@@ -38,6 +36,7 @@ public class MockSwingTest {
 
     @After
     public void tearDown() {
-        window.cleanUp();
+        if (null != window)
+            window.cleanUp();
     }
 }
