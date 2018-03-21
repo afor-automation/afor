@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.3</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>6.0.7.Final</version>
+            <version>6.0.8.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -66,25 +66,42 @@
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.0.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-support</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.0.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>9.8.0-10</version>
         </dependency>
 
         <!-- Test mock dependencies -->
         <dependency>
             <groupId>nz.co.afor.framework.mock</groupId>
             <artifactId>afor-mock</artifactId>
-            <version>0.1.18</version>
+            <version>0.1.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-cucumber</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.8.Final</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

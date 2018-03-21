@@ -10,13 +10,12 @@ import nz.co.afor.framework.api.rest.RestTemplateFactory;
 import nz.co.afor.framework.mock.Application;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationContextLoader;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootContextLoader;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
@@ -31,9 +30,8 @@ import static org.hamcrest.core.Is.is;
  * Created by Matt Belcher on 19/08/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Application.class, Get.class, Post.class, RestTemplate.class, RestTemplateFactory.class}, loader = SpringApplicationContextLoader.class)
-@WebAppConfiguration
-@IntegrationTest
+@ContextConfiguration(classes = {Application.class, Get.class, Post.class, RestTemplate.class, RestTemplateFactory.class}, loader = SpringBootContextLoader.class)
+@SpringBootTest(classes = {Application.class, Get.class, Post.class, RestTemplate.class, RestTemplateFactory.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MockServiceSteps {
 
     @Autowired
@@ -44,7 +42,7 @@ public class MockServiceSteps {
 
     ResponseEntity<String> response;
 
-    @Value("${local.server.port}")
+    @LocalServerPort
     private int serverPort;
 
     @Given("^I have a mock service running$")
