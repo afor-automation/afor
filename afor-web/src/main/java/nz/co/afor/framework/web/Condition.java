@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.regex.Pattern;
 
 /**
@@ -19,25 +20,25 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
         super(name, absentElementMatchesCondition);
     }
 
+    @ParametersAreNonnullByDefault
     public boolean test(WebElement element) {
         return apply(element);
     }
 
     /**
-     * <p>Sample: <code>$("input").waitUntil(hasClass("blocked"), 7000);</code></p>
-     */
-    public static Condition hasCss(String css) {
-        return css(css);
-    }
-
-    /**
-     * <p>Sample: <code>$("input").shouldHave(cssClass("active"));</code></p>
+     * <p>Sample: <code>$("input").shouldHave(css("div.active"));</code></p>
      */
     public static Condition css(final String css) {
         return new Condition("css") {
             @Override
             public boolean apply(WebElement element) {
-                return hasCss(element, css);
+                WebElement cssElement;
+                try {
+                    cssElement = element.findElement(By.cssSelector(css));
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+                return null != cssElement;
             }
 
             @Override
@@ -47,34 +48,101 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
         };
     }
 
-    /**
-     * <p>Sample: <code>$("input").hasCss("a.blocked");</code></p>
-     */
-    public static boolean hasCss(WebElement element, String css) {
-        WebElement cssElement;
-        try {
-            cssElement = element.findElement(By.cssSelector(css));
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-        return null != cssElement;
+    public static com.codeborne.selenide.Condition cssWithText(final String css, final String text) {
+        return new com.codeborne.selenide.Condition("css textCaseInsensitive") {
+            @Override
+            public boolean apply(WebElement element) {
+                WebElement cssElement;
+                try {
+                    cssElement = element.findElement(By.cssSelector(css));
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+                return Html.text.contains(cssElement.getText(), text);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s '%s' '%s'", name, css, text);
+            }
+        };
+    }
+
+    public static com.codeborne.selenide.Condition cssWithTextCaseSensitive(final String css, final String text) {
+        return new com.codeborne.selenide.Condition("css textCaseSensitive") {
+            @Override
+            public boolean apply(WebElement element) {
+                WebElement cssElement;
+                try {
+                    cssElement = element.findElement(By.cssSelector(css));
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+                return Html.text.containsCaseSensitive(cssElement.getText(), text);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s '%s' '%s'", name, css, text);
+            }
+        };
+    }
+
+    public static com.codeborne.selenide.Condition cssWithExactText(final String css, final String text) {
+        return new com.codeborne.selenide.Condition("css exact text") {
+            @Override
+            public boolean apply(WebElement element) {
+                WebElement cssElement;
+                try {
+                    cssElement = element.findElement(By.cssSelector(css));
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+                return Html.text.equals(cssElement.getText(), text);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s '%s' '%s'", name, css, text);
+            }
+        };
+    }
+
+    public static com.codeborne.selenide.Condition cssWithExactTextCaseSensitive(final String css, final String text) {
+        return new com.codeborne.selenide.Condition("css exact text case sensitive") {
+            @Override
+            public boolean apply(WebElement element) {
+                WebElement cssElement;
+                try {
+                    cssElement = element.findElement(By.cssSelector(css));
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+                return Html.text.equalsCaseSensitive(cssElement.getText(), text);
+            }
+
+            @Override
+            public String toString() {
+                return String.format("%s '%s' '%s'", name, css, text);
+            }
+        };
     }
 
     /**
-     * <p>Sample: <code>$("input").waitUntil(hasClass("blocked"), 7000);</code></p>
+     * <p>Sample: <code>$("input").shouldHave(cssAndMatches("active", "Attempt [0-9] of [0-9]"));</code></p>
      */
-    public static Condition hasCssAndMatches(String css, String regex) {
-        return css(css, regex);
-    }
-
-    /**
-     * <p>Sample: <code>$("input").shouldHave(cssClass("active"));</code></p>
-     */
-    public static Condition css(final String css, final String regex) {
+    public static Condition cssAndMatches(final String css, final String regex) {
         return new Condition("css") {
             @Override
             public boolean apply(WebElement element) {
-                return hasCss(element, css, regex);
+                WebElement cssElement;
+                try {
+                    cssElement = element.findElement(By.cssSelector(css));
+                } catch (NoSuchElementException e) {
+                    return false;
+                }
+                Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE + Pattern.DOTALL);
+                return null != cssElement && pattern.matcher(cssElement.getText()).matches();
             }
 
             @Override
@@ -85,24 +153,10 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     }
 
     /**
-     * <p>Sample: <code>$("div.form").hasCss($("div.name"),"span", "Attempt [0-9] of [0-9]");</code></p>
-     */
-    public static boolean hasCss(WebElement element, String css, String regex) {
-        WebElement cssElement;
-        try {
-            cssElement = element.findElement(By.cssSelector(css));
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE + Pattern.DOTALL);
-        return null != cssElement && pattern.matcher(cssElement.getText()).matches();
-    }
-
-    /**
      * Assert that element has given "value" attribute as substring
      * NB! Ignores difference in non-visible characters like spaces, non-breakable spaces, tabs, newlines  etc.
      * <p>
-     * <p>Sample: <code>$("input").shouldHave(value("12345 666 77"));</code></p>
+     * <p>Sample: <code>$("input").shouldHave(valueAsNumber("12345 666 77"));</code></p>
      *
      * @param expectedValue expected value of "value" attribute
      */
@@ -122,6 +176,6 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
     private static String getAttributeValueAsNumber(WebElement element, String attributeName) {
         String attr = element.getAttribute(attributeName);
-        return attr == null ? "" : attr.trim().replace(",", "");
+        return attr == null ? "" : attr.trim().replace(",", "").replace(" ", "");
     }
 }
