@@ -1,4 +1,4 @@
-import nz.co.afor.framework.mock.Application;
+import nz.co.afor.framework.mock.MockApplication;
 import nz.co.afor.framework.mock.SwingSpringApplicationContextLoader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +15,8 @@ import static org.hamcrest.core.Is.is;
  * Created by Matt Belcher on 20/08/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Application.class, loader = SwingSpringApplicationContextLoader.class)
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ContextConfiguration(classes = MockApplication.class, loader = SwingSpringApplicationContextLoader.class)
+@SpringBootTest(classes = MockApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MockServiceTest {
 
     @LocalServerPort

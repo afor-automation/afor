@@ -1,4 +1,4 @@
-import nz.co.afor.framework.mock.Application;
+import nz.co.afor.framework.mock.MockApplication;
 import nz.co.afor.framework.mock.SwingForm;
 import nz.co.afor.framework.mock.SwingSpringApplicationContextLoader;
 import org.assertj.swing.core.matcher.JButtonMatcher;
@@ -16,7 +16,7 @@ import javax.swing.*;
  * Created by Matt on 24/11/2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Application.class, loader = SwingSpringApplicationContextLoader.class)
+@ContextConfiguration(classes = MockApplication.class, loader = SwingSpringApplicationContextLoader.class)
 public class MockSwingTest {
 
     private FrameFixture window;

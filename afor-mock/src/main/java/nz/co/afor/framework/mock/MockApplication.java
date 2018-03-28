@@ -11,7 +11,7 @@ import javax.swing.*;
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-public class Application {
+public class MockApplication {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -22,7 +22,7 @@ public class Application {
             frame.pack();
             frame.setVisible(true);
         });
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(MockApplication.class, args);
     }
 
 }
