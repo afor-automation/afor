@@ -6,17 +6,10 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import nz.co.afor.framework.api.rest.Get;
 import nz.co.afor.framework.api.rest.Post;
-import nz.co.afor.framework.api.rest.RestTemplateFactory;
-import nz.co.afor.framework.mock.Application;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootContextLoader;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
@@ -30,8 +23,6 @@ import static org.hamcrest.core.Is.is;
  * Created by Matt Belcher on 19/08/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Application.class, Get.class, Post.class, RestTemplate.class, RestTemplateFactory.class}, loader = SpringBootContextLoader.class)
-@SpringBootTest(classes = {Application.class, Get.class, Post.class, RestTemplate.class, RestTemplateFactory.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MockServiceSteps {
 
     @Autowired
@@ -42,8 +33,7 @@ public class MockServiceSteps {
 
     ResponseEntity<String> response;
 
-    @LocalServerPort
-    private int serverPort;
+    private int serverPort = 16151;
 
     @Given("^I have a mock service running$")
     public void I_have_a_mock_service_running() throws Throwable {

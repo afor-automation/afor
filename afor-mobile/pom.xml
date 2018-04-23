@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.23-SNAPSHOT</version>
+        <version>0.1.23</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <version>6.0.0-BETA3</version>
+            <version>6.0.0-BETA5</version>
         </dependency>
     </dependencies>
 

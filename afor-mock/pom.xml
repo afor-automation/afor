@@ -40,7 +40,7 @@
         <connection>scm:git@github.com:afor-automation/afor.git</connection>
         <developerConnection>scm:git:git@github.com:afor-automation/afor.git</developerConnection>
         <url>git@github.com:afor-automation/afor.git</url>
-        <tag>afor-mock-0.1.15</tag>
+        <tag>afor-mock-0.1.21</tag>
     </scm>
 
     <dependencies>
@@ -85,37 +85,37 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.0.4.RELEASE</version>
+            <version>5.0.5.RELEASE</version>
         </dependency>
 
         <!-- Unit testing -->
