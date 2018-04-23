@@ -3,14 +3,9 @@ package nz.co.afor.framework;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import nz.co.afor.framework.mock.Application;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
-import org.springframework.boot.test.SpringApplicationContextLoader;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -23,13 +18,9 @@ import static org.hamcrest.core.Is.is;
  * Created by Matt Belcher on 19/08/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Application.class, loader = SpringApplicationContextLoader.class)
-@WebAppConfiguration
-@IntegrationTest
 public class MockServiceSteps {
 
-    @Value("${local.server.port}")
-    private int serverPort;
+    private int serverPort = 16151;
 
     @Value("${browser:chrome}")
     private String browser;
