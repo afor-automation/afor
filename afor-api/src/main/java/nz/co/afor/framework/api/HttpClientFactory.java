@@ -23,6 +23,7 @@ import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Matt on 14/09/2017.
@@ -47,6 +48,7 @@ public class HttpClientFactory {
     private int maxTotal;
     private int defaultMaxPerRoute;
     private int validateAfterInactivity;
+    private int timeToLiveMilliseconds;
 
     public HttpClientFactory withHttpProxy(String proxyUsername, String proxyPassword, String proxyDomain, URI proxyAddress) {
         this.proxy = true;
@@ -57,11 +59,12 @@ public class HttpClientFactory {
         return this;
     }
 
-    public HttpClientFactory withConnectionPooling(int maxTotalConnections, int defaultMaxPerRoute, int validateAfterInactivityMilliseconds) {
+    public HttpClientFactory withConnectionPooling(int maxTotalConnections, int defaultMaxPerRoute, int validateAfterInactivityMilliseconds, int timeToLiveMilliseconds) {
         this.useConnectionPool = true;
         this.maxTotal = maxTotalConnections;
         this.defaultMaxPerRoute = defaultMaxPerRoute;
         this.validateAfterInactivity = validateAfterInactivityMilliseconds;
+        this.timeToLiveMilliseconds = timeToLiveMilliseconds;
         return this;
     }
 
@@ -74,7 +77,7 @@ public class HttpClientFactory {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
 
         if (useConnectionPool) {
-            PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+            PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(timeToLiveMilliseconds, TimeUnit.MILLISECONDS);
             connectionManager.setMaxTotal(maxTotal);
             connectionManager.setDefaultMaxPerRoute(defaultMaxPerRoute);
             connectionManager.setValidateAfterInactivity(validateAfterInactivity);

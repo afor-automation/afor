@@ -52,6 +52,9 @@ public class RestTemplateFactory {
     @Value("${api.pool.inactivity.validate:2000}")
     Integer validateAfterInactivityMilliseconds;
 
+    @Value("${api.pool.connections.timeToLive:300000}")
+    Integer timeToLive;
+
     HttpClientBuilder httpClientBuilder;
     ClientHttpRequestFactory requestFactory;
 
@@ -59,7 +62,7 @@ public class RestTemplateFactory {
     public void setupClientConfig() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
         HttpClientFactory httpClientFactory = new HttpClientFactory();
         if (useConnectionPool)
-            httpClientFactory = httpClientFactory.withConnectionPooling(maxTotalConnections, defaultMaxPerRoute, validateAfterInactivityMilliseconds);
+            httpClientFactory = httpClientFactory.withConnectionPooling(maxTotalConnections, defaultMaxPerRoute, validateAfterInactivityMilliseconds, timeToLive);
         if (acceptSelfSignedSSLCertificates)
             httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
         if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)

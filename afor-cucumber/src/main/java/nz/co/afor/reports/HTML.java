@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class HTML implements Formatter, Reporter {
     private static final Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").setPrettyPrinting().create();
-    private static final ZonedDateTime CREATED_DATE = ZonedDateTime.now(ReportContextProvider.getTimezone());
+    private static final ZonedDateTime CREATED_DATE = ZonedDateTime.now();
     private static final String JS_FORMATTER_VAR = "formatter";
     private static final String JS_REPORT_FILENAME = "report.js";
     private static final String JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR = "formatterHighLevelSummary";
@@ -144,7 +144,7 @@ public class HTML implements Formatter, Reporter {
         if (featureResults.size() > 0)
             jsOut().append("});");
         jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-name\").text(\"%s\");$(\"html title\").append(document.createTextNode(\" - %s\"))});\n", ReportContextProvider.getReportTitle(), ReportContextProvider.getReportTitle()));
-        jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", ReportContextProvider.getDateFormat().format(CREATED_DATE)));
+        jsSummaryOut().append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", ReportContextProvider.getDateFormat().format(CREATED_DATE.withZoneSameInstant(ReportContextProvider.getTimezone()))));
         jsSummaryOut().append(String.format("var %s = '%s';\n", JS_DURATION_VAR, getDuration()));
         jsSummaryOut().append(String.format("var %s = %s;\n", JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR, gson.toJson(getSummaryTotals())));
         jsSummaryOut().append(String.format("var %s = %s;\n", JS_SUMMARY_FORMATTER_VAR, gson.toJson(featureResults)));
@@ -152,7 +152,7 @@ public class HTML implements Formatter, Reporter {
     }
 
     private String getDuration() {
-        long totalDuration = ZonedDateTime.now(ReportContextProvider.getTimezone()).toEpochSecond() - CREATED_DATE.toEpochSecond();
+        long totalDuration = (ZonedDateTime.now().toEpochSecond() - CREATED_DATE.toEpochSecond()) * 1000;
         long hours = Math.abs(totalDuration / (60 * 60 * 1000));
         long minutes = Math.abs(((totalDuration - (hours * 60 * 60 * 1000))) / (60 * 1000));
         long seconds = Math.abs(((totalDuration - (hours * 60 * 60 * 1000)) - (minutes * 60 * 1000)) / 1000);
