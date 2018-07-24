@@ -19,12 +19,14 @@ public class Put extends AbstractHttpRequest {
     private static Log log = LogFactory.getLog(Put.class);
 
     public <T> ResponseEntity<T> request(String uri, Object request, Class<T> responseType) {
-        HttpHeaders headers = getHeaders();
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);
-        URI url = builder.build().encode().toUri();
-        log.info(String.format("Sending PUT request to URL '%s'", url.toString()));
-        HttpEntity entity = new HttpEntity(request, headers);
-        ResponseEntity<T> response = getRestTemplate().exchange(url, HttpMethod.PUT, entity, responseType);
+        return request(builder.build().encode().toUri(), request, responseType);
+    }
+
+    public <T> ResponseEntity<T> request(URI uri, Object request, Class<T> responseType) {
+        log.info(String.format("Sending PUT request to URL '%s'", uri.toString()));
+        @SuppressWarnings("unchecked") HttpEntity entity = new HttpEntity(request, getHeaders());
+        ResponseEntity<T> response = getRestTemplate().exchange(uri, HttpMethod.PUT, entity, responseType);
         log.info(String.format("Received the status code from request '%s'", response.getStatusCode()));
         log.info(String.format("Received the response body '%s'", response.getBody()));
         return response;
