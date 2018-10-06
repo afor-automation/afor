@@ -1,6 +1,6 @@
 package nz.co.afor.reports;
 
-import gherkin.formatter.model.ScenarioOutline;
+import gherkin.ast.ScenarioOutline;
 
 import java.util.ArrayList;
 import java.util.List;

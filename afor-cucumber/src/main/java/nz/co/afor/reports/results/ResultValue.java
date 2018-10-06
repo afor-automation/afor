@@ -1,57 +1,67 @@
 package nz.co.afor.reports.results;
 
+import cucumber.api.Result;
+
 /**
  * Created by Matt on 11/04/2016.
  */
 public class ResultValue {
-    Integer passed = 0;
-    Integer failed = 0;
-    Integer undefined = 0;
-    Integer pending = 0;
-    Integer skipped = 0;
+    private Integer passed = 0;
+    private Integer failed = 0;
+    private Integer undefined = 0;
+    private Integer pending = 0;
+    private Integer skipped = 0;
+    private Integer ambiguous = 0;
 
-    public void addResult(String result) {
+    public void addResult(Result.Type result) {
         if (null == result)
             return;
-        switch (result.toLowerCase()) {
-            case "passed":
+        switch (result) {
+            case PASSED:
                 passed();
                 break;
-            case "failed":
+            case FAILED:
                 failed();
                 break;
-            case "pending":
+            case PENDING:
                 pending();
                 break;
-            case "undefined":
+            case UNDEFINED:
                 undefined();
                 break;
-            case "skipped":
+            case SKIPPED:
                 skipped();
+                break;
+            case AMBIGUOUS:
+                ambiguous();
                 break;
             default:
                 throw new RuntimeException(String.format("ResultValue type '%s' is not defined in reporting", result));
         }
     }
 
-    public void passed() {
+    private void passed() {
         passed++;
     }
 
-    public void failed() {
+    private void failed() {
         failed++;
     }
 
-    public void pending() {
+    private void pending() {
         pending++;
     }
 
-    public void undefined() {
+    private void undefined() {
         undefined++;
     }
 
-    public void skipped() {
+    private void skipped() {
         skipped++;
+    }
+
+    private void ambiguous() {
+        ambiguous++;
     }
 
     public Integer getPassed() {
@@ -72,5 +82,9 @@ public class ResultValue {
 
     public Integer getSkipped() {
         return skipped;
+    }
+
+    public Integer getAmbiguous() {
+        return ambiguous;
     }
 }

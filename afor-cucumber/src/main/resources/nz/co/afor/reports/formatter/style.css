@@ -231,6 +231,15 @@ section.blockelement.scenario {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e07a3e', endColorstr='#d16100',GradientType=1 ); /* IE6-9 */
 }
 
+.afor-report .ambiguous {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e0a42c+0,ed3700+100 */
+    background: #e0a42c; /* Old browsers */
+    background: -moz-linear-gradient(top, #e0a42c 0%, #ed3700 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #e0a42c 0%,#ed3700 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #e0a42c 0%,#ed3700 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0a42c', endColorstr='#ed3700',GradientType=0 ); /* IE6-9 */
+}
+
 .afor-report .skipped {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2deaec+0,00b7b7+100 */
     background: rgb(45,234,236); /* Old browsers */
@@ -483,6 +492,10 @@ tr.tableRow td:empty {
 
 .breakdownRow .skipped {
     color: #2deaec;
+}
+
+.breakdownRow .ambiguous {
+    color: #e0a42c;
 }
 
 .breakdownRow .failed {

@@ -12,7 +12,7 @@ public class DummySteps implements En {
 
     public DummySteps() {
         Given("^I am in a state$", () -> log.info("I am in a state"));
-        When("^I perform an action$", () -> log.info("I perform an action"));
+        When("^I perform (?:an|another) action$", () -> log.info("I perform an action"));
         Then("^I should receive a result$", () -> log.info("I should receive a result"));
     }
 }

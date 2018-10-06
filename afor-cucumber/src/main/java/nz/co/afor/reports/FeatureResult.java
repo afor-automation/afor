@@ -1,6 +1,6 @@
 package nz.co.afor.reports;
 
-import gherkin.formatter.model.Feature;
+import gherkin.ast.Feature;
 
 import java.util.ArrayList;
 import java.util.List;

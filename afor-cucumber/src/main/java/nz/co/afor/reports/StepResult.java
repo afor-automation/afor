@@ -1,24 +1,28 @@
 package nz.co.afor.reports;
 
-import gherkin.formatter.model.Result;
-import gherkin.formatter.model.Step;
+import cucumber.api.PickleStepTestStep;
+import cucumber.api.Result;
+import cucumber.api.TestStep;
+import gherkin.ast.Step;
+import gherkin.pickles.PickleStep;
 
 /**
  * Created by Matt on 15/03/2016.
  */
 public class StepResult {
-    Step step;
+    PickleStep step;
     Result result;
 
-    public StepResult(Step step) {
-        this.step = step;
+    public StepResult(PickleStep testStep, Result result) {
+        this.step = testStep;
+        this.result = result;
     }
 
-    public Step getStep() {
+    public PickleStep getStep() {
         return step;
     }
 
-    public void setStep(Step step) {
+    public void setStep(PickleStep step) {
         this.step = step;
     }
 

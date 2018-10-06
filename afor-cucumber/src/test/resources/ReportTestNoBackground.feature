@@ -1,17 +1,14 @@
-Feature: Visually show the report
+Feature: Visually show the report with no background
 
   As an automated tester
   I want to be able to view reports
   So that I can represent my automation to others
 
-  Background:
-    Given I am in a state
-
-  Scenario: Single scenario
+  Scenario: Single scenario no background
     When I perform an action
     Then I should receive a result
 
-  Scenario Outline: Scenario outline for <data> data
+  Scenario Outline: Scenario outline for <data> data no background
     When I perform an action
     And I perform another action
     Then I should receive a <data>

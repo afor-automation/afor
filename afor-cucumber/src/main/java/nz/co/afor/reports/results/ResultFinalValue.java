@@ -1,42 +1,52 @@
 package nz.co.afor.reports.results;
 
+import cucumber.api.Result;
+
 import java.util.Objects;
+
+import static cucumber.api.Result.Type.*;
 
 /**
  * Created by Matt on 11/04/2016.
  */
 public class ResultFinalValue {
 
-    String resultValue;
+    Result.Type resultValue;
 
-    public void addStatus(String status) {
-        switch (null == status ? "undefined" : status) {
-            case "passed":
+    public void addStatus(Result.Type status) {
+        switch (null == status ? UNDEFINED : status) {
+            case PASSED:
                 if (resultValue == null) {
-                    resultValue = "passed";
+                    resultValue = PASSED;
                 }
                 break;
-            case "failed":
-                resultValue = "failed";
+            case FAILED:
+                resultValue = FAILED;
                 break;
-            case "undefined":
+            case UNDEFINED:
                 if (resultValue == null || !Objects.equals(resultValue, "failed")) {
-                    resultValue = "undefined";
+                    resultValue = UNDEFINED;
                 }
                 break;
-            case "pending":
+            case PENDING:
                 if (resultValue == null || !Objects.equals(resultValue, "failed")) {
-                    resultValue = "pending";
+                    resultValue = PENDING;
                 }
                 break;
-            case "skipped":
+            case SKIPPED:
                 if (resultValue == null || Objects.equals(resultValue, "passed")) {
-                    resultValue = "skipped";
+                    resultValue = SKIPPED;
                 }
+                break;
+            case AMBIGUOUS:
+                if (resultValue == null || Objects.equals(resultValue, "passed")) {
+                    resultValue = AMBIGUOUS;
+                }
+                break;
         }
     }
 
-    public String getResultValue() {
+    public Result.Type getResultValue() {
         return resultValue;
     }
 }

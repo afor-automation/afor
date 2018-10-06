@@ -41,6 +41,7 @@ function getStepData() {
 	    var resultUndefined = 0;
 	    var resultPending = 0;
 	    var resultSkipped = 0;
+	    var resultAmbiguous = 0;
 
 	    for(var feature = 0; feature < formatterSummary.length; feature++) {
 	        for(var scenario = 0; scenario < formatterSummary[feature].scenarios.length; scenario++) {
@@ -61,6 +62,9 @@ function getStepData() {
 								break;
 							case "skipped":
 								resultSkipped++;
+								break;
+							case "ambiguous":
+								resultAmbiguous++;
 								break;
 						}
 					}
@@ -94,22 +98,32 @@ function getScenarioData() {
 				for(var step = 0; step < formatterSummary[feature].scenarios[scenario].steps.length; step++) {
 					if (formatterSummary[feature].scenarios[scenario].steps[step].result != null) {
 						switch(formatterSummary[feature].scenarios[scenario].steps[step].result.status) {
-							case "passed":
+							case "PASSED":
 								if (scenarioResult == null) {
 									scenarioResult = "passed";
 								}
 								break;
-							case "failed":
+							case "FAILED":
 								scenarioResult = "failed";
 								break;
-							case "undefined":
+							case "UNDEFINED":
 								if (scenarioResult == null || scenarioResult != "failed") {
 									scenarioResult = "undefined";
 								}
 								break;
-							case "pending":
+							case "PENDING":
 								if (scenarioResult == null || scenarioResult == "passed") {
 									scenarioResult = "pending";
+								}
+								break;
+							case "SKIPPED":
+								if (scenarioResult == null || scenarioResult == "passed") {
+									scenarioResult = "skipped";
+								}
+								break;
+							case "AMBIGUOUS":
+								if (scenarioResult == null || scenarioResult == "passed") {
+									scenarioResult = "ambiguous";
 								}
 								break;
 						}
@@ -127,6 +141,12 @@ function getScenarioData() {
 						break;
 					case "pending":
 						resultPending++;
+						break;
+					case "skipped":
+						resultSkipped++;
+						break;
+					case "ambiguous":
+						resultAmbiguous++;
 						break;
 				}
 			}
@@ -157,22 +177,31 @@ function getFeatureData() {
 				for(var step = 0; step < formatterSummary[feature].scenarios[scenario].steps.length; step++) {
 					if (formatterSummary[feature].scenarios[scenario].steps[step].result != null) {
 						switch(formatterSummary[feature].scenarios[scenario].steps[step].result.status) {
-							case "passed":
+							case "PASSED":
 								if (featureResult == null) {
 									featureResult = "passed";
 								}
 								break;
-							case "failed":
+							case "FAILED":
 								featureResult = "failed";
 								break;
-							case "undefined":
+							case "UNDEFINED":
 								if (featureResult == null || featureResult != "failed") {
 									featureResult = "undefined";
 								}
 								break;
-							case "pending":
+							case "PENDING":
 								if (featureResult == null || featureResult == "passed") {
 									featureResult = "pending";
+								}
+								break;
+							case "SKIPPED":
+								if (featureResult == null || featureResult == "passed") {
+									featureResult = "skipped";
+								}
+							case "AMBIGUOUS":
+								if (featureResult == null || featureResult == "passed") {
+									featureResult = "ambiguous";
 								}
 								break;
 						}
@@ -192,6 +221,12 @@ function getFeatureData() {
 				case "pending":
 					resultPending++;
 					break;
+				case "skipped":
+					resultSkipped++;
+					break;
+				case "ambiguous":
+					resultAmbiguous++;
+					break;
 			}
 		}
 
@@ -199,7 +234,9 @@ function getFeatureData() {
 	    ['Passed', resultPassed],
 	    ['Failed', resultFailed],
 	    ['Undefined', resultUndefined],
-	    ['Pending', resultPending]
+	    ['Pending', resultPending],
+	    ['Skipped', resultSkipped],
+	    ['Ambiguous', resultAmbiguous]
     ]);
     return data;
 }
@@ -224,23 +261,31 @@ function getFeatureScenarioBreakdownData() {
 			for(var step = 0; step < formatterSummary[feature].scenarios[scenario].steps.length; step++) {
 				if (formatterSummary[feature].scenarios[scenario].steps[step].result != null) {
 					switch(formatterSummary[feature].scenarios[scenario].steps[step].result.status) {
-						case "passed":
+						case "PASSED":
 							if (scenarioResult == null) {
 								scenarioResult = "passed";
 							}
 							break;
-						case "failed":
+						case "FAILED":
 							scenarioResult = "failed";
 							break;
-						case "undefined":
+						case "UNDEFINED":
 							if (scenarioResult == null || scenarioResult != "failed") {
 								scenarioResult = "undefined";
 							}
 							break;
-						case "pending":
+						case "PENDING":
 							if (scenarioResult == null || scenarioResult == "passed") {
 								scenarioResult = "pending";
 							}
+            case "SKIPPED":
+              if (scenarioResult == null || scenarioResult == "passed") {
+                scenarioResult = "skipped";
+              }
+            case "AMBIGUOUS":
+              if (scenarioResult == null || scenarioResult == "passed") {
+                scenarioResult = "ambiguous";
+              }
 							break;
 					}
 				}
@@ -257,6 +302,10 @@ function getFeatureScenarioBreakdownData() {
 					break;
 				case "pending":
 					resultPending++;
+				case "skipped":
+					resultSkipped++;
+				case "ambiguous":
+					resultAmbiguous++;
 					break;
 			}
 		}
@@ -310,7 +359,9 @@ function drawPieChart(data, elementId, title) {
             0: { color: '#b0d633' },
             1: { color: '#ed2525' },
             2: { color: '#e07a3e' },
-            3: { color: '#eaec2d' }
+            3: { color: '#eaec2d' },
+            4: { color: '#2deaec' },
+            5: { color: '#ffc733' }
         },
         titleTextStyle: {
             fontSize: '18',
@@ -338,7 +389,9 @@ function drawStackedBarChart(data, total, elementId, title) {
         colors: ['#b0d633',
             '#ed2525',
             '#e07a3e',
-            '#eaec2d']
+            '#eaec2d',
+            '#2deaec',
+            '#ffc733']
         ,
         hAxis: {format: '0', viewWindowMode: 'pretty'},
         vAxis: {showTextEvery: 1},
@@ -400,5 +453,5 @@ function writeBreakdown(elementId) {
 	element.innerHTML = "<div class=\"breakdownHeading chartHeading\">Breakdown</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getTotalFeatureCount() + " <b>Features</b> (<span class=\"passed\">" + formatterHighLevelSummary.features.passed + " passed,</span>	 <span class=\"failed\">" + formatterHighLevelSummary.features.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.features.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.features.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getScenarioCount() + " <b>Scenarios</b> (<span class=\"passed\">" + formatterHighLevelSummary.scenarios.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.scenarios.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.scenarios.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.scenarios.pending + " pending</span>)</div>";
-	element.innerHTML += "<div class=\"breakdownRow\">" + getStepCount() + " <b>Steps</b> (<span class=\"passed\">" + formatterHighLevelSummary.steps.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.steps.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.steps.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.steps.pending + " pending,</span> <span class=\"skipped\">" + formatterHighLevelSummary.steps.skipped + " skipped</span>)</div>";
+	element.innerHTML += "<div class=\"breakdownRow\">" + getStepCount() + " <b>Steps</b> (<span class=\"passed\">" + formatterHighLevelSummary.steps.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.steps.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.steps.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.steps.pending + " pending,</span> <span class=\"skipped\">" + formatterHighLevelSummary.steps.skipped + " skipped</span>  <span class=\"skipped\">" + formatterHighLevelSummary.steps.ambiguous + " ambiguous</span>)</div>";
 }
