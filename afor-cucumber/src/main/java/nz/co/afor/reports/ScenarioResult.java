@@ -39,4 +39,11 @@ public class ScenarioResult {
     public ZonedDateTime getStartTime() {
         return startTime;
     }
+
+    public Long getDuration() {
+        Long duration = 0L;
+        for(StepResult result : steps)
+        duration += result.getResult().getDuration();
+        return duration;
+    }
 }

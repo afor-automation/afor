@@ -218,6 +218,24 @@ public final class HTML implements Formatter {
         return resultSummary;
     }
 
+    private String getDetailedDuration(long totalDuration) {
+        long hours = Math.abs(totalDuration / (60 * 60 * 1000));
+        long minutes = Math.abs(((totalDuration - (hours * 60 * 60 * 1000))) / (60 * 1000));
+        long seconds = Math.abs(((totalDuration - (hours * 60 * 60 * 1000)) - (minutes * 60 * 1000)) / 1000);
+        String duration;
+        if (hours > 0) {
+            duration = String.format("%s hour%s, %s min%s", hours, hours > 1 ? "s" : "", minutes, minutes > 1 ? "s" : "");
+        } else if (minutes > 0) {
+            duration = String.format("%s min%s, %s sec%s", minutes, minutes > 1 ? "s" : "", seconds, seconds > 1 ? "s" : "");
+        } else if (seconds > 0){
+            duration = String.format("%s second%s", seconds, seconds != 1 ? "s" : "");
+        } else {
+            long milliseconds = Math.abs(totalDuration);
+            duration = String.format("%s millisecond%s", milliseconds, milliseconds != 1 ? "s" : "");
+        }
+        return duration;
+    }
+
     private String getDuration() {
         long totalDuration = (ZonedDateTime.now().toEpochSecond() - CREATED_DATE.toEpochSecond()) * 1000;
         long hours = Math.abs(totalDuration / (60 * 60 * 1000));
@@ -488,6 +506,7 @@ public final class HTML implements Formatter {
         resultMap.put("status", result.getStatus().lowerCaseName());
         resultMap.put("duration", result.getDuration());
         resultMap.put("startTime", startTime);
+        resultMap.put("durationReadable", getDetailedDuration(result.getDuration() / 1000000));
         if (result.getErrorMessage() != null) {
             resultMap.put("error_message", result.getErrorMessage());
         }

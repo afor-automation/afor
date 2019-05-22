@@ -82,27 +82,17 @@ CucumberHTML.DOMFormatter = function(rootNode) {
     }
     currentElement.addClass(result.status);
     if (null != result.duration) {
-		var incrementalDuration = currentElement.attr('duration-nanoseconds') == null ? 0 : currentElement.attr('duration-nanoseconds');
-		currentElement.attr('duration-nanoseconds', parseInt(incrementalDuration) + parseInt(result.duration));
-	}
+		  var incrementalDuration = currentElement.attr('duration-nanoseconds') == null ? 0 : currentElement.attr('duration-nanoseconds');
+		  currentElement.attr('duration-nanoseconds', parseInt(incrementalDuration) + parseInt(result.duration));
+		  if (currentElement.attr('startTime') == null) {
+		    currentElement.attr('startTime', result.startTime);
+		  }
+	  }
     var isLastStep = currentSteps.find('li:nth-child(' + currentStepIndex + ')').length == 0;
     if (isLastStep) {
-      if (null != currentElement.attr('duration-nanoseconds')) {
-		  currentElement.attr('duration-whole-seconds', Math.round(currentElement.attr('duration-nanoseconds') / 1000000000));
-          currentElement.attr('duration-seconds', (Math.round((currentElement.attr('duration-nanoseconds') / 1000000) + 0.00001) * 1000) / 1000000);
-          currentElement.attr('duration-milliseconds', (Math.round((currentElement.attr('duration-nanoseconds') / 1000000) + 0.00001) * 1000) / 1000);
-          currentElement.addClass('duration');
-          var titleElement = currentElement.find('.header > .name');
-          var formattedDuration = currentElement.attr('duration-seconds') + " seconds";
-          if (currentElement.attr('duration-seconds') == 0) {
-			  formattedDuration = "less than 1 millisecond";
-		  } else if (currentElement.attr('duration-seconds') < 1) {
-              formattedDuration = currentElement.attr('duration-milliseconds') + " milliseconds";
-          } else if (currentElement.attr('duration-seconds') > 5) {
-              formattedDuration = currentElement.attr('duration-whole-seconds') + " seconds";
-          }
-          titleElement.html(titleElement.html() + "<span class=\"duration" + (currentElement.attr('duration-seconds') > 10 ? " long" : "") + "\">(" + formattedDuration + ")</span>");
-      }
+      populateStepDuration(currentStep, result.startTime, result.durationReadable);
+      populateHeaderDuration(currentElement.find('.header'), currentElement.attr('startTime'), parseInt(currentElement.attr('duration-nanoseconds')));
+
       if (currentSteps.find('.failed').length == 0) {
         // No failed steps. Collapse it.
         currentElement.find('details').removeAttr('open');
@@ -168,7 +158,6 @@ CucumberHTML.DOMFormatter = function(rootNode) {
     e.find('.keyword').text(statement.keyword);
     e.find('.name').text(statement.name);
     e.find('.description').text(statement.description);
-    e.attr('itemtype', 'http://cukes.info/microformat/' + itemtype);
     e.addClass(itemtype);
     return e;
   }
@@ -199,13 +188,45 @@ CucumberHTML.DOMFormatter = function(rootNode) {
       errorNode.text(error);
     }
   }
+
+  function populateHeaderDuration(e, startTime, duration) {
+    if (duration !== undefined) {
+      currentElement.attr('duration-whole-seconds', Math.round(duration / 1000000000));
+      currentElement.attr('duration-seconds', (Math.round((duration / 1000000) + 0.00001) * 1000) / 1000000);
+      currentElement.attr('duration-milliseconds', (Math.round((duration / 1000000) + 0.00001) * 1000) / 1000);
+      currentElement.addClass('duration');
+      var titleElement = currentElement.find('.header > .name');
+      var formattedDuration = currentElement.attr('duration-seconds') + " seconds";
+      if (currentElement.attr('duration-seconds') == 0) {
+        formattedDuration = "less than 1 millisecond";
+      } else if (currentElement.attr('duration-seconds') < 1) {
+        formattedDuration = currentElement.attr('duration-milliseconds') + " milliseconds";
+      } else if (currentElement.attr('duration-seconds') > 5) {
+        formattedDuration = currentElement.attr('duration-whole-seconds') + " seconds";
+      }
+      durationElement = e.find('.duration');
+      if (currentElement.attr('duration-seconds') > 10) {
+        durationElement.addClass('long');
+      }
+      durationElement.text(formattedDuration);
+      e.find('.startTime').text(startTime);
+    }
+  }
+
+  function populateStepDuration(e, startTime, duration) {
+    if (duration !== undefined) {
+      $('.duration', $templates).clone().appendTo(e).text(duration);
+      $('.startTime', $templates).clone().appendTo(e).text(startTime);
+    }
+  }
+
 };
 
 CucumberHTML.templates = '<div>\
   <section class="blockelement" itemscope>\
     <details open>\
       <summary class="header">\
-        <span class="keyword" itemprop="keyword">Keyword</span>: <span itemprop="name" class="name">This is the block name</span>\
+        <span class="keyword" itemprop="keyword">Keyword</span>: <span itemprop="name" class="name">This is the block name</span><span class="duration"></span><span class="startTime"></span>\
       </summary>\
       <div itemprop="description" class="description">The description goes here</div>\
     </details>\

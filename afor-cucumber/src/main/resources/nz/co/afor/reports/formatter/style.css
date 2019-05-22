@@ -195,7 +195,7 @@ section.blockelement.summary {
     overflow: hidden;
 }
 
-section.blockelement.scenario {
+section.blockelement.scenario, section.blockelement.background {
     padding: 2px;
     border-radius: 5px;
     margin: 3px;
@@ -307,11 +307,14 @@ div.title-section {
     overflow: auto;
 }
 
-span.duration {
-    margin-left: 20px;
+span.duration, span.startTime {
     font-style: italic;
     color: #666;
     float:right;
+    padding-left: 5px;
+    padding-right: 5px;
+    min-width: 150px;
+    text-align: right;
 }
 
 span.duration.long {
@@ -319,7 +322,7 @@ span.duration.long {
 }
 
 @media screen and (max-width: 750px) {
-    span.duration {
+    span.duration,span.startTime {
         display: none;
     }
 }
