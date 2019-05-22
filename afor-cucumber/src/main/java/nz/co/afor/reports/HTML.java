@@ -506,7 +506,7 @@ public final class HTML implements Formatter {
         resultMap.put("status", result.getStatus().lowerCaseName());
         resultMap.put("duration", result.getDuration());
         resultMap.put("startTime", startTime);
-        resultMap.put("durationReadable", getDetailedDuration(result.getDuration() / 1000000));
+        resultMap.put("durationReadable", getDetailedDuration(null != result.getDuration() ? result.getDuration() / 1000000 : 0));
         if (result.getErrorMessage() != null) {
             resultMap.put("error_message", result.getErrorMessage());
         }
