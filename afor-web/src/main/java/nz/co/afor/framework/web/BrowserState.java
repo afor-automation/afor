@@ -16,7 +16,7 @@ import static nz.co.afor.framework.Retry.until;
 public class BrowserState {
     private static <T> T whenInState(Callable<T> block, String[] states) {
         try {
-            until(() -> ArrayUtils.contains(states, Selenide.executeJavaScript("return document.readyState")), Options.getInstance().withTimeout(toIntExact(Configuration.collectionsTimeout)));
+            until(() -> ArrayUtils.contains(states, Selenide.executeJavaScript("return document.readyState")), Options.getInstance().withTimeout(toIntExact(Configuration.timeout)));
             return block.call();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -25,7 +25,7 @@ public class BrowserState {
 
     private static void whenInState(Runnable block, String[] states) {
         try {
-            until(() -> ArrayUtils.contains(states, Selenide.executeJavaScript("return document.readyState")), Options.getInstance().withTimeout(toIntExact(Configuration.collectionsTimeout)));
+            until(() -> ArrayUtils.contains(states, Selenide.executeJavaScript("return document.readyState")), Options.getInstance().withTimeout(toIntExact(Configuration.timeout)));
             block.run();
         } catch (Exception e) {
             throw new RuntimeException(e);
