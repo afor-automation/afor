@@ -29,7 +29,7 @@ public class Retry {
                 action.run();
             } catch (Exception e) {
                 actionException = e;
-                log.info("Caught an exception, while running action", e);
+                log.debug("Caught an exception, while running action", e);
             }
             try {
                 if (condition.call())
@@ -37,7 +37,7 @@ public class Retry {
                 Thread.sleep(options.sleepTime);
             } catch (Exception e) {
                 conditionException = e;
-                log.info("Caught an exception, while evaluating condition", e);
+                log.debug("Caught an exception, while evaluating condition", e);
             }
 
             // If we have reached our limit on attempts and have exceptions
@@ -83,7 +83,7 @@ public class Retry {
                 result = action.call();
             } catch (Exception e) {
                 actionException = e;
-                log.info("Caught an exception, while running action", e);
+                log.debug("Caught an exception, while running action", e);
             }
             try {
                 if (null == condition) {
@@ -106,7 +106,7 @@ public class Retry {
                 Thread.sleep(options.sleepTime);
             } catch (Exception e) {
                 conditionException = e;
-                log.info("Caught an exception, while evaluating condition", e);
+                log.debug("Caught an exception, while evaluating condition", e);
             }
 
             // If we have reached our limit on attempts and have exceptions
