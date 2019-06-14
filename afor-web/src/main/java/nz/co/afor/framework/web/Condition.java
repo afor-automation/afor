@@ -1,8 +1,10 @@
 package nz.co.afor.framework.web;
 
+import com.codeborne.selenide.Driver;
 import com.codeborne.selenide.impl.Html;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -12,17 +14,18 @@ import java.util.regex.Pattern;
  * Created by Matt on 10/02/2016.
  */
 public abstract class Condition extends com.codeborne.selenide.Condition {
+
+    private final String name;
+
     public Condition(String name) {
         super(name);
+        this.name = name;
+
     }
 
     public Condition(String name, boolean absentElementMatchesCondition) {
         super(name, absentElementMatchesCondition);
-    }
-
-    @ParametersAreNonnullByDefault
-    public boolean test(WebElement element) {
-        return apply(element);
+        this.name= name;
     }
 
     /**
@@ -31,7 +34,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static Condition css(final String css) {
         return new Condition("css") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
@@ -43,7 +46,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
             @Override
             public String toString() {
-                return name + " '" + css + '\'';
+                return " '" + css + '\'';
             }
         };
     }
@@ -51,7 +54,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static com.codeborne.selenide.Condition cssWithText(final String css, final String text) {
         return new com.codeborne.selenide.Condition("css textCaseInsensitive") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
@@ -63,7 +66,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
             @Override
             public String toString() {
-                return String.format("%s '%s' '%s'", name, css, text);
+                return String.format("'%s' '%s'", css, text);
             }
         };
     }
@@ -71,7 +74,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static com.codeborne.selenide.Condition cssWithTextCaseSensitive(final String css, final String text) {
         return new com.codeborne.selenide.Condition("css textCaseSensitive") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
@@ -83,7 +86,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
             @Override
             public String toString() {
-                return String.format("%s '%s' '%s'", name, css, text);
+                return String.format("'%s' '%s'", css, text);
             }
         };
     }
@@ -91,7 +94,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static com.codeborne.selenide.Condition cssWithExactText(final String css, final String text) {
         return new com.codeborne.selenide.Condition("css exact text") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
@@ -103,7 +106,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
             @Override
             public String toString() {
-                return String.format("%s '%s' '%s'", name, css, text);
+                return String.format("'%s' '%s'", css, text);
             }
         };
     }
@@ -111,7 +114,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static com.codeborne.selenide.Condition cssWithExactTextCaseSensitive(final String css, final String text) {
         return new com.codeborne.selenide.Condition("css exact text case sensitive") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
@@ -123,7 +126,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
             @Override
             public String toString() {
-                return String.format("%s '%s' '%s'", name, css, text);
+                return String.format("'%s' '%s'", css, text);
             }
         };
     }
@@ -134,7 +137,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static Condition cssAndMatches(final String css, final String regex) {
         return new Condition("css") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
@@ -147,7 +150,7 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
             @Override
             public String toString() {
-                return String.format("%s '%s' '%s'", name, css, regex);
+                return String.format("'%s' '%s'", css, regex);
             }
         };
     }
@@ -163,13 +166,13 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static Condition valueAsNumber(final String expectedValue) {
         return new Condition("value") {
             @Override
-            public boolean apply(WebElement element) {
+            public boolean apply(Driver driver, WebElement element) {
                 return Html.text.contains(getAttributeValueAsNumber(element, "value"), expectedValue);
             }
 
             @Override
             public String toString() {
-                return name + " '" + expectedValue + "'";
+                return " '" + expectedValue + "'";
             }
         };
     }
