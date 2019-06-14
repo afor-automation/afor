@@ -16,9 +16,6 @@ public class Configuration {
     @Value("${selenide.timeout:4000}")
     private Integer timeout;
 
-    @Value("${selenide.collectionsTimeout:6000}")
-    private Integer collectionsTimeout;
-
     @Value("${selenide.pollingInterval:100}")
     private Integer pollingInterval;
 
@@ -26,16 +23,11 @@ public class Configuration {
     public void setConfiguration() {
         com.codeborne.selenide.Configuration.baseUrl = getBaseUrl();
         com.codeborne.selenide.Configuration.timeout = getTimeout();
-        com.codeborne.selenide.Configuration.collectionsTimeout = getCollectionsTimeout();
         com.codeborne.selenide.Configuration.pollingInterval = getPollingInterval();
     }
 
     public Integer getTimeout() {
         return timeout;
-    }
-
-    public Integer getCollectionsTimeout() {
-        return collectionsTimeout;
     }
 
     public String getBaseUrl() {
