@@ -5,8 +5,10 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.NTCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +57,9 @@ public class RestTemplateFactory {
     @Value("${api.pool.connections.timeToLive:300000}")
     Integer timeToLive;
 
+    @Autowired
+    CookieStore basicCookieStore;
+
     HttpClientBuilder httpClientBuilder;
     ClientHttpRequestFactory requestFactory;
 
@@ -67,7 +72,7 @@ public class RestTemplateFactory {
             httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
         if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
             httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
-        httpClientBuilder = httpClientFactory.getHttpClientBuilder();
+        httpClientBuilder = httpClientFactory.getHttpClientBuilder().setDefaultCookieStore(basicCookieStore);
         requestFactory = httpClientFactory.getClientHttpRequestFactory();
     }
 

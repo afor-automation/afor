@@ -1,5 +1,6 @@
 package nz.co.afor.framework.api.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,9 @@ public class AbstractHttpRequest {
     @Resource(name = "aforRestTemplate")
     private RestTemplate restTemplate;
 
+    @Autowired
+    CookieStore cookieStore;
+
     @PostConstruct
     private void setupRequest() {
         getHeaders().setContentType(MediaType.APPLICATION_JSON);
@@ -25,6 +29,10 @@ public class AbstractHttpRequest {
 
     public HttpHeaders getHeaders() {
         return headers;
+    }
+
+    public CookieStore getCookieStore() {
+        return cookieStore;
     }
 
     public RestTemplate getRestTemplate() {

@@ -2,6 +2,7 @@ package nz.co.afor.framework.api.soap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.ws.client.WebServiceClientException;
 import org.springframework.ws.client.WebServiceIOException;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
@@ -11,7 +12,6 @@ import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpComponentsConnection;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -58,33 +58,34 @@ public class SoapServiceInterceptor implements ClientInterceptor {
                 throw new WebServiceIOException("Failed to add headers to the SOAP service request", e);
             }
 
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            messageContext.getRequest().writeTo(os);
-        } catch (IOException e) {
-            throw new WebServiceIOException(e.getMessage(), e);
+        if (log.isInfoEnabled()) {
+            try {
+                FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+                messageContext.getRequest().writeTo(os);
+                log.info("Client Request Message '{}'", os.toByteArray());
+            } catch (IOException e) {
+                throw new WebServiceIOException(e.getMessage(), e);
+            }
         }
-
-        String request = new String(os.toByteArray());
-        log.info("Client Request Message '{}'", request);
         return true;
     }
 
     @Override
     public boolean handleResponse(MessageContext messageContext) throws WebServiceClientException {
         TransportContext context = TransportContextHolder.getTransportContext();
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        try {
-            messageContext.getResponse().writeTo(os);
-        } catch (IOException e) {
-            throw new WebServiceIOException(e.getMessage(), e);
+        if (log.isInfoEnabled()) {
+            try {
+                FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+                messageContext.getResponse().writeTo(os);
+                log.info("Client Response Message '{}'", os.toByteArray());
+            } catch (IOException e) {
+                throw new WebServiceIOException(e.getMessage(), e);
+            }
         }
 
-        String response = new String(os.toByteArray());
-        log.info("Client Response Message '{}'", response);
         try {
             if (((HttpComponentsConnection) context.getConnection()).hasFault()) {
-                log.info("Client Response is a fault");
+                log.warn("Client Response is a fault");
                 return false;
             }
         } catch (IOException e) {
