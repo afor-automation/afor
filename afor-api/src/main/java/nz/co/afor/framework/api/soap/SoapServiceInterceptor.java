@@ -21,7 +21,7 @@ import java.util.Map;
  * Created by belcherm on 18/05/2017.
  */
 public class SoapServiceInterceptor implements ClientInterceptor {
-    Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(SoapServiceInterceptor.class);
 
     private Map<String, String> headers = new HashMap<>();
 
@@ -40,6 +40,17 @@ public class SoapServiceInterceptor implements ClientInterceptor {
     @Override
     public boolean handleRequest(MessageContext messageContext) throws WebServiceClientException {
         TransportContext context = TransportContextHolder.getTransportContext();
+        try {
+            log.info("Client Request URI '{}'", context.getConnection().getUri());
+        } catch (URISyntaxException e) {
+            log.error("Failed to log Client Request URI", e);
+        }
+        if (headers.size() > 0)
+            log.info("Client Request Custom Headers '{}'", headers);
+
+        String[] soapActions = ((SaajSoapMessage) messageContext.getRequest()).getSaajMessage().getMimeHeaders().getHeader("SOAPAction");
+        if (soapActions.length == 1)
+            log.info("Client Request SOAPAction '{}'", soapActions[0]);
         for (Map.Entry<String, String> entry : headers.entrySet())
             try {
                 ((HttpComponentsConnection) context.getConnection()).addRequestHeader(entry.getKey(), entry.getValue());
@@ -53,17 +64,6 @@ public class SoapServiceInterceptor implements ClientInterceptor {
         } catch (IOException e) {
             throw new WebServiceIOException(e.getMessage(), e);
         }
-        try {
-            log.info("Client Request URI '{}'", context.getConnection().getUri());
-        } catch (URISyntaxException e) {
-            log.error("Failed to log Client Request URI", e);
-        }
-        if (headers.size() > 0)
-            log.info("Client Request Custom Headers '{}'", headers);
-
-        String[] soapActions = ((SaajSoapMessage) messageContext.getRequest()).getSaajMessage().getMimeHeaders().getHeader("SOAPAction");
-        if (soapActions.length == 1)
-            log.info("Client Request SOAPAction '{}'", soapActions[0]);
 
         String request = new String(os.toByteArray());
         log.info("Client Request Message '{}'", request);
