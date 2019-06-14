@@ -5,10 +5,8 @@ import cucumber.api.PickleStepTestStep;
 import cucumber.api.Result;
 import cucumber.api.TestCase;
 import cucumber.api.event.*;
-import cucumber.api.formatter.Formatter;
 import cucumber.api.formatter.NiceAppendable;
 import cucumber.runtime.CucumberException;
-import cucumber.runtime.io.URLOutputStream;
 import gherkin.ast.*;
 import gherkin.deps.com.google.gson.Gson;
 import gherkin.deps.com.google.gson.GsonBuilder;
@@ -25,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class HTML implements Formatter {
+public final class HTML implements EventListener {
     private static final Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").setPrettyPrinting().create();
     private static final ZonedDateTime CREATED_DATE = ZonedDateTime.now();
     private static final String JS_FORMATTER_VAR = "formatter";
@@ -551,30 +549,31 @@ public final class HTML implements Formatter {
 
     private static void writeStreamToURL(InputStream in, URL url) {
         OutputStream out = createReportFileOutputStream(url);
+        byte[] buffer = new byte[16384];
 
-        byte[] buffer = new byte[16 * 1024];
         try {
-            int len = in.read(buffer);
-            while (len != -1) {
+            for(int len = in.read(buffer); len != -1; len = in.read(buffer)) {
                 out.write(buffer, 0, len);
-                len = in.read(buffer);
             }
-        } catch (IOException e) {
-            throw new CucumberException("Unable to write to report file item: ", e);
+        } catch (IOException var8) {
+            throw new CucumberException("Unable to write to report file item: ", var8);
         } finally {
             closeQuietly(out);
         }
+
     }
 
     private static void writeBytesToURL(byte[] buf, URL url) throws CucumberException {
         OutputStream out = createReportFileOutputStream(url);
+
         try {
             out.write(buf);
-        } catch (IOException e) {
-            throw new CucumberException("Unable to write to report file item: ", e);
+        } catch (IOException var7) {
+            throw new CucumberException("Unable to write to report file item: ", var7);
         } finally {
             closeQuietly(out);
         }
+
     }
 
     private static NiceAppendable createJsOut(URL htmlReportDir) {
