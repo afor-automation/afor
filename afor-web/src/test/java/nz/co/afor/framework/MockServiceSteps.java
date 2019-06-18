@@ -17,7 +17,6 @@ import static org.hamcrest.core.Is.is;
 /**
  * Created by Matt Belcher on 19/08/2015.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 public class MockServiceSteps {
 
     private int serverPort = 16151;
