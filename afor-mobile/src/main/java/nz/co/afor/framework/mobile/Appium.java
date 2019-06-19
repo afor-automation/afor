@@ -1,5 +1,7 @@
 package nz.co.afor.framework.mobile;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -21,7 +23,7 @@ public class Appium {
 
     private AppiumDriver driver;
 
-    @Value("${appium.remote.url:http://localhost:4732}")
+    @Value("${appium.remote.url:http://127.0.0.1:4723/wd/hub}")
     private URL remoteUrl;
 
     public Configuration getConfiguration() {
@@ -45,6 +47,7 @@ public class Appium {
             } else {
                 driver = new IOSDriver(remoteUrl, configuration.getDesiredCapabilities());
             }
+            WebDriverRunner.setWebDriver(driver);
         }
     }
 

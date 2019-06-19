@@ -1,5 +1,7 @@
 package nz.co.afor.framework.mobile;
 
+import com.google.common.base.Strings;
+import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * Created by Matt on 28/02/2017.
@@ -20,7 +21,7 @@ public class Configuration {
     @Value("${appium.platformName:Android}")
     private String platformName;
 
-    @Value("${appium.platformVersion:7.0}")
+    @Value("${appium.platformVersion:7.1}")
     private String platformVersion;
 
     @Value("${appium.deviceName:Android Emulator}")
@@ -56,16 +57,57 @@ public class Configuration {
     @Value("${appium.autoGrantPermissions:true}")
     private Boolean autoGrantPermissions;
 
+    @Value("${appium.automationName:}")
+    private String automationName;
+
+    @Value("${appium.takesScreenshot:true}")
+    private Boolean takesScreenshot;
+
+    @Value("${appium.nativeScreenshot:true}")
+    private Boolean nativeScreenshot;
+
+    @Value("${appium.recreateChromeDriverSessions:true}")
+    private Boolean recreateChromeDriverSessions;
+
+    @Value("${appium.appiumVersion:}")
+    private String appiumVersion;
+
+    @Value("${appium.deviceOrientation:}")
+    private String deviceOrientation;
+
+    @Value("${appium.ignoreUnimportantViews:true}")
+    private Boolean ignoreUnimportantViews;
+
+    @Value("${appium.phoneOnly:}")
+    private Boolean phoneOnly;
+
+    @Value("${appium.testobjectApiKey:}")
+    private String testobjectApiKey;
+
+    @Value("${appium.testobjectSessionCreateTimeout:}")
+    private Integer testobjectSessionCreateTimeout;
+
+    @Value("${appium.idleTimeout:}")
+    private Integer idleTimeout;
+
+    @Value("${appium.maxDuration:}")
+    private Integer maxDuration;
+
+    @Value("${appium.uiautomator2ServerLaunchTimeout:}")
+    private Integer uiautomator2ServerLaunchTimeout;
+
     @PostConstruct
     public void setConfiguration() throws IOException {
         desiredCapabilities.setCapability("platformName", platformName);
         desiredCapabilities.setCapability("platformVersion", platformVersion);
         desiredCapabilities.setCapability("deviceName", deviceName);
-        if (null != app && !app.isEmpty())
+        if (!Strings.isNullOrEmpty(automationName))
+            desiredCapabilities.setCapability("automationName", automationName);
+        if (!Strings.isNullOrEmpty(app))
             desiredCapabilities.setCapability("app", getPath(app));
-        if (null != appPackage && !appPackage.isEmpty())
+        if (!Strings.isNullOrEmpty(appPackage))
             desiredCapabilities.setCapability("appPackage", getPath(appPackage));
-        if (null != browser && !browser.isEmpty())
+        if (!Strings.isNullOrEmpty(browser))
             desiredCapabilities.setCapability("browser", browser);
         desiredCapabilities.setCapability("browserName", browserName);
         desiredCapabilities.setCapability("newCommandTimeout", newCommandTimeout);
@@ -74,12 +116,34 @@ public class Configuration {
         desiredCapabilities.setCapability("noReset", noReset);
         desiredCapabilities.setCapability("autoGrantPermissions", autoGrantPermissions);
         desiredCapabilities.setCapability("fullReset", fullReset);
+        desiredCapabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, takesScreenshot);
+        desiredCapabilities.setCapability("nativeWebScreenshot", nativeScreenshot);
+        desiredCapabilities.setCapability("recreateChromeDriverSessions", recreateChromeDriverSessions);
+        if (!Strings.isNullOrEmpty(appiumVersion))
+            desiredCapabilities.setCapability("appiumVersion", appiumVersion);
+        if (!Strings.isNullOrEmpty(deviceOrientation))
+            desiredCapabilities.setCapability("deviceOrientation", deviceOrientation);
+        if (!Strings.isNullOrEmpty(testobjectApiKey))
+            desiredCapabilities.setCapability("testobject_api_key", testobjectApiKey);
+        if (null != testobjectSessionCreateTimeout)
+            desiredCapabilities.setCapability("testobject_session_creation_timeout", String.valueOf(testobjectSessionCreateTimeout));
+        if (null != ignoreUnimportantViews)
+            desiredCapabilities.setCapability("ignoreUnimportantViews", ignoreUnimportantViews);
+        if (null != phoneOnly)
+            desiredCapabilities.setCapability("phoneOnly", phoneOnly);
+        if (null != idleTimeout)
+            desiredCapabilities.setCapability("idleTimeout", String.valueOf(idleTimeout));
+        if (null != maxDuration)
+            desiredCapabilities.setCapability("maxDuration", String.valueOf(maxDuration));
+        if (null != uiautomator2ServerLaunchTimeout)
+            desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", String.valueOf(uiautomator2ServerLaunchTimeout));
+
     }
 
     private String getPath(String path) throws IOException {
         if (!path.contains("classpath:"))
             return path;
-        return new ClassPathResource(path.replace("classpath:","")).getFile().getAbsolutePath();
+        return new ClassPathResource(path.replace("classpath:", "")).getFile().getAbsolutePath();
     }
 
     public Configuration setCapability(String capabilityName, String value) {
@@ -147,5 +211,61 @@ public class Configuration {
 
     public Boolean getFullReset() {
         return fullReset;
+    }
+
+    public Boolean getAutoGrantPermissions() {
+        return autoGrantPermissions;
+    }
+
+    public String getAutomationName() {
+        return automationName;
+    }
+
+    public Boolean getTakesScreenshot() {
+        return takesScreenshot;
+    }
+
+    public Boolean getNativeScreenshot() {
+        return nativeScreenshot;
+    }
+
+    public Boolean getRecreateChromeDriverSessions() {
+        return recreateChromeDriverSessions;
+    }
+
+    public String getAppiumVersion() {
+        return appiumVersion;
+    }
+
+    public String getDeviceOrientation() {
+        return deviceOrientation;
+    }
+
+    public Boolean getIgnoreUnimportantViews() {
+        return ignoreUnimportantViews;
+    }
+
+    public Boolean getPhoneOnly() {
+        return phoneOnly;
+    }
+
+    public String getTestobjectApiKey() {
+        return testobjectApiKey;
+    }
+
+    public Integer getTestobjectSessionCreateTimeout() {
+        return testobjectSessionCreateTimeout;
+    }
+
+    public Integer getIdleTimeout() {
+        return idleTimeout;
+    }
+
+    public Integer getMaxDuration() {
+        return maxDuration;
+    }
+
+    public Integer getUiautomator2ServerLaunchTimeout() {
+        return uiautomator2ServerLaunchTimeout;
     }
 }

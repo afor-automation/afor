@@ -26,7 +26,7 @@ public class MockServiceSteps {
 
     @Given("^I have an android device running$")
     public void iHaveAnAndroidDeviceRunning() throws Throwable {
-        appium.getDriver().launchApp();
+        appium.getRemoteDriver().launchApp();
     }
 
     @When("^I fill in a field$")
