@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.26</version>
+        <version>0.1.26-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -26,9 +26,48 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>3.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-remote-driver</artifactId>
+            <version>3.13.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.2.3</version>
+            <version>4.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>phantomjsdriver</artifactId>
+            <version>1.4.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>2.2.4</version>
         </dependency>
     </dependencies>
 
@@ -54,6 +93,11 @@
                             <allowSnapshots>true</allowSnapshots>
                             <includes>
                                 <include>com.codeborne:selenide</include>
+                                <include>io.github.bonigarcia:webdrivermanager</include>
+                                <include>org.seleniumhq.selenium:selenium-java</include>
+                                <include>org.seleniumhq.selenium:selenium-server</include>
+                                <include>org.seleniumhq.selenium:selenium-remote-driver</include>
+                                <include>com.codeborne:phantomjsdriver</include>
                             </includes>
                         </configuration>
                     </execution>
