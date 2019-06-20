@@ -45,7 +45,7 @@
         <connection>scm:git@github.com:afor-automation/afor.git</connection>
         <developerConnection>scm:git:git@github.com:afor-automation/afor.git</developerConnection>
         <url>git@github.com:afor-automation/afor.git</url>
-        <tag>afor-parent-0.1.23</tag>
+        <tag>afor-parent-0.1.26</tag>
     </scm>
 
     <build>
