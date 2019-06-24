@@ -163,9 +163,26 @@ public final class HTML implements EventListener {
             jsFunctionCall("result", createResultMap(event.result, startTime));
             FeatureResult featureResult = featureResults.get(featureResults.size() - 1);
             List<ScenarioResult> scenariosResults = featureResult.getScenarios();
-            ScenarioResult scenarioResult = scenariosResults.get(scenariosResults.size() - 1);
-            PickleStepTestStep testStep = (PickleStepTestStep) event.testStep;
-            scenarioResult.getSteps().add(new StepResult(testStep.getPickleStep(), event.result));
+            List<ScenarioOutlineResult> scenarioOutlineResults = featureResult.getScenarioOutlines();
+            if (scenariosResults.size() > 0 && scenarioOutlineResults.size() > 0) {
+                ScenarioResult scenarioResult = scenariosResults.get(scenariosResults.size() - 1);
+                ScenarioOutlineResult scenarioOutlineResult = scenarioOutlineResults.get(scenarioOutlineResults.size() - 1);
+                if (scenarioResult.getStartTime().isAfter(scenarioOutlineResult.getStartTime())) {
+                    PickleStepTestStep testStep = (PickleStepTestStep) event.testStep;
+                    scenarioResult.getSteps().add(new StepResult(testStep.getPickleStep(), event.result));
+                } else {
+                    PickleStepTestStep testStep = (PickleStepTestStep) event.testStep;
+                    scenarioOutlineResult.getSteps().add(new StepResult(testStep.getPickleStep(), event.result));
+                }
+            } else if (scenariosResults.size() > 0) {
+                ScenarioResult scenarioResult = scenariosResults.get(scenariosResults.size() - 1);
+                PickleStepTestStep testStep = (PickleStepTestStep) event.testStep;
+                scenarioResult.getSteps().add(new StepResult(testStep.getPickleStep(), event.result));
+            } else {
+                ScenarioOutlineResult scenarioOutlineResult = scenarioOutlineResults.get(scenarioOutlineResults.size() - 1);
+                PickleStepTestStep testStep = (PickleStepTestStep) event.testStep;
+                scenarioOutlineResult.getSteps().add(new StepResult(testStep.getPickleStep(), event.result));
+            }
         } else if (event.testStep instanceof HookTestStep) {
             HookTestStep hookTestStep = (HookTestStep) event.testStep;
             String startTime = ZonedDateTime.now(ReportContextProvider.getTimezone()).minusNanos(event.result.getDuration()).format(STEP_TIME_FORMAT);

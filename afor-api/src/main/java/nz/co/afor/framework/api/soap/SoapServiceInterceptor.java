@@ -60,9 +60,9 @@ public class SoapServiceInterceptor implements ClientInterceptor {
 
         if (log.isInfoEnabled()) {
             try {
-                FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+                FastByteArrayOutputStream os = new FastByteArrayOutputStream(8192);
                 messageContext.getRequest().writeTo(os);
-                log.info("Client Request Message '{}'", os.toByteArray());
+                log.info("Client Request Message '{}'", os.toString());
             } catch (IOException e) {
                 throw new WebServiceIOException(e.getMessage(), e);
             }
