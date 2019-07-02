@@ -6,15 +6,20 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import nz.co.afor.framework.api.rest.Get;
 import nz.co.afor.framework.api.rest.Post;
-import org.junit.runner.RunWith;
+import nz.co.afor.soap.mock.Enum;
+import nz.co.afor.soap.mock.GetMockResponse;
+import nz.co.afor.soap.mock.Mock;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
@@ -30,9 +35,14 @@ public class MockServiceSteps {
     @Autowired
     Post post;
 
+    @Autowired
+    GetMockSoapClient getMockSoapClient;
+
     ResponseEntity<String> response;
 
-    private int serverPort = 16151;
+    private final int serverPort = 16151;
+    private GetMockResponse soapResponse;
+    private Mock mockRequest;
 
     @Given("^I have a mock service running$")
     public void I_have_a_mock_service_running() throws Throwable {
@@ -70,5 +80,22 @@ public class MockServiceSteps {
     public void the_response_should_have_the_headers(Map<String, String> headers) throws Throwable {
         for (Map.Entry<String, String> header : headers.entrySet())
             assertThat(String.valueOf(response.getHeaders().get(header.getKey())), is(containsString(header.getValue())));
+    }
+
+    @When("I send a getMockRequest request to the ws endpoint")
+    public void iSendAGetMockRequestRequestToTheEndpoint() throws NoSuchAlgorithmException, KeyManagementException {
+        mockRequest = new Mock();
+        mockRequest.setString(RandomStringUtils.randomAlphanumeric(100));
+        mockRequest.setInteger(new Random().nextInt());
+        mockRequest.setEnum(Enum.ONE);
+        soapResponse = getMockSoapClient.getMockRequest(mockRequest);
+    }
+
+    @Then("I should receive a valid SOAP response")
+    public void iShouldReceiveAValidSOAPResponse() {
+        assertThat("The soap response should be valid", soapResponse.getMock(), is(not(nullValue())));
+        assertThat("The soap response should be valid", soapResponse.getMock().getString(), equalTo(mockRequest.getString()));
+        assertThat("The soap response should be valid", soapResponse.getMock().getInteger(), equalTo(mockRequest.getInteger()));
+        assertThat("The soap response should be valid", soapResponse.getMock().getEnum(), equalTo(mockRequest.getEnum()));
     }
 }

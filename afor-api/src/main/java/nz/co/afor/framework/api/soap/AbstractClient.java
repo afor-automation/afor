@@ -29,7 +29,7 @@ public class AbstractClient extends WebServiceGatewaySupport {
     private SoapServiceInterceptor soapServiceInterceptor = new SoapServiceInterceptor();
     private String contextPath;
     private final SoapActionCallback soapActionCallback;
-    private String url;
+    private final String url;
 
     @Value("${proxy.username:@null}")
     String proxyUsername;
@@ -46,22 +46,19 @@ public class AbstractClient extends WebServiceGatewaySupport {
     @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
 
-    protected AbstractClient(String contextPath, String soapActionCallback) {
+    protected AbstractClient(String contextPath, String soapActionCallback, String url) {
         this.contextPath = contextPath;
         this.soapActionCallback = new SoapActionCallback(soapActionCallback);
+        this.url = url;
     }
 
-    protected AbstractClient(String soapActionCallback) {
+    protected AbstractClient(String soapActionCallback, String url) {
         this.soapActionCallback = new SoapActionCallback(soapActionCallback);
+        this.url = url;
     }
 
     public String getUrl() {
         return url;
-    }
-
-    @Required
-    protected void setUrl(String url) {
-        this.url = url;
     }
 
     public void setHttpHeaders(Map<String, String> headers) {

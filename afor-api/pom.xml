@@ -98,6 +98,12 @@
             <version>6.0.8.Final</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.8.0-beta2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -142,6 +148,30 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.14.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <schemaLanguage>WSDL</schemaLanguage>
+                    <schemaDirectory>src/test/resources/wsdl</schemaDirectory>
+                    <args>
+                        <arg>-npa</arg>
+                        <arg>-XautoNameResolution</arg>
+                    </args>
+                    <bindingDirectory>src/test/resources</bindingDirectory>
+                    <schemaIncludes>
+                        <include>*.wsdl</include>
+                    </schemaIncludes>
                 </configuration>
             </plugin>
         </plugins>
