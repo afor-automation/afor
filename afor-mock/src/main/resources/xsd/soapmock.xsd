@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.afor.co.nz/soap/mock"
+           targetNamespace="http://www.afor.co.nz/soap/mock" elementFormDefault="qualified">
+
+    <xs:element name="getMockRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="mock" type="tns:mock"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getMockResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="mock" type="tns:mock"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="mock">
+        <xs:sequence>
+            <xs:element name="string" type="xs:string"/>
+            <xs:element name="integer" type="xs:int"/>
+            <xs:element name="enum" type="tns:enum"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="enum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ONE"/>
+            <xs:enumeration value="TWO"/>
+            <xs:enumeration value="THREE"/>
+            <xs:enumeration value="FOUR"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
