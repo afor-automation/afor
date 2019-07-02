@@ -6,14 +6,14 @@ Feature: Visually show the report with no background
 
   Scenario: Single scenario no background
     When I perform an action
-    Then I should receive a result
+    Then I should receive a "result"
 
   Scenario Outline: Scenario outline for <data> data no background
     When I perform an action
     And I perform another action
-    Then I should receive a <data>
+    Then I should receive a "<data>"
     Examples:
-      | data   |
-      | result |
-      | result |
+      | data                   |
+      | result no background 1 |
+      | result no background 2 |
 

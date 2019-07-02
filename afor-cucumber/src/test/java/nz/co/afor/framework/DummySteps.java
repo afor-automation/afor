@@ -15,6 +15,6 @@ public class DummySteps implements En {
         Given("^I am in a state$", () -> log.info("I am in a state"));
         When("^I perform (?:an|another) action$", () -> log.info("I perform an action"));
         When("^I wait for (\\d+) milliseconds$", (StepdefBody.A1<Integer>) Thread::sleep);
-        Then("^I should receive a result$", () -> log.info("I should receive a result"));
+        Then("^I should receive a \"([^\"]*)\"$", (String value) -> log.info("I should receive a result '{}'", value));
     }
 }

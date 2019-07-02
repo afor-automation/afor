@@ -228,6 +228,18 @@ public final class HTML implements EventListener {
                 resultSummary.getScenarios().addResult(scenarioResultFinalValue.getResultValue());
                 featureResultFinalValue.addStatus(scenarioResultFinalValue.getResultValue());
             }
+            for (ScenarioOutlineResult scenarioOutlineResult : featureResult.getScenarioOutlines()) {
+                ResultFinalValue scenarioResultFinalValue = new ResultFinalValue();
+                for (StepResult stepResult : scenarioOutlineResult.getSteps()) {
+                    if (null != stepResult.getResult()) {
+                        Result.Type status = stepResult.getResult().getStatus();
+                        resultSummary.getSteps().addResult(status);
+                        scenarioResultFinalValue.addStatus(status);
+                    }
+                }
+                resultSummary.getScenarios().addResult(scenarioResultFinalValue.getResultValue());
+                featureResultFinalValue.addStatus(scenarioResultFinalValue.getResultValue());
+            }
             resultSummary.getFeatures().addResult(featureResultFinalValue.getResultValue());
         }
         return resultSummary;
