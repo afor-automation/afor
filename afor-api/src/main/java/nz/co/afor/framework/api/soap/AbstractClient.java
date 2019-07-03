@@ -29,7 +29,7 @@ public class AbstractClient extends WebServiceGatewaySupport {
     private SoapServiceInterceptor soapServiceInterceptor = new SoapServiceInterceptor();
     private String contextPath;
     private final SoapActionCallback soapActionCallback;
-    private final String url;
+    private String url;
 
     @Value("${proxy.username:@null}")
     String proxyUsername;
@@ -59,6 +59,10 @@ public class AbstractClient extends WebServiceGatewaySupport {
 
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setHttpHeaders(Map<String, String> headers) {
