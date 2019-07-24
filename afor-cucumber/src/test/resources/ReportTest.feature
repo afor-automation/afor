@@ -19,4 +19,3 @@ Feature: Visually show the report
       | data   |
       | result |
       | result |
-

@@ -123,7 +123,7 @@ CucumberHTML.DOMFormatter = function(rootNode) {
 
   this.before = function(before) {
     if(before.status != 'passed') {
-      currentElement = featureElement({keyword: 'Before', name: '', description: ''}, 'before');
+      currentElement = featureElement({keyword: 'Before: ', name: '', description: ''}, 'before');
       currentStepIndex = 1;
       populateStepError($('details', currentElement), before.error_message);
     }
@@ -131,7 +131,7 @@ CucumberHTML.DOMFormatter = function(rootNode) {
 
   this.after = function(after) {
     if(after.status != 'passed') {
-      currentElement = featureElement({keyword: 'After', name: '', description: ''}, 'after');
+      currentElement = featureElement({keyword: 'After: ', name: '', description: ''}, 'after');
       currentStepIndex++;
       populateStepError($('details', currentElement), after.error_message);
     }
@@ -155,7 +155,7 @@ CucumberHTML.DOMFormatter = function(rootNode) {
   function populate(e, statement, itemtype) {
     populateTags(e, statement.tags);
     populateComments(e, statement.comments);
-    e.find('.keyword').text(statement.keyword);
+    e.find('.keyword').text(statement.keyword.trim() + ':');
     e.find('.name').text(statement.name);
     e.find('.description').text(statement.description);
     e.addClass(itemtype);
@@ -226,7 +226,7 @@ CucumberHTML.templates = '<div>\
   <section class="blockelement" itemscope>\
     <details open>\
       <summary class="header">\
-        <span class="keyword" itemprop="keyword">Keyword</span>: <span itemprop="name" class="name">This is the block name</span><span class="duration"></span><span class="startTime"></span>\
+        <span class="keyword" itemprop="keyword">Keyword</span><span itemprop="name" class="name">This is the block name</span><span class="duration"></span><span class="startTime"></span>\
       </summary>\
       <div itemprop="description" class="description">The description goes here</div>\
     </details>\

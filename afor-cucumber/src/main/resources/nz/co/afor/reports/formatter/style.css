@@ -261,6 +261,16 @@ section.blockelement.scenario, section.blockelement.background {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea9a9a', endColorstr='#ed2525',GradientType=1 ); /* IE6-9 */
 }
 
+.afor-report .name {
+    padding-left: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    position:absolute;
+    max-width: 70%;
+    white-space:nowrap
+}
+
 .afor-report .tags {
     display: inline;
     font-weight: bold;
@@ -318,15 +328,20 @@ span.duration, span.startTime {
     padding-right: 5px;
     min-width: 150px;
     text-align: right;
+    clear:left;
 }
-
 span.duration.long {
     font-weight: bold;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 1104px) {
     span.duration,span.startTime {
         display: none;
+    }
+}
+@media screen and (min-width: 1105px) {
+    span.duration,span.startTime {
+        display: block;
     }
 }
 
