@@ -6,7 +6,6 @@ Feature: Visually show the report with scenario outlines only in a feature
 
   Scenario Outline: Scenario outline for <data> data
     When I perform an action
-    And I perform another action
     Then I should receive a "<data>"
     Examples:
       | data     |

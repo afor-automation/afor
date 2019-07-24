@@ -59,48 +59,13 @@ public final class HTML implements EventListener {
     private Examples currentExamples;
     private int embeddedIndex;
 
-    private EventHandler<TestSourceRead> testSourceReadHandler = new EventHandler<TestSourceRead>() {
-        @Override
-        public void receive(TestSourceRead event) {
-            handleTestSourceRead(event);
-        }
-    };
-    private EventHandler<TestCaseStarted> caseStartedHandler = new EventHandler<TestCaseStarted>() {
-        @Override
-        public void receive(TestCaseStarted event) {
-            handleTestCaseStarted(event);
-        }
-    };
-    private EventHandler<TestStepStarted> stepStartedHandler = new EventHandler<TestStepStarted>() {
-        @Override
-        public void receive(TestStepStarted event) {
-            handleTestStepStarted(event);
-        }
-    };
-    private EventHandler<TestStepFinished> stepFinishedHandler = new EventHandler<TestStepFinished>() {
-        @Override
-        public void receive(TestStepFinished event) {
-            handleTestStepFinished(event);
-        }
-    };
-    private EventHandler<EmbedEvent> embedEventhandler = new EventHandler<EmbedEvent>() {
-        @Override
-        public void receive(EmbedEvent event) {
-            handleEmbed(event);
-        }
-    };
-    private EventHandler<WriteEvent> writeEventhandler = new EventHandler<WriteEvent>() {
-        @Override
-        public void receive(WriteEvent event) {
-            handleWrite(event);
-        }
-    };
-    private EventHandler<TestRunFinished> runFinishedHandler = new EventHandler<TestRunFinished>() {
-        @Override
-        public void receive(TestRunFinished event) {
-            finishReport();
-        }
-    };
+    private EventHandler<TestSourceRead> testSourceReadHandler = this::handleTestSourceRead;
+    private EventHandler<TestCaseStarted> caseStartedHandler = this::handleTestCaseStarted;
+    private EventHandler<TestStepStarted> stepStartedHandler = this::handleTestStepStarted;
+    private EventHandler<TestStepFinished> stepFinishedHandler = this::handleTestStepFinished;
+    private EventHandler<EmbedEvent> embedEventhandler = this::handleEmbed;
+    private EventHandler<WriteEvent> writeEventhandler = this::handleWrite;
+    private EventHandler<TestRunFinished> runFinishedHandler = event -> finishReport();
 
     public HTML(URL htmlReportDir) {
         this(htmlReportDir, createJsOut(htmlReportDir), createJsSummaryOut(htmlReportDir));
@@ -254,7 +219,7 @@ public final class HTML implements EventListener {
             duration = String.format("%s hour%s, %s min%s", hours, hours > 1 ? "s" : "", minutes, minutes > 1 ? "s" : "");
         } else if (minutes > 0) {
             duration = String.format("%s min%s, %s sec%s", minutes, minutes > 1 ? "s" : "", seconds, seconds > 1 ? "s" : "");
-        } else if (seconds > 0){
+        } else if (seconds > 0) {
             duration = String.format("%s second%s", seconds, seconds != 1 ? "s" : "");
         } else {
             long milliseconds = Math.abs(totalDuration);
@@ -342,6 +307,9 @@ public final class HTML implements EventListener {
                 featureResults.get(featureResults.size() - 1).addScenarioOutline(new ScenarioOutlineResult(scenarioOutline));
                 jsFunctionCall("scenarioOutline", createScenarioOutline(currentScenarioOutline));
                 addOutlineStepsToReport(scenarioOutline);
+            } else if (currentScenarioOutline.equals(scenarioOutline)) {
+                currentScenarioOutline = scenarioOutline;
+                featureResults.get(featureResults.size() - 1).addScenarioOutline(new ScenarioOutlineResult(scenarioOutline));
             }
             Examples examples = (Examples) astNode.parent.node;
             if (currentExamples == null || !currentExamples.equals(examples)) {
@@ -581,7 +549,7 @@ public final class HTML implements EventListener {
         byte[] buffer = new byte[16384];
 
         try {
-            for(int len = in.read(buffer); len != -1; len = in.read(buffer)) {
+            for (int len = in.read(buffer); len != -1; len = in.read(buffer)) {
                 out.write(buffer, 0, len);
             }
         } catch (IOException var8) {
