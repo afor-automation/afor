@@ -27,6 +27,9 @@ public class Configuration {
     @Value("${appium.deviceName:Android Emulator}")
     private String deviceName;
 
+    @Value("${appium.udid:}")
+    private String udid;
+
     @Value("${appium.app:}")
     private String app;
 
@@ -101,6 +104,8 @@ public class Configuration {
         desiredCapabilities.setCapability("platformName", platformName);
         desiredCapabilities.setCapability("platformVersion", platformVersion);
         desiredCapabilities.setCapability("deviceName", deviceName);
+        if (!Strings.isNullOrEmpty(udid))
+            desiredCapabilities.setCapability("udid", udid);
         if (!Strings.isNullOrEmpty(automationName))
             desiredCapabilities.setCapability("automationName", automationName);
         if (!Strings.isNullOrEmpty(app))
