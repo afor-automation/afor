@@ -238,7 +238,7 @@
                             <allowMinorUpdates>true</allowMinorUpdates>
                             <allowMajorUpdates>false</allowMajorUpdates>
                             <allowIncrementalUpdates>true</allowIncrementalUpdates>
-                            <allowSnapshots>true</allowSnapshots>
+                            <allowSnapshots>false</allowSnapshots>
                             <includes>
                                 <include>com.fasterxml.jackson.core:jackson-core</include>
                                 <include>com.fasterxml.jackson.core:jackson-databind</include>

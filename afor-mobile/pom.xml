@@ -56,7 +56,7 @@
                             <allowMinorUpdates>true</allowMinorUpdates>
                             <allowMajorUpdates>false</allowMajorUpdates>
                             <allowIncrementalUpdates>true</allowIncrementalUpdates>
-                            <allowSnapshots>true</allowSnapshots>
+                            <allowSnapshots>false</allowSnapshots>
                             <includes>
                                 <include>io.appium:java-client</include>
                                 <include>com.codeborne:selenide</include>

@@ -172,7 +172,7 @@
                             <allowMinorUpdates>true</allowMinorUpdates>
                             <allowMajorUpdates>true</allowMajorUpdates>
                             <allowIncrementalUpdates>true</allowIncrementalUpdates>
-                            <allowSnapshots>true</allowSnapshots>
+                            <allowSnapshots>false</allowSnapshots>
                             <includes>
                                 <include>org.springframework:spring-core</include>
                                 <include>org.springframework:spring-context</include>
