@@ -179,6 +179,9 @@
                                 <include>org.springframework:spring-beans</include>
                                 <include>org.springframework:spring-test</include>
                                 <include>com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider</include>
+                                <include>com.fasterxml.jackson.core:jackson-databind</include>
+                                <include>com.google.guava:guava</include>
+                                <include>com.google.code.gson:gson</include>
                                 <include>org.hamcrest:hamcrest-all</include>
                                 <include>org.exparity:hamcrest-date</include>
                                 <include>uk.co.datumedge:hamcrest-json</include>
