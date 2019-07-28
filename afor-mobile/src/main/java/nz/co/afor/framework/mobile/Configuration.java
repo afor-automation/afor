@@ -99,6 +99,9 @@ public class Configuration {
     @Value("${appium.uiautomator2ServerLaunchTimeout:}")
     private Integer uiautomator2ServerLaunchTimeout;
 
+    @Value("${appium.remote:false}")
+    private Boolean remote;
+
     @PostConstruct
     public void setConfiguration() throws IOException {
         desiredCapabilities.setCapability("platformName", platformName);
@@ -272,5 +275,9 @@ public class Configuration {
 
     public Integer getUiautomator2ServerLaunchTimeout() {
         return uiautomator2ServerLaunchTimeout;
+    }
+
+    public Boolean getRemote() {
+        return remote;
     }
 }

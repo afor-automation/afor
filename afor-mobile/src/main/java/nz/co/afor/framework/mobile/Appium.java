@@ -52,12 +52,11 @@ public class Appium {
     }
 
     public AppiumDriver getDriver() {
-        setDriver();
-        return driver;
-    }
-
-    public AppiumDriver getRemoteDriver() throws MalformedURLException {
-        setRemoteDriver();
+        if (configuration.getRemote()) {
+            setRemoteDriver();
+        } else {
+            setDriver();
+        }
         return driver;
     }
 
