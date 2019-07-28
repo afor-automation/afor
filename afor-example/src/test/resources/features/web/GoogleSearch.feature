@@ -8,4 +8,4 @@ Feature: Search on Google
     Given I am on the home page
     When I search for "afor automation"
     Then I should see some search results
-    And the search results should contain a link with the text "A for Automation"
+    And the search results should contain a link with the text "Afor Automation"

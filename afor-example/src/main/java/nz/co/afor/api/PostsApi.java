@@ -1,7 +1,7 @@
 package nz.co.afor.api;
 
-import nz.co.afor.framework.api.Get;
-import nz.co.afor.framework.api.Post;
+import nz.co.afor.framework.api.rest.Get;
+import nz.co.afor.framework.api.rest.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

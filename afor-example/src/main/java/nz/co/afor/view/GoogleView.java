@@ -35,6 +35,6 @@ public class GoogleView {
     }
 
     public ElementsCollection getResultLinks() {
-        return $$("h3.r a");
+        return $$("div.r a h3");
     }
 }
