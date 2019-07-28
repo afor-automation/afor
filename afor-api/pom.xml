@@ -3,7 +3,7 @@
     <parent>
         <artifactId>afor-parent</artifactId>
         <groupId>nz.co.afor.framework</groupId>
-        <version>0.1.31-SNAPSHOT</version>
+        <version>0.1.31</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>6.1.0.Alpha5</version>
+            <version>6.1.0.Alpha6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
