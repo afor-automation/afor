@@ -12,3 +12,12 @@ Feature: Visually show the report
     And I wait for 50 milliseconds
     And I wait for 150 milliseconds
     And I wait for 250 milliseconds
+    Then I should receive a "pass" result
+
+
+  Scenario: Single scenario 2
+    When I wait for 20 milliseconds
+    And I wait for 50 milliseconds
+    And I wait for 150 milliseconds
+    And I wait for 250 milliseconds
+    Then I should receive a "pass" result

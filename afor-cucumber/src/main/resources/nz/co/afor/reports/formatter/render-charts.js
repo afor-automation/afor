@@ -104,7 +104,8 @@ function getStepData() {
 	    ['Failed', resultFailed],
 	    ['Undefined', resultUndefined],
 	    ['Pending', resultPending],
-	    ['Skipped', resultSkipped]
+	    ['Skipped', resultSkipped],
+	    ['Ambiguous', resultAmbiguous]
     ]);
     return data;
 }
@@ -118,6 +119,8 @@ function getScenarioData() {
 	    var resultFailed = 0;
 	    var resultUndefined = 0;
 	    var resultPending = 0;
+	    var resultSkipped = 0;
+	    var resultAmbiguous = 0;
 
 	    for(var feature = 0; feature < formatterSummary.length; feature++) {
 	        for(var scenario = 0; scenario < formatterSummary[feature].scenarios.length; scenario++) {
@@ -240,7 +243,9 @@ function getScenarioData() {
 	    ['Passed', resultPassed],
 	    ['Failed', resultFailed],
 	    ['Undefined', resultUndefined],
-	    ['Pending', resultPending]
+	    ['Pending', resultPending],
+	    ['Skipped', resultSkipped],
+	    ['Ambiguous', resultAmbiguous]
     ]);
     return data;
 }
@@ -254,6 +259,8 @@ function getFeatureData() {
 	    var resultFailed = 0;
 	    var resultUndefined = 0;
 	    var resultPending = 0;
+	    var resultSkipped = 0;
+	    var resultAmbiguous = 0;
 
 	    for(var feature = 0; feature < formatterSummary.length; feature++) {
 			var featureResult = null;
@@ -376,9 +383,10 @@ function getFeatureScenarioBreakdownData() {
 		var resultFailed = 0;
 		var resultUndefined = 0;
 		var resultPending = 0;
+		var resultSkipped = 0;
 		var resultAmbiguous = 0;
-		var scenarioResult = null;
 		for(var scenario = 0; scenario < formatterSummary[feature].scenarios.length; scenario++) {
+            var scenarioResult = null;
 			for(var step = 0; step < formatterSummary[feature].scenarios[scenario].steps.length; step++) {
 				if (formatterSummary[feature].scenarios[scenario].steps[step].result != null) {
 					switch(formatterSummary[feature].scenarios[scenario].steps[step].result.status) {
@@ -391,7 +399,7 @@ function getFeatureScenarioBreakdownData() {
 							scenarioResult = "failed";
 							break;
 						case "UNDEFINED":
-							if (scenarioResult == null || scenarioResult != "failed") {
+							if (scenarioResult == null || scenarioResult == "passed") {
 								scenarioResult = "undefined";
 							}
 							break;
@@ -413,26 +421,29 @@ function getFeatureScenarioBreakdownData() {
 					}
 				}
 			}
-            switch(scenarioResult) {
-                case "passed":
-                    resultPassed++;
-                    break;
-                case "failed":
-                    resultFailed++;
-                    break;
-                case "undefined":
-                    resultUndefined++;
-                    break;
-                case "pending":
-                    resultPending++;
-                case "skipped":
-                    resultSkipped++;
-                case "ambiguous":
-                    resultAmbiguous++;
-                    break;
+			if (null != scenarioResult) {
+                switch(scenarioResult) {
+                    case "passed":
+                        resultPassed++;
+                        break;
+                    case "failed":
+                        resultFailed++;
+                        break;
+                    case "undefined":
+                        resultUndefined++;
+                        break;
+                    case "pending":
+                        resultPending++;
+                    case "skipped":
+                        resultSkipped++;
+                    case "ambiguous":
+                        resultAmbiguous++;
+                        break;
+                }
             }
 		}
         for(var scenario = 0; scenario < formatterSummary[feature].scenarioOutlines.length; scenario++) {
+            var scenarioResult = null;
             for(var step = 0; step < formatterSummary[feature].scenarioOutlines[scenario].steps.length; step++) {
                 if (formatterSummary[feature].scenarioOutlines[scenario].steps[step].result != null) {
                     switch(formatterSummary[feature].scenarioOutlines[scenario].steps[step].result.status) {
@@ -445,7 +456,7 @@ function getFeatureScenarioBreakdownData() {
                             scenarioResult = "failed";
                             break;
                         case "UNDEFINED":
-                            if (scenarioResult == null || scenarioResult != "failed") {
+                            if (scenarioResult == null || scenarioResult == "passed") {
                                 scenarioResult = "undefined";
                             }
                             break;
@@ -467,23 +478,25 @@ function getFeatureScenarioBreakdownData() {
                     }
                 }
             }
-            switch(scenarioResult) {
-                case "passed":
-                    resultPassed++;
-                    break;
-                case "failed":
-                    resultFailed++;
-                    break;
-                case "undefined":
-                    resultUndefined++;
-                    break;
-                case "pending":
-                    resultPending++;
-                case "skipped":
-                    resultSkipped++;
-                case "ambiguous":
-                    resultAmbiguous++;
-                    break;
+            if (null != scenarioResult) {
+                switch(scenarioResult) {
+                    case "passed":
+                        resultPassed++;
+                        break;
+                    case "failed":
+                        resultFailed++;
+                        break;
+                    case "undefined":
+                        resultUndefined++;
+                        break;
+                    case "pending":
+                        resultPending++;
+                    case "skipped":
+                        resultSkipped++;
+                    case "ambiguous":
+                        resultAmbiguous++;
+                        break;
+                }
             }
         }
         if (formatterHighLevelSummary.scenarios.undefined > 0 || formatterHighLevelSummary.scenarios.pending > 0 || formatterHighLevelSummary.scenarios.ambiguous > 0) {

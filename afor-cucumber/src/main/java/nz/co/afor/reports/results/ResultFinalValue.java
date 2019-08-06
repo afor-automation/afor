@@ -24,22 +24,22 @@ public class ResultFinalValue {
                 resultValue = FAILED;
                 break;
             case UNDEFINED:
-                if (resultValue == null || !Objects.equals(resultValue, "failed")) {
+                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
                     resultValue = UNDEFINED;
                 }
                 break;
             case PENDING:
-                if (resultValue == null || !Objects.equals(resultValue, "failed")) {
+                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
                     resultValue = PENDING;
                 }
                 break;
             case SKIPPED:
-                if (resultValue == null || Objects.equals(resultValue, "passed")) {
+                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
                     resultValue = SKIPPED;
                 }
                 break;
             case AMBIGUOUS:
-                if (resultValue == null || Objects.equals(resultValue, "passed")) {
+                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
                     resultValue = AMBIGUOUS;
                 }
                 break;

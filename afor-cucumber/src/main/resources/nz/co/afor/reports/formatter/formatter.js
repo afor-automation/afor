@@ -77,9 +77,6 @@ CucumberHTML.DOMFormatter = function(rootNode) {
 
   this.result = function(result) {
     currentStep.addClass(result.status);
-    if (result.status == 'failed') {
-      populateStepError(currentStep, result.error_message);
-    }
     currentElement.addClass(result.status);
     if (null != result.duration) {
 		  var incrementalDuration = currentElement.attr('duration-nanoseconds') == null ? 0 : currentElement.attr('duration-nanoseconds');
@@ -99,6 +96,9 @@ CucumberHTML.DOMFormatter = function(rootNode) {
       } else {
         currentElement.find('details').attr('open', 'open');
       }
+    }
+    if (result.status == 'failed') {
+      populateStepError(currentStep, result.error_message);
     }
   };
 

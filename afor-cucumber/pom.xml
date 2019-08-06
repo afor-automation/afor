@@ -22,6 +22,11 @@
         <!-- Cucumber framework -->
         <dependency>
             <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>4.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>4.7.0</version>
         </dependency>
@@ -84,6 +89,7 @@
                             <allowIncrementalUpdates>true</allowIncrementalUpdates>
                             <allowSnapshots>false</allowSnapshots>
                             <includes>
+                                <include>io.cucumber:cucumber-core</include>
                                 <include>io.cucumber:cucumber-java</include>
                                 <include>io.cucumber:cucumber-java8</include>
                                 <include>io.cucumber:cucumber-junit</include>

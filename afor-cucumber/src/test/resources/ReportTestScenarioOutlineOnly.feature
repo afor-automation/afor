@@ -6,9 +6,11 @@ Feature: Visually show the report with scenario outlines only in a feature
 
   Scenario Outline: Scenario outline for <data> data
     When I perform an action
-    Then I should receive a "<data>"
+    Then I should receive a "<result>" result
+    And I should receive a "<data>"
     Examples:
-      | data     |
-      | result 1 |
-      | result 2 |
-      | result 3 |
+      | data     | result    |
+      | result 1 | pass      |
+      | result 2 | pass |
+      | result 3 | pass |
+      | result 3 | pass |
