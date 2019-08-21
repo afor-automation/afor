@@ -57,6 +57,11 @@
             <version>0.2</version>
         </dependency>
         <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>java-hamcrest</artifactId>
+            <version>2.0.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.xmlmatchers</groupId>
             <artifactId>xml-matchers</artifactId>
             <version>1.0-RC1</version>
@@ -139,6 +144,21 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.10.0.pr1</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-parameter-names</artifactId>
+            <version>2.10.0.pr1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>2.10.0.pr1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.10.0.pr1</version>
+        </dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -180,9 +200,13 @@
                                 <include>org.springframework:spring-test</include>
                                 <include>com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider</include>
                                 <include>com.fasterxml.jackson.core:jackson-databind</include>
+                                <include>com.fasterxml.jackson.datatype:jackson-module-parameter-names</include>
+                                <include>com.fasterxml.jackson.datatype:jackson-datatype-jdk8</include>
+                                <include>com.fasterxml.jackson.datatype:jackson-datatype-jsr310</include>
                                 <include>com.google.guava:guava</include>
                                 <include>com.google.code.gson:gson</include>
                                 <include>org.hamcrest:hamcrest-all</include>
+                                <include>org.hamcrest:java-hamcrest</include>
                                 <include>org.exparity:hamcrest-date</include>
                                 <include>uk.co.datumedge:hamcrest-json</include>
                                 <include>org.xmlmatchers:xml-matchers</include>

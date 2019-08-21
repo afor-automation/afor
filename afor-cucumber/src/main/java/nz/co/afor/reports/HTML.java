@@ -1,5 +1,9 @@
 package nz.co.afor.reports;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cucumber.api.HookTestStep;
 import cucumber.api.PickleStepTestStep;
 import cucumber.api.Result;
@@ -8,14 +12,13 @@ import cucumber.api.event.*;
 import cucumber.api.formatter.NiceAppendable;
 import cucumber.runtime.CucumberException;
 import gherkin.ast.*;
-import gherkin.deps.com.google.gson.Gson;
-import gherkin.deps.com.google.gson.GsonBuilder;
 import gherkin.pickles.*;
 import nz.co.afor.reports.results.ResultFinalValue;
 import nz.co.afor.reports.results.ResultSummary;
 
 import java.io.*;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class HTML implements EventListener {
-    private static final Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").setPrettyPrinting().create();
+    private static final ObjectMapper objectMapper = new ObjectMapper(new JsonFactory().configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false)).setDateFormat(new SimpleDateFormat("HH:mm:ss"));
     private static final ZonedDateTime CREATED_DATE = ZonedDateTime.now();
     private static final String JS_FORMATTER_VAR = "formatter";
     private static final String JS_REPORT_FILENAME = "report.js";
@@ -47,8 +50,8 @@ public final class HTML implements EventListener {
 
     private final TestSourcesModel testSources = new TestSourcesModel();
     private final URL htmlReportDir;
-    private NiceAppendable jsOut;
-    private NiceAppendable jsSummaryOut;
+    private ReportOutputStream jsOut;
+    private ReportOutputStream jsSummaryOut;
 
     private static final List<FeatureResult> featureResults = new ArrayList<>();
 
@@ -71,7 +74,7 @@ public final class HTML implements EventListener {
         this(htmlReportDir, createJsOut(htmlReportDir), createJsSummaryOut(htmlReportDir));
     }
 
-    private HTML(URL htmlReportDir, NiceAppendable jsOut, NiceAppendable jsSummaryOut) {
+    private HTML(URL htmlReportDir, ReportOutputStream jsOut, ReportOutputStream jsSummaryOut) {
         this.htmlReportDir = htmlReportDir;
         this.jsOut = jsOut;
         this.jsSummaryOut = jsSummaryOut;
@@ -250,8 +253,12 @@ public final class HTML implements EventListener {
             jsSummaryOut.append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-name\").text(\"%s\");$(\"html title\").append(document.createTextNode(\" - %s\"))});\n", ReportContextProvider.getReportTitle(), ReportContextProvider.getReportTitle()));
             jsSummaryOut.append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", ReportContextProvider.getDateFormat().format(CREATED_DATE.withZoneSameInstant(ReportContextProvider.getTimezone()))));
             jsSummaryOut.append(String.format("var %s = '%s';\n", JS_DURATION_VAR, getDuration()));
-            jsSummaryOut.append(String.format("var %s = %s;\n", JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR, gson.toJson(getSummaryTotals())));
-            jsSummaryOut.append(String.format("var %s = %s;\n", JS_SUMMARY_FORMATTER_VAR, gson.toJson(featureResults)));
+            jsSummaryOut.append(String.format("var %s = ", JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR));
+            jsSummaryOut.writeObjectToStream(objectMapper, getSummaryTotals());
+            jsSummaryOut.append(";\n");
+            jsSummaryOut.append(String.format("var %s = ", JS_SUMMARY_FORMATTER_VAR));
+            jsSummaryOut.writeObjectToStream(objectMapper, featureResults);
+            jsSummaryOut.append(";\n");
             copyReportFiles();
         }
         jsOut.close();
@@ -515,7 +522,12 @@ public final class HTML implements EventListener {
             if (comma) {
                 out.append(", ");
             }
-            String stringArg = gson.toJson(arg);
+            String stringArg = null;
+            try {
+                stringArg = objectMapper.writeValueAsString(arg);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
             out.append(stringArg);
             comma = true;
         }
@@ -573,17 +585,17 @@ public final class HTML implements EventListener {
 
     }
 
-    private static NiceAppendable createJsOut(URL htmlReportDir) {
+    private static ReportOutputStream createJsOut(URL htmlReportDir) {
         try {
-            return new NiceAppendable(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, JS_REPORT_FILENAME)), "UTF-8"));
+            return new ReportOutputStream(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, JS_REPORT_FILENAME)), "UTF-8"));
         } catch (IOException e) {
             throw new CucumberException(e);
         }
     }
 
-    private static NiceAppendable createJsSummaryOut(URL htmlReportDir) {
+    private static ReportOutputStream createJsSummaryOut(URL htmlReportDir) {
         try {
-            return new NiceAppendable(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, JS_SUMMARY_REPORT_FILENAME)), "UTF-8"));
+            return new ReportOutputStream(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, JS_SUMMARY_REPORT_FILENAME)), "UTF-8"));
         } catch (IOException e) {
             throw new CucumberException(e);
         }
