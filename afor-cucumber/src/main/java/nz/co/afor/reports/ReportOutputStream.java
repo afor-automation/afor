@@ -17,7 +17,7 @@ public class ReportOutputStream extends NiceAppendable {
     public void writeObjectToStream(ObjectMapper objectMapper, Object object) {
         try {
             OutputStreamWriter out = (OutputStreamWriter) this.out;
-            objectMapper.writeValue(out, object);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(out, object);
             out.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);

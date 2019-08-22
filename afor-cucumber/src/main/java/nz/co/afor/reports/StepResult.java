@@ -1,36 +1,37 @@
 package nz.co.afor.reports;
 
-import cucumber.api.PickleStepTestStep;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cucumber.api.Result;
-import cucumber.api.TestStep;
-import gherkin.ast.Step;
 import gherkin.pickles.PickleStep;
 
 /**
  * Created by Matt on 15/03/2016.
  */
 public class StepResult {
-    PickleStep step;
-    Result result;
+    @JsonIgnore
+    private final PickleStep step;
+    private final Result result;
 
-    public StepResult(PickleStep testStep, Result result) {
+    StepResult(PickleStep testStep, Result result) {
         this.step = testStep;
         this.result = result;
     }
 
+    @JsonIgnore
     public PickleStep getStep() {
         return step;
     }
 
-    public void setStep(PickleStep step) {
-        this.step = step;
+    public Result.Type getResult() {
+        return result.getStatus();
     }
 
-    public Result getResult() {
-        return result;
-    }
-
-    public void setResult(Result result) {
-        this.result = result;
+    /**
+     * Get the duration of the step in seconds
+     * @return The duration of the scenario in seconds
+     */
+    @JsonIgnore
+    long getDuration() {
+        return result.getDuration();
     }
 }

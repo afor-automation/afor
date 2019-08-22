@@ -1,5 +1,6 @@
 package nz.co.afor.reports;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gherkin.ast.ScenarioOutline;
 
 import java.time.ZoneId;
@@ -11,21 +12,18 @@ import java.util.List;
  * Created by Matt on 18/04/2016.
  */
 public class ScenarioOutlineResult {
+    @JsonIgnore
     private final ZonedDateTime startTime;
-    ScenarioOutline scenarioOutline;
-    List<StepResult> steps = new ArrayList<>();
+    private final String name;
+    private List<StepResult> steps = new ArrayList<>();
 
-    public ScenarioOutlineResult(ScenarioOutline scenario) {
-        this.scenarioOutline = scenario;
+    ScenarioOutlineResult(ScenarioOutline scenario) {
+        this.name = scenario.getName();
         this.startTime = ZonedDateTime.now(ZoneId.of("UTC"));
     }
 
-    public ScenarioOutline getScenario() {
-        return scenarioOutline;
-    }
-
-    public void setScenario(ScenarioOutline scenario) {
-        this.scenarioOutline = scenario;
+    public String getName() {
+        return name;
     }
 
     public List<StepResult> getSteps() {
@@ -36,14 +34,15 @@ public class ScenarioOutlineResult {
         this.steps = steps;
     }
 
-    public ZonedDateTime getStartTime() {
+    @JsonIgnore
+    ZonedDateTime getStartTime() {
         return startTime;
     }
 
-    public Long getDuration() {
-        Long duration = 0L;
+    public long getDuration() {
+        long duration = 0L;
         for(StepResult result : steps)
-            duration += result.getResult().getDuration();
+            duration += result.getDuration();
         return duration;
     }
 }

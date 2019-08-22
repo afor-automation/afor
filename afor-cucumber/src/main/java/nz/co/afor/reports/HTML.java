@@ -188,7 +188,7 @@ public final class HTML implements EventListener {
                 ResultFinalValue scenarioResultFinalValue = new ResultFinalValue();
                 for (StepResult stepResult : scenarioResult.getSteps()) {
                     if (null != stepResult.getResult()) {
-                        Result.Type status = stepResult.getResult().getStatus();
+                        Result.Type status = stepResult.getResult();
                         resultSummary.getSteps().addResult(status);
                         scenarioResultFinalValue.addStatus(status);
                     }
@@ -200,7 +200,7 @@ public final class HTML implements EventListener {
                 ResultFinalValue scenarioResultFinalValue = new ResultFinalValue();
                 for (StepResult stepResult : scenarioOutlineResult.getSteps()) {
                     if (null != stepResult.getResult()) {
-                        Result.Type status = stepResult.getResult().getStatus();
+                        Result.Type status = stepResult.getResult();
                         resultSummary.getSteps().addResult(status);
                         scenarioResultFinalValue.addStatus(status);
                     }
@@ -301,7 +301,7 @@ public final class HTML implements EventListener {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile, testCase.getLine());
         if (!TestSourcesModel.isScenarioOutlineScenario(astNode)) {
             Scenario scenario = (Scenario) TestSourcesModel.getScenarioDefinition(astNode);
-            featureResults.get(featureResults.size() - 1).addScenario(new ScenarioResult(scenario));
+            featureResults.get(featureResults.size() - 1).getScenarios().add(new ScenarioResult(scenario));
         }
     }
 
@@ -311,12 +311,12 @@ public final class HTML implements EventListener {
             ScenarioOutline scenarioOutline = (ScenarioOutline) TestSourcesModel.getScenarioDefinition(astNode);
             if (currentScenarioOutline == null || !currentScenarioOutline.equals(scenarioOutline)) {
                 currentScenarioOutline = scenarioOutline;
-                featureResults.get(featureResults.size() - 1).addScenarioOutline(new ScenarioOutlineResult(scenarioOutline));
+                featureResults.get(featureResults.size() - 1).getScenarioOutlines().add(new ScenarioOutlineResult(scenarioOutline));
                 jsFunctionCall("scenarioOutline", createScenarioOutline(currentScenarioOutline));
                 addOutlineStepsToReport(scenarioOutline);
             } else if (currentScenarioOutline.equals(scenarioOutline)) {
                 currentScenarioOutline = scenarioOutline;
-                featureResults.get(featureResults.size() - 1).addScenarioOutline(new ScenarioOutlineResult(scenarioOutline));
+                featureResults.get(featureResults.size() - 1).getScenarioOutlines().add(new ScenarioOutlineResult(scenarioOutline));
             }
             Examples examples = (Examples) astNode.parent.node;
             if (currentExamples == null || !currentExamples.equals(examples)) {

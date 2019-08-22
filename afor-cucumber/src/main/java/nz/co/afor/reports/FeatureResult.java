@@ -9,50 +9,23 @@ import java.util.List;
  * Created by Matt on 15/03/2016.
  */
 public class FeatureResult {
-    Feature feature;
-    List<ScenarioResult> scenarios = new ArrayList<>();
-    List<ScenarioOutlineResult> scenarioOutlines = new ArrayList<>();
-    Boolean scenarioWasLast = null;
+    private final String name;
+    private List<ScenarioResult> scenarios = new ArrayList<>();
+    private List<ScenarioOutlineResult> scenarioOutlines = new ArrayList<>();
 
-    public FeatureResult(Feature feature) {
-        this.feature = feature;
+    FeatureResult(Feature feature) {
+        this.name = feature.getName();
     }
 
-    public Feature getFeature() {
-        return feature;
-    }
-
-    public void setFeature(Feature feature) {
-        this.feature = feature;
+    public String getName() {
+        return name;
     }
 
     public List<ScenarioResult> getScenarios() {
         return scenarios;
     }
 
-    public void setScenarios(List<ScenarioResult> scenarios) {
-        this.scenarios = scenarios;
-    }
-
     public List<ScenarioOutlineResult> getScenarioOutlines() {
         return scenarioOutlines;
-    }
-
-    public void setScenarioOutlines(List<ScenarioOutlineResult> scenarioOutlines) {
-        this.scenarioOutlines = scenarioOutlines;
-    }
-
-    public void addScenario(ScenarioResult scenarioResult) {
-        scenarioWasLast = true;
-        getScenarios().add(scenarioResult);
-    }
-
-    public void addScenarioOutline(ScenarioOutlineResult scenarioOutlineResult) {
-        scenarioWasLast = false;
-        getScenarioOutlines().add(scenarioOutlineResult);
-    }
-
-    public Boolean isScenario() {
-        return scenarioWasLast;
     }
 }
