@@ -6,11 +6,6 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
-
 /**
  * Copyright afor
  * Created by Matt Belcher on 12/10/2015.
@@ -27,7 +22,8 @@ public class FixtureReader {
 
     private InputStream getResourceAsStream(String resourcePath) {
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath);
-        assertThat(String.format("The fixture resource '%s' should exist in the path or classpath", getFixturePath()), inputStream, is(not(nullValue())));
+        if (null == inputStream)
+            throw new InvalidResourceException(String.format("The fixture resource '%s' does not exist in the path or classpath", getFixturePath()));
         return inputStream;
     }
 
@@ -37,5 +33,11 @@ public class FixtureReader {
 
     public InputStreamReader getFixtureReader(String path) {
         return new InputStreamReader(getResourceAsStream(path));
+    }
+
+    private static class InvalidResourceException extends RuntimeException {
+        InvalidResourceException(String message) {
+            super(message);
+        }
     }
 }

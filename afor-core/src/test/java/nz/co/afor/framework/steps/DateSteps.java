@@ -1,9 +1,10 @@
-package nz.co.afor.framework;
+package nz.co.afor.framework.steps;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import nz.co.afor.framework.GsonFactory;
 import nz.co.afor.framework.model.Customer;
 import org.exparity.hamcrest.date.DateMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +40,18 @@ public class DateSteps {
     }
 
     @And("^I have JSON which matches the configuration date format$")
-    public void iHaveJSONWhichMatchesTheConfigurationDateFormat() throws Throwable {
+    public void iHaveJSONWhichMatchesTheConfigurationDateFormat() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         json = "{\"dateOfBirth\":\"" + simpleDateFormat.format(currentDate) + "\"}";
     }
 
     @When("^I parse the JSON$")
-    public void iParseTheJSON() throws Throwable {
+    public void iParseTheJSON() {
         parsedJson = gsonFactory.getGson().fromJson(json, Customer.class);
     }
 
     @Then("^the JSON date format should match the configuration$")
-    public void theGsonDateFormatShouldMatchTheConfiguration() throws Throwable {
+    public void theGsonDateFormatShouldMatchTheConfiguration() {
         assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameYear(currentDate));
         assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameMonth(currentDate));
         assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameDay(currentDate));

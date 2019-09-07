@@ -25,7 +25,7 @@ public class FixtureSteps {
     Map<String, Customer> model;
 
     @Given("^I have a new fixture instance$")
-    public void I_have_a_new_fixture_instance() throws Throwable {
+    public void I_have_a_new_fixture_instance() {
         assertThat("nz.co.afor.framework.Fixture should not be null", fixture, is(not(nullValue())));
     }
 
@@ -42,7 +42,7 @@ public class FixtureSteps {
     }
 
     @Then("^I should have fixture data$")
-    public void I_should_have_fixture_data() throws Throwable {
+    public void I_should_have_fixture_data() {
         assertThat(model, is(not(nullValue())));
         assertThat(model.get("valid"), is(not(nullValue())));
         assertThat(model.get("valid").getUsername(), is(not(nullValue())));

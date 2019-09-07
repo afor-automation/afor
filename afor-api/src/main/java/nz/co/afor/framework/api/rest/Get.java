@@ -2,6 +2,7 @@ package nz.co.afor.framework.api.rest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.net.URI;
 /**
  * Created by Matt Belcher on 10/10/2015.
  */
+@Scope("thread")
 @Component
 public class Get extends AbstractHttpRequest {
     private static Log log = LogFactory.getLog(Get.class);

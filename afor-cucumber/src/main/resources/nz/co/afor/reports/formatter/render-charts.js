@@ -1,19 +1,34 @@
 google.charts.load('current', {packages: ['corechart', 'table']});
-google.charts.setOnLoadCallback(drawCharts);
-
 var projectVersion = '${project.version}';
+var scenarioBreakdownData = getFeatureScenarioBreakdownData();
+var scenarioDurationData = getScenarioDurationData();
+
+google.charts.setOnLoadCallback(drawScenarioDataCharts);
+google.charts.setOnLoadCallback(drawFeatureScenarioBreakdownCharts);
+google.charts.setOnLoadCallback(drawScenarioDurationCharts);
 
 $(window).on("throttledresize", function (event) {
     drawCharts();
 });
 
 function drawCharts() {
-    var scenarioBreakdownData = getFeatureScenarioBreakdownData();
+    drawScenarioDataCharts();
+    drawFeatureScenarioBreakdownCharts();
+    drawScenarioDurationCharts();
+}
+
+function drawScenarioDataCharts() {
 	drawPieChart(getScenarioData(), 'scenarioPieChart', 'Scenario Results (' + getScenarioCount() + ' in total)');
+	writeBreakdown('scenarioSummaryBreakdown');
+}
+
+function drawFeatureScenarioBreakdownCharts() {
 	drawStackedBarChart(scenarioBreakdownData, getTotalFeatureCount(), 'featureScenarioBarChart', 'Feature Results (' + getTotalFeatureCount() + ' in total)');
     drawTableChart(scenarioBreakdownData, 'featureScenarioTableChart');
-    drawLineChart(getScenarioDurationData(), 'scenarioPerformanceLineChart', 'Scenario duration (Total duration ' + getTotalDurationText() + ')', 'Duration in seconds');
-    writeBreakdown('scenarioSummaryBreakdown');
+}
+
+function drawScenarioDurationCharts() {
+    drawLineChart(scenarioDurationData, 'scenarioPerformanceLineChart', 'Scenario duration (Total duration ' + getTotalDurationText() + ')', 'Duration in seconds');
 }
 
 function getTotalFeatureCount() {

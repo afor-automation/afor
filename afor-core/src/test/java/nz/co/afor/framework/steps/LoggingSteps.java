@@ -39,12 +39,12 @@ public class LoggingSteps {
     }
 
     @Given("^I have a new log instance$")
-    public void I_have_a_new_log_instance() throws Throwable {
+    public void I_have_a_new_log_instance() {
         assertThat(log, is(not(nullValue())));
     }
 
     @When("^I log to (debug|info|error|trace)$")
-    public void I_log_to(String logLevel) throws Throwable {
+    public void I_log_to(String logLevel) {
         switch (logLevel) {
             case "debug":
                 log.debug("debug log level");
@@ -65,12 +65,12 @@ public class LoggingSteps {
     }
 
     @Then("^I my information should be logged$")
-    public void I_my_information_should_be_logged() throws Throwable {
-        verify(appenderMock).doAppend((LoggingEvent) anyObject());
+    public void I_my_information_should_be_logged() {
+        verify(appenderMock).doAppend(anyObject());
     }
 
     @Then("^I my information should not be logged$")
-    public void I_my_information_should_not_be_logged() throws Throwable {
-        verify(appenderMock, never()).doAppend((LoggingEvent) anyObject());
+    public void I_my_information_should_not_be_logged() {
+        verify(appenderMock, never()).doAppend(anyObject());
     }
 }

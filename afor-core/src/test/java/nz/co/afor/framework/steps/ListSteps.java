@@ -1,4 +1,4 @@
-package nz.co.afor.framework;
+package nz.co.afor.framework.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -22,7 +22,7 @@ public class ListSteps {
     private String result;
 
     @Given("^I have a new list$")
-    public void iHaveANewList() throws Throwable {
+    public void iHaveANewList() {
         list = new ArrayList<>();
         list.add("first");
         list.add("second");
@@ -30,32 +30,32 @@ public class ListSteps {
     }
 
     @When("^I get the first list value$")
-    public void iGetTheFirstListValue() throws Throwable {
+    public void iGetTheFirstListValue() {
         result = getFirst(list);
     }
 
     @Then("^the first list value should be returned$")
-    public void theFirstListValueShouldBeReturned() throws Throwable {
+    public void theFirstListValueShouldBeReturned() {
         assertThat(result, equalTo(list.get(0)));
     }
 
     @When("^I get the last list value$")
-    public void iGetTheLastListValue() throws Throwable {
+    public void iGetTheLastListValue() {
         result = getLast(list);
     }
 
     @Then("^the last list value should be returned$")
-    public void theLastListValueShouldBeReturned() throws Throwable {
+    public void theLastListValueShouldBeReturned() {
         assertThat(result, equalTo(list.get(list.size() - 1)));
     }
 
     @When("^I get any list value$")
-    public void iGetAnyListValue() throws Throwable {
+    public void iGetAnyListValue() {
         result = anyOf(list);
     }
 
     @Then("^a list value should be returned$")
-    public void aListValueShouldBeReturned() throws Throwable {
+    public void aListValueShouldBeReturned() {
         assertThat(result, is(not(nullValue())));
     }
 }

@@ -1,6 +1,7 @@
 package nz.co.afor.framework.api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 /**
  * Created by Matt Belcher on 20/01/2016.
  */
+@Scope("thread")
 @Component
 public class AbstractHttpRequest {
     private HttpHeaders headers = new HttpHeaders();

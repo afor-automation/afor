@@ -84,6 +84,7 @@
                                 <include>io.cucumber:cucumber-java8</include>
                                 <include>io.cucumber:cucumber-junit</include>
                                 <include>io.cucumber:cucumber-spring</include>
+                                <include>io.cucumber:pro-plugin</include>
                                 <include>io.cucumber:datatable</include>
                                 <include>io.cucumber:datatable-matchers</include>
                                 <include>io.cucumber:pro-plugin</include>
@@ -95,6 +96,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

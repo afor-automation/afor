@@ -1,4 +1,4 @@
-package nz.co.afor.framework;
+package nz.co.afor.framework.steps;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -20,38 +20,38 @@ public class ArraySteps {
     private String result;
 
     @Given("^I have a new array$")
-    public void iHaveANewArray() throws Throwable {
+    public void iHaveANewArray() {
         array = new String[]{"first", "second", "third"};
     }
 
     @When("^I get the first array value$")
-    public void iGetTheFirstArrayValue() throws Throwable {
+    public void iGetTheFirstArrayValue() {
         result = getFirst(array);
     }
 
     @Then("^the first array value should be returned$")
-    public void theFirstArrayValueShouldBeReturned() throws Throwable {
+    public void theFirstArrayValueShouldBeReturned() {
         assertThat(result, equalTo(array[0]));
 
     }
 
     @When("^I get the last array value$")
-    public void iGetTheLastArrayValue() throws Throwable {
+    public void iGetTheLastArrayValue() {
         result = getLast(array);
     }
 
     @Then("^the last array value should be returned$")
-    public void theLastArrayValueShouldBeReturned() throws Throwable {
+    public void theLastArrayValueShouldBeReturned() {
         assertThat(result, equalTo(array[array.length - 1]));
     }
 
     @When("^I get any array value$")
-    public void iGetAnyArrayValue() throws Throwable {
+    public void iGetAnyArrayValue() {
         result = anyOf(array);
     }
 
     @Then("^an array value should be returned$")
-    public void aNArrayValueShouldBeReturned() throws Throwable {
+    public void aNArrayValueShouldBeReturned() {
         assertThat(result, is(not(nullValue())));
     }
 }

@@ -2,7 +2,6 @@ package nz.co.afor.framework.api.soap;
 
 import nz.co.afor.framework.api.HttpClientFactory;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -125,9 +124,11 @@ public class AbstractClient extends WebServiceGatewaySupport {
         }
     }
 
-    protected Object send(Object requestPayload) throws KeyManagementException, NoSuchAlgorithmException {
-        assertThat("The URL must be specified when calling the service", url, is(not(nullValue())));
-        assertThat("The contextPath must be specified when calling the service", contextPath, is(not(nullValue())));
+    protected Object send(Object requestPayload) {
+        if (null == url)
+            throw new WebServiceException("The URL must be specified when calling the service");
+        if (null == contextPath)
+            throw new WebServiceException("The contextPath must be specified when calling the service");
         try {
             return getWebServiceTemplate()
                     .marshalSendAndReceive(url,
@@ -140,7 +141,8 @@ public class AbstractClient extends WebServiceGatewaySupport {
     }
 
     protected <T> T send(Object requestPayload, Class<T> tClass) throws NoSuchAlgorithmException, KeyManagementException {
-        assertThat("The URL must be specified when calling the service", url, is(not(nullValue())));
+        if (null == url)
+            throw new WebServiceException("The URL must be specified when calling the service");
         setContextPath(tClass);
         try {
             return tClass.cast(getWebServiceTemplate()
@@ -150,6 +152,12 @@ public class AbstractClient extends WebServiceGatewaySupport {
         } catch (SoapFaultClientException soapFaultClientException) {
             logger.warn("SOAP Fault thrown when unmarshalling response", soapFaultClientException);
             throw soapFaultClientException;
+        }
+    }
+
+    private static class WebServiceException extends RuntimeException {
+        WebServiceException(String message) {
+            super(message);
         }
     }
 }
