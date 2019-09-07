@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.35-SNAPSHOT</version>
+        <version>0.1.35</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.2.8</version>
+            <version>5.3.0</version>
         </dependency>
     </dependencies>
 

@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.35-SNAPSHOT</version>
+        <version>0.1.35</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -23,27 +23,27 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
-            <version>4.7.1</version>
+            <version>4.7.2</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>4.7.1</version>
+            <version>4.7.2</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java8</artifactId>
-            <version>4.7.1</version>
+            <version>4.7.2</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>4.7.1</version>
+            <version>4.7.2</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>4.7.1</version>
+            <version>4.7.2</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
