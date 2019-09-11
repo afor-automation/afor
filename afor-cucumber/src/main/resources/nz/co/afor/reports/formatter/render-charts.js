@@ -1,7 +1,7 @@
 google.charts.load('current', {packages: ['corechart', 'table']});
-var projectVersion = '${project.version}';
-var scenarioBreakdownData = getFeatureScenarioBreakdownData();
-var scenarioDurationData = getScenarioDurationData();
+var projectVersion = '0.1.36-SNAPSHOT';
+var scenarioBreakdownData;
+var scenarioDurationData;
 
 google.charts.setOnLoadCallback(drawScenarioDataCharts);
 google.charts.setOnLoadCallback(drawFeatureScenarioBreakdownCharts);
@@ -23,11 +23,17 @@ function drawScenarioDataCharts() {
 }
 
 function drawFeatureScenarioBreakdownCharts() {
+    if (null == scenarioBreakdownData) {
+        scenarioBreakdownData = getFeatureScenarioBreakdownData();
+    }
 	drawStackedBarChart(scenarioBreakdownData, getTotalFeatureCount(), 'featureScenarioBarChart', 'Feature Results (' + getTotalFeatureCount() + ' in total)');
     drawTableChart(scenarioBreakdownData, 'featureScenarioTableChart');
 }
 
 function drawScenarioDurationCharts() {
+    if (null == scenarioDurationData) {
+        scenarioDurationData = getScenarioDurationData();
+    }
     drawLineChart(scenarioDurationData, 'scenarioPerformanceLineChart', 'Scenario duration (Total duration ' + getTotalDurationText() + ')', 'Duration in seconds');
 }
 
