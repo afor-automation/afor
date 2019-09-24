@@ -9,7 +9,6 @@ import org.knowm.xchart.PieSeries;
 import org.knowm.xchart.style.Styler;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -57,26 +56,35 @@ public class PieChart {
         passed.setToolTip(resultSummary.getScenarios().getPassed() + " passed scenarios");
         passed.setFillColor(new Color(176, 214, 51));
 
-        //if (resultSummary.getScenarios().getFailed() > 0)
-        PieSeries failed = pieChart.addSeries("Failed", resultSummary.getScenarios().getFailed());
-        failed.setToolTip(resultSummary.getScenarios().getFailed() + " failed scenarios");
-        failed.setFillColor(new Color(255, 0, 0));
-        //if (resultSummary.getScenarios().getUndefined() > 0)
-        PieSeries undefined = pieChart.addSeries("Undefined", resultSummary.getScenarios().getUndefined());
-        undefined.setToolTip(resultSummary.getScenarios().getUndefined() + " undefined scenarios");
-        undefined.setFillColor(new Color(255, 197, 0));
-        //if (resultSummary.getScenarios().getPending() > 0)
-        PieSeries pending = pieChart.addSeries("Pending", resultSummary.getScenarios().getPending());
-        pending.setToolTip(resultSummary.getScenarios().getPending() + " pending scenarios");
-        pending.setFillColor(new Color(234, 236, 45));
-        //if (resultSummary.getScenarios().getSkipped() > 0)
-        PieSeries skipped = pieChart.addSeries("Skipped", resultSummary.getScenarios().getSkipped());
-        skipped.setToolTip(resultSummary.getScenarios().getSkipped() + " skipped scenarios");
-        skipped.setFillColor(new Color(45, 234, 236));
-        //if (resultSummary.getScenarios().getAmbiguous() > 0)
-        PieSeries ambiguous = pieChart.addSeries("Ambiguous", resultSummary.getScenarios().getAmbiguous());
-        ambiguous.setToolTip(resultSummary.getScenarios().getAmbiguous() + " ambiguous scenarios");
-        ambiguous.setFillColor(new Color(45, 234, 236));
+        if (resultSummary.getScenarios().getFailed() > 0) {
+            PieSeries failed = pieChart.addSeries("Failed", resultSummary.getScenarios().getFailed());
+            failed.setToolTip(resultSummary.getScenarios().getFailed() + " failed scenarios");
+            failed.setFillColor(new Color(255, 0, 0));
+        }
+
+        if (resultSummary.getScenarios().getUndefined() > 0) {
+            PieSeries undefined = pieChart.addSeries("Undefined", resultSummary.getScenarios().getUndefined());
+            undefined.setToolTip(resultSummary.getScenarios().getUndefined() + " undefined scenarios");
+            undefined.setFillColor(new Color(255, 197, 0));
+        }
+
+        if (resultSummary.getScenarios().getPending() > 0) {
+            PieSeries pending = pieChart.addSeries("Pending", resultSummary.getScenarios().getPending());
+            pending.setToolTip(resultSummary.getScenarios().getPending() + " pending scenarios");
+            pending.setFillColor(new Color(234, 236, 45));
+        }
+
+        if (resultSummary.getScenarios().getSkipped() > 0) {
+            PieSeries skipped = pieChart.addSeries("Skipped", resultSummary.getScenarios().getSkipped());
+            skipped.setToolTip(resultSummary.getScenarios().getSkipped() + " skipped scenarios");
+            skipped.setFillColor(new Color(45, 234, 236));
+        }
+
+        if (resultSummary.getScenarios().getAmbiguous() > 0) {
+            PieSeries ambiguous = pieChart.addSeries("Ambiguous", resultSummary.getScenarios().getAmbiguous());
+            ambiguous.setToolTip(resultSummary.getScenarios().getAmbiguous() + " ambiguous scenarios");
+            ambiguous.setFillColor(new Color(45, 234, 236));
+        }
         return pieChart;
     }
 }
