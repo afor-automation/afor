@@ -18,7 +18,6 @@ function drawCharts() {
 }
 
 function drawScenarioDataCharts() {
-	drawPieChart(getScenarioData(), 'scenarioPieChart', 'Scenario Results (' + getScenarioCount() + ' in total)');
 	writeBreakdown('scenarioSummaryBreakdown');
 }
 

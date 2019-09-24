@@ -440,6 +440,7 @@ MEDIA QUERIES
     min-height: 350px;
     height: auto;
     display:block;
+    text-align: center;
 }
 
 .chart-table {

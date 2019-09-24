@@ -13,10 +13,12 @@ import cucumber.api.formatter.NiceAppendable;
 import cucumber.runtime.CucumberException;
 import gherkin.ast.*;
 import gherkin.pickles.*;
+import nz.co.afor.reports.charts.PieChart;
 import nz.co.afor.reports.results.ResultFinalValue;
 import nz.co.afor.reports.results.ResultSummary;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
@@ -35,6 +37,7 @@ public final class HTML implements EventListener {
     private static final String JS_SUMMARY_FORMATTER_VAR = "formatterSummary";
     private static final String JS_DURATION_VAR = "formatterSummaryDuration";
     private static final String JS_SUMMARY_REPORT_FILENAME = "summaryreport.js";
+    private static final String PIE_CHART_REPORT_FILENAME = "piechart.svg";
     private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/formatter.js", "/nz/co/afor/reports/formatter/details-shim.min.js", "/nz/co/afor/reports/formatter/index.html", "/nz/co/afor/reports/formatter/jquery-1.8.2.min.js", "/nz/co/afor/reports/formatter/moment.min.js", "/nz/co/afor/reports/formatter/loader.js", "/nz/co/afor/reports/formatter/jquery.throttledresize.js", "/nz/co/afor/reports/formatter/render-charts.js", "/nz/co/afor/reports/formatter/style.css", "/nz/co/afor/reports/formatter/print.css", "/nz/co/afor/reports/formatter/details-shim.min.css", "/nz/co/afor/reports/formatter/font1.woff2", "/nz/co/afor/reports/formatter/font3.woff2", "/nz/co/afor/reports/formatter/font2.woff2", "/nz/co/afor/reports/formatter/aforLogoLargeGradient.png", "/nz/co/afor/reports/formatter/favicon-16x16.png", "/nz/co/afor/reports/formatter/favicon-32x32.png", "/nz/co/afor/reports/formatter/favicon-96x96.png", "/nz/co/afor/reports/formatter/favicon-120x120.png", "/nz/co/afor/reports/formatter/favicon-152x152.png", "/nz/co/afor/reports/formatter/favicon-180x180.png"};
     private static final Map<String, String> MIME_TYPES_EXTENSIONS = new HashMap<String, String>() {
         {
@@ -254,14 +257,26 @@ public final class HTML implements EventListener {
             jsSummaryOut.append(String.format("$(\"span.title-heading\").ready(function() {$(\"span.title-heading-date\").text(\"%s\")});\n", ReportContextProvider.getDateFormat().format(CREATED_DATE.withZoneSameInstant(ReportContextProvider.getTimezone()))));
             jsSummaryOut.append(String.format("var %s = '%s';\n", JS_DURATION_VAR, getDuration()));
             jsSummaryOut.append(String.format("var %s = ", JS_HIGH_LEVEL_SUMMARY_FORMATTER_VAR));
-            jsSummaryOut.writeObjectToStream(objectMapper, getSummaryTotals());
+            ResultSummary summaryTotals = getSummaryTotals();
+            jsSummaryOut.writeObjectToStream(objectMapper, summaryTotals);
             jsSummaryOut.append(";\n");
             jsSummaryOut.append(String.format("var %s = ", JS_SUMMARY_FORMATTER_VAR));
             jsSummaryOut.writeObjectToStream(objectMapper, featureResults);
             jsSummaryOut.append(";\n");
+            writePieChart(summaryTotals);
             copyReportFiles();
         }
         jsOut.close();
+    }
+
+    private void writePieChart(ResultSummary summaryTotals) {
+        try {
+            URLOutputStream outputStream = new URLOutputStream(new URL(htmlReportDir, PIE_CHART_REPORT_FILENAME));
+            PieChart.getChart(summaryTotals, outputStream);
+            outputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void handleStartOfFeature(TestCase testCase) {
@@ -583,6 +598,14 @@ public final class HTML implements EventListener {
             closeQuietly(out);
         }
 
+    }
+
+    private static ReportOutputStream createPieChartOut(URL htmlReportDir) {
+        try {
+            return new ReportOutputStream(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, PIE_CHART_REPORT_FILENAME)), "UTF-8"));
+        } catch (IOException e) {
+            throw new CucumberException(e);
+        }
     }
 
     private static ReportOutputStream createJsOut(URL htmlReportDir) {

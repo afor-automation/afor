@@ -50,6 +50,11 @@
             <artifactId>pro-plugin</artifactId>
             <version>3.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchart</groupId>
+            <artifactId>xchart</artifactId>
+            <version>3.5.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -88,6 +93,7 @@
                                 <include>io.cucumber:datatable</include>
                                 <include>io.cucumber:datatable-matchers</include>
                                 <include>io.cucumber:pro-plugin</include>
+                                <include>org.knowm.xchart:xchart</include>
                             </includes>
                         </configuration>
                     </execution>
