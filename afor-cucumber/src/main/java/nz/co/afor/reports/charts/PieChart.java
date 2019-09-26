@@ -6,6 +6,7 @@ import de.erichseifert.vectorgraphics2d.util.PageSize;
 import nz.co.afor.reports.results.ResultSummary;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
+import org.knowm.xchart.style.PieStyler;
 import org.knowm.xchart.style.Styler;
 
 import java.awt.*;
@@ -29,13 +30,16 @@ public class PieChart {
                 .build();
 
         pieChart.getStyler()
+                .setAnnotationType(PieStyler.AnnotationType.LabelAndValue)
+                .setDrawAllAnnotations(true)
+                .setHasAnnotations(true)
                 .setChartBackgroundColor(Color.white)
                 .setLegendBackgroundColor(Color.white)
                 .setPlotBackgroundColor(Color.white)
                 .setChartTitleBoxVisible(false)
                 .setPlotBorderVisible(false)
-                .setToolTipsEnabled(true)
-                .setToolTipsAlwaysVisible(false)
+                .setToolTipsEnabled(false)
+                .setToolTipsAlwaysVisible(true)
                 .setToolTipType(Styler.ToolTipType.xAndYLabels)
                 .setChartTitleFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
