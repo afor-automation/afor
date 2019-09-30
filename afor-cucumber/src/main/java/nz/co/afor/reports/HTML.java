@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hp.gagawa.java.elements.*;
 import cucumber.api.HookTestStep;
 import cucumber.api.PickleStepTestStep;
 import cucumber.api.Result;
@@ -16,9 +17,10 @@ import gherkin.pickles.*;
 import nz.co.afor.reports.charts.PieChart;
 import nz.co.afor.reports.results.ResultFinalValue;
 import nz.co.afor.reports.results.ResultSummary;
+import nz.co.afor.reports.results.ResultValue;
 
 import java.io.*;
-import java.net.MalformedURLException;
+import java.lang.Object;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
@@ -288,12 +290,14 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createFeature(TestCase testCase) {
-        Map<String, Object> featureMap = new HashMap<String, Object>();
+        Map<String, Object> featureMap = new HashMap<>();
         Feature feature = testSources.getFeature(testCase.getUri());
         if (feature != null) {
-            featureResults.add(new FeatureResult(feature));
+            FeatureResult featureResult = new FeatureResult(feature);
+            featureResults.add(featureResult);
             featureMap.put("keyword", feature.getKeyword());
             featureMap.put("name", feature.getName());
+            featureMap.put("anchor", featureResult.getAnchor());
             featureMap.put("description", feature.getDescription() != null ? feature.getDescription() : "");
             if (!feature.getTags().isEmpty()) {
                 featureMap.put("tags", createTagList(feature.getTags()));
@@ -303,9 +307,9 @@ public final class HTML implements EventListener {
     }
 
     private List<Map<String, Object>> createTagList(List<Tag> tags) {
-        List<Map<String, Object>> tagList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> tagList = new ArrayList<>();
         for (Tag tag : tags) {
-            Map<String, Object> tagMap = new HashMap<String, Object>();
+            Map<String, Object> tagMap = new HashMap<>();
             tagMap.put("name", tag.getName());
             tagList.add(tagMap);
         }
@@ -345,7 +349,7 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createScenarioOutline(ScenarioOutline scenarioOutline) {
-        Map<String, Object> scenarioOutlineMap = new HashMap<String, Object>();
+        Map<String, Object> scenarioOutlineMap = new HashMap<>();
         scenarioOutlineMap.put("name", scenarioOutline.getName());
         scenarioOutlineMap.put("keyword", scenarioOutline.getKeyword());
         scenarioOutlineMap.put("description", scenarioOutline.getDescription() != null ? scenarioOutline.getDescription() : "");
@@ -357,7 +361,7 @@ public final class HTML implements EventListener {
 
     private void addOutlineStepsToReport(ScenarioOutline scenarioOutline) {
         for (Step step : scenarioOutline.getSteps()) {
-            Map<String, Object> stepMap = new HashMap<String, Object>();
+            Map<String, Object> stepMap = new HashMap<>();
             stepMap.put("name", step.getText());
             stepMap.put("keyword", step.getKeyword());
             if (step.getArgument() != null) {
@@ -373,13 +377,13 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createDocStringMap(DocString docString) {
-        Map<String, Object> docStringMap = new HashMap<String, Object>();
+        Map<String, Object> docStringMap = new HashMap<>();
         docStringMap.put("value", docString.getContent());
         return docStringMap;
     }
 
     private List<Map<String, Object>> createDataTableList(DataTable dataTable) {
-        List<Map<String, Object>> rowList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> rowList = new ArrayList<>();
         for (TableRow row : dataTable.getRows()) {
             rowList.add(createRowMap(row));
         }
@@ -387,13 +391,13 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createRowMap(TableRow row) {
-        Map<String, Object> rowMap = new HashMap<String, Object>();
+        Map<String, Object> rowMap = new HashMap<>();
         rowMap.put("cells", createCellList(row));
         return rowMap;
     }
 
     private List<String> createCellList(TableRow row) {
-        List<String> cells = new ArrayList<String>();
+        List<String> cells = new ArrayList<>();
         for (TableCell cell : row.getCells()) {
             cells.add(cell.getValue());
         }
@@ -401,11 +405,11 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createExamples(Examples examples) {
-        Map<String, Object> examplesMap = new HashMap<String, Object>();
+        Map<String, Object> examplesMap = new HashMap<>();
         examplesMap.put("name", examples.getName());
         examplesMap.put("keyword", examples.getKeyword());
         examplesMap.put("description", examples.getDescription() != null ? examples.getDescription() : "");
-        List<Map<String, Object>> rowList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> rowList = new ArrayList<>();
         rowList.add(createRowMap(examples.getTableHeader()));
         for (TableRow row : examples.getTableBody()) {
             rowList.add(createRowMap(row));
@@ -418,7 +422,7 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createTestCase(TestCase testCase) {
-        Map<String, Object> testCaseMap = new HashMap<String, Object>();
+        Map<String, Object> testCaseMap = new HashMap<>();
         testCaseMap.put("name", testCase.getName());
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile, testCase.getLine());
         if (astNode != null) {
@@ -427,9 +431,9 @@ public final class HTML implements EventListener {
             testCaseMap.put("description", scenarioDefinition.getDescription() != null ? scenarioDefinition.getDescription() : "");
         }
         if (!testCase.getTags().isEmpty()) {
-            List<Map<String, Object>> tagList = new ArrayList<Map<String, Object>>();
+            List<Map<String, Object>> tagList = new ArrayList<>();
             for (PickleTag tag : testCase.getTags()) {
-                Map<String, Object> tagMap = new HashMap<String, Object>();
+                Map<String, Object> tagMap = new HashMap<>();
                 tagMap.put("name", tag.getName());
                 tagList.add(tagMap);
             }
@@ -442,7 +446,7 @@ public final class HTML implements EventListener {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile, testCase.getLine());
         if (astNode != null) {
             Background background = TestSourcesModel.getBackgroundForTestCase(astNode);
-            Map<String, Object> testCaseMap = new HashMap<String, Object>();
+            Map<String, Object> testCaseMap = new HashMap<>();
             testCaseMap.put("name", background.getName());
             testCaseMap.put("keyword", background.getKeyword());
             testCaseMap.put("description", background.getDescription() != null ? background.getDescription() : "");
@@ -462,7 +466,7 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createTestStep(PickleStepTestStep testStep) {
-        Map<String, Object> stepMap = new HashMap<String, Object>();
+        Map<String, Object> stepMap = new HashMap<>();
         stepMap.put("name", testStep.getStepText());
         if (!testStep.getStepArgument().isEmpty()) {
             Argument argument = testStep.getStepArgument().get(0);
@@ -482,13 +486,13 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createDocStringMap(PickleString docString) {
-        Map<String, Object> docStringMap = new HashMap<String, Object>();
+        Map<String, Object> docStringMap = new HashMap<>();
         docStringMap.put("value", docString.getContent());
         return docStringMap;
     }
 
     private List<Map<String, Object>> createDataTableList(PickleTable dataTable) {
-        List<Map<String, Object>> rowList = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> rowList = new ArrayList<>();
         for (PickleRow row : dataTable.getRows()) {
             rowList.add(createRowMap(row));
         }
@@ -496,13 +500,13 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createRowMap(PickleRow row) {
-        Map<String, Object> rowMap = new HashMap<String, Object>();
+        Map<String, Object> rowMap = new HashMap<>();
         rowMap.put("cells", createCellList(row));
         return rowMap;
     }
 
     private List<String> createCellList(PickleRow row) {
-        List<String> cells = new ArrayList<String>();
+        List<String> cells = new ArrayList<>();
         for (PickleCell cell : row.getCells()) {
             cells.add(cell.getValue());
         }
@@ -510,7 +514,7 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createMatchMap(PickleStepTestStep testStep) {
-        Map<String, Object> matchMap = new HashMap<String, Object>();
+        Map<String, Object> matchMap = new HashMap<>();
         String location = testStep.getCodeLocation();
         if (location != null) {
             matchMap.put("location", location);
@@ -519,7 +523,7 @@ public final class HTML implements EventListener {
     }
 
     private Map<String, Object> createResultMap(Result result, String startTime) {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("status", result.getStatus().lowerCaseName());
         resultMap.put("duration", result.getDuration());
         resultMap.put("startTime", startTime);
@@ -559,8 +563,43 @@ public final class HTML implements EventListener {
                 throw new CucumberException("Couldn't find " + textAsset + ". Is cucumber-html on your classpath? Make sure you have the right version.");
             }
             String fileName = new File(textAsset).getName();
-            writeStreamToURL(textAssetStream, toUrl(fileName));
+            if (fileName.endsWith(".html")) {
+                ReplacingStream replacingStream = new ReplacingStream(writeFeatureResultTable(textAssetStream), "${chart-table2}".getBytes(), "Testing2".getBytes());
+                writeStreamToURL(replacingStream, toUrl(fileName));
+            } else {
+                writeStreamToURL(textAssetStream, toUrl(fileName));
+            }
         }
+    }
+
+    private ReplacingStream writeFeatureResultTable(InputStream inputStream) {
+        boolean extendedTable = (getSummaryTotals().getFeatures().getUndefined() + getSummaryTotals().getFeatures().getPending() + getSummaryTotals().getFeatures().getSkipped() + getSummaryTotals().getFeatures().getAmbiguous()) > 0;
+        Table table = new Table().setCSSClass("feature-results");
+        Tr tableHeaderRow = new Tr().setCSSClass("headerRow");
+        tableHeaderRow.appendChild(new Th().setCSSClass("headerCell").appendText("Feature"));
+        tableHeaderRow.appendChild(new Th().setCSSClass("headerCell").appendText("Passed"));
+        tableHeaderRow.appendChild(new Th().setCSSClass("headerCell").appendText("Failed"));
+        if (extendedTable) {
+            tableHeaderRow.appendChild(new Th().appendText("Undefined"));
+            tableHeaderRow.appendChild(new Th().appendText("Pending"));
+            tableHeaderRow.appendChild(new Th().appendText("Skipped"));
+            tableHeaderRow.appendChild(new Th().appendText("Ambiguous"));
+        }
+        table.appendChild(tableHeaderRow);
+        for (FeatureResult featureResult : featureResults) {
+            ResultValue resultValue = featureResult.getResultCount();
+            Tr resultRow = new Tr().setCSSClass("tableRow").appendChild(new Td().appendChild(new A().setHref("#" + featureResult.getAnchor()).appendText(featureResult.getName())));
+            resultRow.appendChild(new Td().appendText(resultValue.getPassed().toString()));
+            resultRow.appendChild(new Td().appendText(resultValue.getFailed().toString()));
+            if (extendedTable) {
+                resultRow.appendChild(new Td().appendText(resultValue.getUndefined().toString()));
+                resultRow.appendChild(new Td().appendText(resultValue.getPending().toString()));
+                resultRow.appendChild(new Td().appendText(resultValue.getSkipped().toString()));
+                resultRow.appendChild(new Td().appendText(resultValue.getAmbiguous().toString()));
+            }
+            table.appendChild(resultRow);
+        }
+        return new ReplacingStream(inputStream, "${feature-result-table}".getBytes(), table.write().getBytes());
     }
 
     private URL toUrl(String fileName) {

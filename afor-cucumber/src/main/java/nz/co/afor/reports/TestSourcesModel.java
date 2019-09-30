@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 final class TestSourcesModel {
-    private final Map<String, TestSourceRead> pathToReadEventMap = new HashMap<String, TestSourceRead>();
-    private final Map<String, GherkinDocument> pathToAstMap = new HashMap<String, GherkinDocument>();
-    private final Map<String, Map<Integer, TestSourcesModel.AstNode>> pathToNodeMap = new HashMap<String, Map<Integer, TestSourcesModel.AstNode>>();
+    private final Map<String, TestSourceRead> pathToReadEventMap = new HashMap<>();
+    private final Map<String, GherkinDocument> pathToAstMap = new HashMap<>();
+    private final Map<String, Map<Integer, TestSourcesModel.AstNode>> pathToNodeMap = new HashMap<>();
 
     static Feature getFeatureForTestCase(TestSourcesModel.AstNode astNode) {
         while (astNode.parent != null) {
@@ -138,12 +138,12 @@ final class TestSourcesModel {
         if (!pathToReadEventMap.containsKey(path)) {
             return;
         }
-        Parser<GherkinDocument> parser = new Parser<GherkinDocument>(new AstBuilder());
+        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
         TokenMatcher matcher = new TokenMatcher();
         try {
             GherkinDocument gherkinDocument = parser.parse(pathToReadEventMap.get(path).source, matcher);
             pathToAstMap.put(path, gherkinDocument);
-            Map<Integer, TestSourcesModel.AstNode> nodeMap = new HashMap<Integer, TestSourcesModel.AstNode>();
+            Map<Integer, TestSourcesModel.AstNode> nodeMap = new HashMap<>();
             TestSourcesModel.AstNode currentParent = new TestSourcesModel.AstNode(gherkinDocument.getFeature(), null);
             for (ScenarioDefinition child : gherkinDocument.getFeature().getChildren()) {
                 processScenarioDefinition(nodeMap, child, currentParent);

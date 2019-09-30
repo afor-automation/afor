@@ -26,7 +26,6 @@ function drawFeatureScenarioBreakdownCharts() {
         scenarioBreakdownData = getFeatureScenarioBreakdownData();
     }
 	drawStackedBarChart(scenarioBreakdownData, getTotalFeatureCount(), 'featureScenarioBarChart', 'Feature Results (' + getTotalFeatureCount() + ' in total)');
-    drawTableChart(scenarioBreakdownData, 'featureScenarioTableChart');
 }
 
 function drawScenarioDurationCharts() {
@@ -229,37 +228,6 @@ function getScenarioDurationData() {
     return data;
 }
 
-function drawPieChart(data, elementId, title) {
-    var options = {
-        title: title,
-        pieSliceText: 'label',
-        width: "100%",
-        height: "100%",
-        axisTitlesPosition: 'out',
-        chartArea: {
-            left: "25%",
-            top: "25%",
-            bottom: "15%",
-            height: "100%",
-            width: "100%"
-        },
-        slices: {
-            0: { color: '#b0d633' },
-            1: { color: '#ed2525' },
-            2: { color: '#e07a3e' },
-            3: { color: '#eaec2d' },
-            4: { color: '#2deaec' },
-            5: { color: '#ffc733' }
-        },
-        titleTextStyle: {
-            fontSize: '18',
-            bold: true
-        }
-    };
-
-    new google.visualization.PieChart(document.getElementById(elementId)).draw(data, options);
-}
-
 function drawStackedBarChart(data, total, elementId, title) {
 	var options = {
         title: title,
@@ -311,28 +279,6 @@ function drawLineChart(data, elementId, title, vAxisTitle) {
         }
     };
     new google.visualization.LineChart(document.getElementById(elementId)).draw(data, options);
-}
-
-function drawTableChart(data, elementId) {
-    var cssClassNames = {
-    'headerRow': 'headerRow',
-    'tableRow': 'tableRow',
-    'oddTableRow': 'tableRow',
-    'selectedTableRow': 'selectedTableRow',
-    'hoverTableRow': 'hoverTableRow',
-    'headerCell': 'headerCell',
-    'tableCell': 'tableCell',
-    'rowNumberCell': 'rowNumberCell'};
-	var options = {
-        width: "100%",
-        height: "100%",
-        chartArea: {
-            height: "100%",
-            width: "100%"
-        },
-        'cssClassNames': cssClassNames
-    };
-    new google.visualization.Table(document.getElementById(elementId)).draw(data, options);
 }
 
 function writeBreakdown(elementId) {

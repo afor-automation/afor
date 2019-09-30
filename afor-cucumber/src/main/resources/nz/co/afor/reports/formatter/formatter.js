@@ -157,6 +157,7 @@ CucumberHTML.DOMFormatter = function(rootNode) {
     populateComments(e, statement.comments);
     e.find('.keyword').text(statement.keyword.trim() + ':');
     e.find('.name').text(statement.name);
+    e.find('.anchor').attr('name', statement.anchor);
     e.find('.description').text(statement.description);
     e.addClass(itemtype);
     return e;
@@ -224,6 +225,7 @@ CucumberHTML.DOMFormatter = function(rootNode) {
 
 CucumberHTML.templates = '<div>\
   <section class="blockelement" itemscope>\
+    <a class="anchor" name=""></a>\
     <details open>\
       <summary class="header">\
         <span class="keyword" itemprop="keyword">Keyword</span><span itemprop="name" class="name">This is the block name</span><span class="duration"></span><span class="startTime"></span>\

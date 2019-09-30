@@ -447,7 +447,23 @@ MEDIA QUERIES
     min-height: 0px !important;
     margin-top: 5px;
 }
-
+.chart table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+.chart th,td {
+    border: 1px solid #ddd;
+    padding: 2px .35em;
+    margin: 0px;
+}
+    a {
+        text-decoration-line: none;
+        color: #000
+    }
+    a:hover {
+        color: #aad400;
+        text-decoration-line: underline
+    }
 tr.tableRow td {
     text-align: center;
 }
