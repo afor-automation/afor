@@ -1,6 +1,7 @@
 package nz.co.afor.reports;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import cucumber.api.Result;
 import gherkin.ast.Scenario;
 
 import java.time.ZoneId;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * Created by Matt on 15/03/2016.
  */
-public class ScenarioResult {
+public class ScenarioResult implements GenericScenarioResult {
     @JsonIgnore
     private final ZonedDateTime startTime;
     @JsonIgnore
@@ -28,10 +29,12 @@ public class ScenarioResult {
         return scenario;
     }
 
+    @Override
     public String getName() {
         return scenario.getName();
     }
 
+    @Override
     public List<StepResult> getSteps() {
         return steps;
     }
@@ -41,6 +44,7 @@ public class ScenarioResult {
         return startTime;
     }
 
+    @Override
     public long getDuration() {
         long duration = 0L;
         for (StepResult result : steps)

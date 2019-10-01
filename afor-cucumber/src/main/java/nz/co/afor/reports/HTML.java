@@ -587,15 +587,15 @@ public final class HTML implements EventListener {
         }
         table.appendChild(tableHeaderRow);
         for (FeatureResult featureResult : featureResults) {
-            ResultValue resultValue = featureResult.getResultCount();
+            ResultValue resultValue = featureResult.getScenarioResultCount();
             Tr resultRow = new Tr().setCSSClass("tableRow").appendChild(new Td().appendChild(new A().setHref("#" + featureResult.getAnchor()).appendText(featureResult.getName())));
-            resultRow.appendChild(new Td().appendText(resultValue.getPassed().toString()));
-            resultRow.appendChild(new Td().appendText(resultValue.getFailed().toString()));
+            resultRow.appendChild(new Td().appendText(resultValue.getPassed() > 0 ? resultValue.getPassed().toString() : ""));
+            resultRow.appendChild(new Td().appendText(resultValue.getFailed() > 0 ? resultValue.getFailed().toString() : ""));
             if (extendedTable) {
-                resultRow.appendChild(new Td().appendText(resultValue.getUndefined().toString()));
-                resultRow.appendChild(new Td().appendText(resultValue.getPending().toString()));
-                resultRow.appendChild(new Td().appendText(resultValue.getSkipped().toString()));
-                resultRow.appendChild(new Td().appendText(resultValue.getAmbiguous().toString()));
+                resultRow.appendChild(new Td().appendText(resultValue.getUndefined() > 0 ? resultValue.getUndefined().toString() : ""));
+                resultRow.appendChild(new Td().appendText(resultValue.getPending() > 0 ? resultValue.getPending().toString() : ""));
+                resultRow.appendChild(new Td().appendText(resultValue.getSkipped() > 0 ? resultValue.getSkipped().toString() : ""));
+                resultRow.appendChild(new Td().appendText(resultValue.getAmbiguous() > 0 ? resultValue.getAmbiguous().toString() : ""));
             }
             table.appendChild(resultRow);
         }

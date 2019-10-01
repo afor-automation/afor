@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Matt on 18/04/2016.
  */
-public class ScenarioOutlineResult {
+public class ScenarioOutlineResult implements GenericScenarioResult {
     @JsonIgnore
     private final ZonedDateTime startTime;
     private final String name;
@@ -22,10 +22,12 @@ public class ScenarioOutlineResult {
         this.startTime = ZonedDateTime.now(ZoneId.of("UTC"));
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public List<StepResult> getSteps() {
         return steps;
     }
@@ -39,9 +41,10 @@ public class ScenarioOutlineResult {
         return startTime;
     }
 
+    @Override
     public long getDuration() {
         long duration = 0L;
-        for(StepResult result : steps)
+        for (StepResult result : steps)
             duration += result.getDuration();
         return duration;
     }

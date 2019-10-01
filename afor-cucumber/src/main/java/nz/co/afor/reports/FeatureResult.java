@@ -39,14 +39,12 @@ public class FeatureResult {
     }
 
     @JsonIgnore
-    public ResultValue getResultCount() {
+    public ResultValue getScenarioResultCount() {
         ResultValue resultValue = new ResultValue();
         for (ScenarioResult scenarioResult : getScenarios())
-            for (StepResult stepResult : scenarioResult.getSteps())
-                resultValue.addResult(stepResult.getResult());
+            resultValue.addResult(scenarioResult.getScenarioResult());
         for (ScenarioOutlineResult scenarioOutlineResult : getScenarioOutlines())
-            for (StepResult stepResult : scenarioOutlineResult.getSteps())
-                resultValue.addResult(stepResult.getResult());
-            return resultValue;
+            resultValue.addResult(scenarioOutlineResult.getScenarioResult());
+        return resultValue;
     }
 }
