@@ -1,5 +1,4 @@
 google.charts.load('current', {packages: ['corechart', 'table']});
-var projectVersion = '0.1.36-SNAPSHOT';
 var scenarioBreakdownData;
 var scenarioDurationData;
 

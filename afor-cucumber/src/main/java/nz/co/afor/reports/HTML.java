@@ -639,14 +639,6 @@ public final class HTML implements EventListener {
 
     }
 
-    private static ReportOutputStream createPieChartOut(URL htmlReportDir) {
-        try {
-            return new ReportOutputStream(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, PIE_CHART_REPORT_FILENAME)), "UTF-8"));
-        } catch (IOException e) {
-            throw new CucumberException(e);
-        }
-    }
-
     private static ReportOutputStream createJsOut(URL htmlReportDir) {
         try {
             return new ReportOutputStream(new OutputStreamWriter(createReportFileOutputStream(new URL(htmlReportDir, JS_REPORT_FILENAME)), "UTF-8"));
