@@ -467,6 +467,9 @@ MEDIA QUERIES
 tr.tableRow td {
     text-align: center;
 }
+tr.headerRow th:nth-child(1) {
+    width: 100%;
+}
 tr.headerRow th:nth-child(2) {
     background-color: #b0d633;
 }

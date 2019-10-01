@@ -21,7 +21,7 @@ public class PieChart {
 
     public static void getChart(ResultSummary resultSummary, OutputStream outputStream) throws IOException {
         int width = 500;
-        int height = 400;
+        int height = 330;
         org.knowm.xchart.PieChart pieChart = new PieChartBuilder()
                 .width(width)
                 .height(height)
