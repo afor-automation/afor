@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.38-SNAPSHOT</version>
+        <version>0.1.38</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -17,22 +17,22 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.1.10.RELEASE</version>
+            <version>5.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.1.10.RELEASE</version>
+            <version>5.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>5.1.10.RELEASE</version>
+            <version>5.2.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.1.10.RELEASE</version>
+            <version>5.2.0.RELEASE</version>
         </dependency>
 
         <!-- Unit testing -->
