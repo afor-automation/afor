@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>0.1.39-SNAPSHOT</version>
+        <version>0.1.39</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -17,25 +17,25 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.4.RELEASE</version>
         </dependency>
 
-        <!-- Unit testing -->
+        <!-- Unit testing and parsing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -102,36 +102,56 @@
             <artifactId>hamcrest-jdk8-time</artifactId>
             <version>0.7.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.3.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.3.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>4.0.2</version>
+        </dependency>
 
         <!-- Cucumber framework -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
-            <version>4.7.2</version>
+            <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>4.7.2</version>
+            <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java8</artifactId>
-            <version>4.7.2</version>
+            <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>4.7.2</version>
+            <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>4.7.2</version>
+            <version>5.4.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -139,22 +159,22 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <version>2.8.6</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.1-jre</version>
+            <version>28.2-jre</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>2.10.0.pr3</version>
+            <version>2.10.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.10.0.pr3</version>
+            <version>2.10.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
@@ -164,12 +184,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>2.10.0.pr3</version>
+            <version>2.10.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.10.0.pr3</version>
+            <version>2.10.3</version>
         </dependency>
 
         <!-- Logging -->
@@ -234,6 +254,10 @@
                                 <include>io.cucumber:cucumber-junit</include>
                                 <include>io.cucumber:cucumber-spring</include>
                                 <include>com.google.auto.service:auto-service</include>
+                                <include>org.apache.commons:commons-lang3</include>
+                                <include>org.mapstruct:mapstruct</include>
+                                <include>org.mapstruct:mapstruct-processor</include>
+                                <include>org.awaitility:awaitility</include>
                             </includes>
                         </configuration>
                     </execution>

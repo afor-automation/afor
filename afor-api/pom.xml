@@ -3,7 +3,7 @@
     <parent>
         <artifactId>afor-parent</artifactId>
         <groupId>nz.co.afor.framework</groupId>
-        <version>0.1.39-SNAPSHOT</version>
+        <version>0.1.39</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -20,17 +20,17 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.10</version>
+            <version>4.5.12</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.3.3</version>
+            <version>3.3.5</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>6.1.0.Alpha6</version>
+            <version>6.1.2.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -71,12 +71,12 @@
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <version>3.0.8.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-support</artifactId>
-            <version>3.0.7.RELEASE</version>
+            <version>3.0.8.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
