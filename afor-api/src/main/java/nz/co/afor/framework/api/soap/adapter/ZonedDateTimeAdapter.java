@@ -9,12 +9,12 @@ import java.time.format.DateTimeFormatter;
  */
 public class ZonedDateTimeAdapter extends XmlAdapter<String, ZonedDateTime> {
     @Override
-    public ZonedDateTime unmarshal(String v) throws Exception {
+    public ZonedDateTime unmarshal(String v) {
         return ZonedDateTime.parse(v);
     }
 
     @Override
-    public String marshal(ZonedDateTime v) throws Exception {
+    public String marshal(ZonedDateTime v) {
         if (v != null) {
             return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(v);
         } else {

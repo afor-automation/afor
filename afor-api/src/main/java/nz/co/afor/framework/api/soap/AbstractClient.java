@@ -16,10 +16,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.springframework.ws.transport.http.HttpComponentsMessageSender.RemoveSoapHeadersInterceptor;
 
 /**
  * Created by Matt on 6/09/2017.
@@ -44,6 +41,9 @@ public class AbstractClient extends WebServiceGatewaySupport {
 
     @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
+
+    @Value("${api.connection.reuse:true}")
+    Boolean reuseConnections;
 
     protected AbstractClient(String contextPath, String soapActionCallback, String url) {
         this.contextPath = contextPath;
@@ -112,13 +112,14 @@ public class AbstractClient extends WebServiceGatewaySupport {
             ClientInterceptor[] interceptors = ArrayUtils.add(webServiceTemplate.getInterceptors(), soapServiceInterceptor);
             webServiceTemplate.setInterceptors(interceptors);
 
-            HttpClientFactory httpClientFactory = new HttpClientFactory();
+            HttpClientFactory httpClientFactory = new HttpClientFactory().withReuseConnections(reuseConnections);
             if (acceptSelfSignedSSLCertificates)
                 httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
             if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
                 httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
+
             HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
-            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().addInterceptorFirst(new HttpComponentsMessageSender.RemoveSoapHeadersInterceptor()).build());
+            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().addInterceptorFirst(new RemoveSoapHeadersInterceptor()).build());
             webServiceTemplate.setMessageSender(sender);
             setWebServiceTemplate(webServiceTemplate);
         }

@@ -2,18 +2,19 @@ package nz.co.afor.framework.api.soap.adapter;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Created by Matt on 16/06/2017.
  */
-public class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
+public class LocalTimeAdapter extends XmlAdapter<String, LocalTime> {
     @Override
-    public LocalDateTime unmarshal(String v) {
-        return LocalDateTime.parse(v);
+    public LocalTime unmarshal(String v) {
+        return LocalTime.parse(v);
     }
 
     @Override
-    public String marshal(LocalDateTime v) {
+    public String marshal(LocalTime v) {
         if (v != null) {
             return v.toString();
         } else {

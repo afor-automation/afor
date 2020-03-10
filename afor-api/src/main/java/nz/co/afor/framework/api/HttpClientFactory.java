@@ -6,6 +6,7 @@ import org.apache.http.auth.NTCredentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.NoConnectionReuseStrategy;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.ProxyAuthenticationStrategy;
@@ -45,6 +46,9 @@ public class HttpClientFactory {
     URI proxyAddress;
 
     Boolean acceptSelfSignedSSLCertificates = false;
+
+    Boolean reuseConnections = true;
+
     private int maxTotal;
     private int defaultMaxPerRoute;
     private int validateAfterInactivity;
@@ -70,6 +74,11 @@ public class HttpClientFactory {
 
     public HttpClientFactory withSelfSignedSSLCertificates() {
         acceptSelfSignedSSLCertificates = true;
+        return this;
+    }
+
+    public HttpClientFactory withReuseConnections(Boolean reuseConnections) {
+        this.reuseConnections = reuseConnections;
         return this;
     }
 
@@ -109,6 +118,11 @@ public class HttpClientFactory {
             sslcontext.init(null, new X509TrustManager[]{new SSLTrustManager()}, new SecureRandom());
             SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             httpClientBuilder.setSSLSocketFactory(factory);
+        }
+
+        // Prevent reusing connections
+        if (!reuseConnections) {
+            httpClientBuilder.setConnectionReuseStrategy(new NoConnectionReuseStrategy());
         }
         return httpClientBuilder;
     }
