@@ -32,4 +32,4 @@ Feature: Visually show the report
     And I wait for 50 milliseconds
     And I wait for 150 milliseconds
     And I wait for 1250 milliseconds
-    Then I should receive a "pass" result
+    Then I should receive a "ambigious" result

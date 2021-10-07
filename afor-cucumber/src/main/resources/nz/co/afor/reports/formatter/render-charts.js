@@ -125,7 +125,6 @@ function drawLineChart(data, elementId, title, vAxisTitle) {
 
 function writeBreakdown(elementId) {
 	var element = document.getElementById(elementId);
-	element.innerHTML = "<div class=\"breakdownHeading chartHeading\">Breakdown</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getTotalFeatureCount() + " <b>Features</b> (<span class=\"passed\">" + formatterHighLevelSummary.features.passed + " passed,</span>	 <span class=\"failed\">" + formatterHighLevelSummary.features.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.features.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.features.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getScenarioCount() + " <b>Scenarios</b> (<span class=\"passed\">" + formatterHighLevelSummary.scenarios.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.scenarios.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.scenarios.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.scenarios.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getStepCount() + " <b>Steps</b> (<span class=\"passed\">" + formatterHighLevelSummary.steps.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.steps.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.steps.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.steps.pending + " pending,</span> <span class=\"skipped\">" + formatterHighLevelSummary.steps.skipped + " skipped</span>  <span class=\"skipped\">" + formatterHighLevelSummary.steps.ambiguous + " ambiguous</span>)</div>";
@@ -145,13 +144,17 @@ $(window).scroll(function() {
 });
 
 function loadFeatureBreakdown() {
-    var hasExtendedFailures = (formatterHighLevelSummary.features.undefined + formatterHighLevelSummary.features.pending + formatterHighLevelSummary.features.skipped + formatterHighLevelSummary.features.ambiguous) > 0;
-    $('#featureScenarioContainer').append("<table id='featureScenarioTable'><thead><tr class=\"headerRow\"><th class=\"headerCell\">Name</th><th>Passed</th><th class=\"headerCell\">Failed</th>");
-    $('#featureScenarioContainer').append("</tr></thead></table>");
+    var hasExtendedFailures = (formatterHighLevelSummary.scenarios.undefined + formatterHighLevelSummary.scenarios.pending + formatterHighLevelSummary.scenarios.skipped + formatterHighLevelSummary.scenarios.ambiguous) > 0;
+    var tableHeader = "<table id='featureScenarioTable'><thead><tr class=\"headerRow\"><th class=\"headerCell\">Name</th><th>Passed</th><th class=\"headerCell\">Failed</th>";
+    if (hasExtendedFailures) {
+        tableHeader += "<th class=\"headerCell\">Undefined</th><th class=\"headerCell\">Pending</th><th class=\"headerCell\">Skipped</th><th class=\"headerCell\">Ambiguous</th>";
+    }
+    tableHeader += "</tr></thead></table>";
+    $('#featureScenarioContainer').append(tableHeader);
 }
 
 function loadMoreFeatureBreakdownRows() {
-    var hasExtendedFailures = (formatterHighLevelSummary.features.undefined + formatterHighLevelSummary.features.pending + formatterHighLevelSummary.features.skipped + formatterHighLevelSummary.features.ambiguous) > 0;
+    var hasExtendedFailures = (formatterHighLevelSummary.scenarios.undefined + formatterHighLevelSummary.scenarios.pending + formatterHighLevelSummary.scenarios.skipped + formatterHighLevelSummary.scenarios.ambiguous) > 0;
     if (formatterFeatureSummary.length > loadedFeatures) {
         for(var maxFeature = loadedFeatures + 25; loadedFeatures < maxFeature && loadedFeatures < formatterFeatureSummary.length; loadedFeatures++) {
             var row = document.getElementById("featureScenarioTable").insertRow(-1);
@@ -163,8 +166,16 @@ function loadMoreFeatureBreakdownRows() {
             var failed = row.insertCell(2);
             failed.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.failed;
             if (hasExtendedFailures) {
-
+                var undefined = row.insertCell(3);
+                undefined.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.undefined;
+                var pending = row.insertCell(4);
+                pending.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.pending;
+                var skipped = row.insertCell(5);
+                skipped.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.skipped;
+                var ambiguous = row.insertCell(6);
+                ambiguous.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.ambiguous;
             }
         }
     }
+    document.getElementById("featureScenarioContainer").style.display = "table";
 }

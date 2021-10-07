@@ -487,6 +487,12 @@ tr.headerRow th:nth-child(4) {
 tr.headerRow th:nth-child(5) {
     background-color: #eaec2d;
 }
+tr.headerRow th:nth-child(6) {
+    background-color: #2deaec;
+}
+tr.headerRow th:nth-child(7) {
+    background-color: #2deaec;
+}
 
 tr.tableRow td:nth-child(2) {
     background-color: #b0d633;
@@ -500,6 +506,13 @@ tr.tableRow td:nth-child(4) {
 tr.tableRow td:nth-child(5) {
     background-color: #eaec2d;
 }
+tr.tableRow td:nth-child(6) {
+    background-color: #2deaec;
+}
+tr.tableRow td:nth-child(7) {
+    background-color: #2deaec;
+}
+
 tr.tableRow td:empty {
     background-color: none !important;
 }
@@ -546,4 +559,8 @@ tr.tableRow td:empty {
 
 .breakdownRow .failed {
     color: #ff0000;
+}
+
+#featureScenarioContainer {
+    display: none;
 }
