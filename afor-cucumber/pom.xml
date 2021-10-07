@@ -23,27 +23,27 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
-            <version>5.4.2</version>
+            <version>6.11.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>5.4.2</version>
+            <version>6.11.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java8</artifactId>
-            <version>5.4.2</version>
+            <version>6.11.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>5.4.2</version>
+            <version>6.11.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>
-            <version>5.4.2</version>
+            <version>6.11.0</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -53,12 +53,19 @@
         <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
-            <version>3.6.1</version>
+            <version>3.8.1</version>
         </dependency>
         <dependency>
             <groupId>com.hp.gagawa</groupId>
             <artifactId>gagawa</artifactId>
             <version>1.0.1</version>
+        </dependency>
+        <!-- Logging libraries -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.8.0-beta4</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -109,8 +116,16 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <parallel>methods</parallel>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
             </plugin>
         </plugins>

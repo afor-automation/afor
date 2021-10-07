@@ -1,19 +1,19 @@
 package nz.co.afor.reports.results;
 
-import cucumber.api.Result;
-
 import java.util.Objects;
 
-import static cucumber.api.Result.Type.*;
+import io.cucumber.plugin.event.Status;
+
+import static io.cucumber.plugin.event.Status.*;
 
 /**
  * Created by Matt on 11/04/2016.
  */
 public class ResultFinalValue {
 
-    Result.Type resultValue;
+    Status resultValue;
 
-    public void addStatus(Result.Type status) {
+    public void addStatus(Status status) {
         switch (null == status ? UNDEFINED : status) {
             case PASSED:
                 if (resultValue == null) {
@@ -24,29 +24,29 @@ public class ResultFinalValue {
                 resultValue = FAILED;
                 break;
             case UNDEFINED:
-                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
+                if (resultValue == null || resultValue.equals(PASSED)) {
                     resultValue = UNDEFINED;
                 }
                 break;
             case PENDING:
-                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
+                if (resultValue == null || resultValue.equals(PASSED)) {
                     resultValue = PENDING;
                 }
                 break;
             case SKIPPED:
-                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
+                if (resultValue == null || resultValue.equals(PASSED)) {
                     resultValue = SKIPPED;
                 }
                 break;
             case AMBIGUOUS:
-                if (resultValue == null || Objects.equals(resultValue.lowerCaseName(), "passed")) {
+                if (resultValue == null || resultValue.equals(PASSED)) {
                     resultValue = AMBIGUOUS;
                 }
                 break;
         }
     }
 
-    public Result.Type getResultValue() {
+    public Status getResultValue() {
         return resultValue;
     }
 }

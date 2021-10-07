@@ -3,6 +3,7 @@ package nz.co.afor.framework.mock;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import javax.swing.*;
 
@@ -10,7 +11,6 @@ import javax.swing.*;
  * Created by Matt Belcher on 18/08/2015.
  */
 @SpringBootApplication
-@EnableAutoConfiguration
 public class MockApplication {
 
     public static void main(String[] args) {

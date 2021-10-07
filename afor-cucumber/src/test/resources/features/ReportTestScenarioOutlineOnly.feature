@@ -9,8 +9,9 @@ Feature: Visually show the report with scenario outlines only in a feature
     Then I should receive a "<result>" result
     And I should receive a "<data>"
     Examples:
-      | data     | result    |
-      | result 1 | pass      |
-      | result 2 | pass |
-      | result 3 | pass |
-      | result 3 | pass |
+      | data     | result |
+      | result 1 | pass   |
+      | result 2 | pass   |
+      | result 3 | pass   |
+      | result 3 | pass   |
+      | result 4 | assert |

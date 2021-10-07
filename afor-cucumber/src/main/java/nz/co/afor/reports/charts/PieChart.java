@@ -6,7 +6,6 @@ import de.erichseifert.vectorgraphics2d.util.PageSize;
 import nz.co.afor.reports.results.ResultSummary;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
-import org.knowm.xchart.style.PieStyler;
 import org.knowm.xchart.style.Styler;
 
 import java.awt.*;
@@ -30,17 +29,11 @@ public class PieChart {
                 .build();
 
         pieChart.getStyler()
-                .setAnnotationType(PieStyler.AnnotationType.LabelAndValue)
-                .setDrawAllAnnotations(true)
-                .setHasAnnotations(true)
                 .setChartBackgroundColor(Color.white)
                 .setLegendBackgroundColor(Color.white)
                 .setPlotBackgroundColor(Color.white)
                 .setChartTitleBoxVisible(false)
                 .setPlotBorderVisible(false)
-                .setToolTipsEnabled(false)
-                .setToolTipsAlwaysVisible(true)
-                .setToolTipType(Styler.ToolTipType.xAndYLabels)
                 .setChartTitleFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
         addData(resultSummary, pieChart);
@@ -55,40 +48,33 @@ public class PieChart {
         return resultSummary.getScenarios().getPassed() + resultSummary.getScenarios().getFailed() + resultSummary.getScenarios().getUndefined() + resultSummary.getScenarios().getPending();
     }
 
-    private static org.knowm.xchart.PieChart addData(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart) {
-        PieSeries passed = pieChart.addSeries("Passed", resultSummary.getScenarios().getPassed());
-        passed.setToolTip(resultSummary.getScenarios().getPassed() + " passed scenarios");
+    private static void addData(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart) {
+        PieSeries passed = pieChart.addSeries(format("Passed (%d)", resultSummary.getScenarios().getPassed()), resultSummary.getScenarios().getPassed());
         passed.setFillColor(new Color(176, 214, 51));
 
         if (resultSummary.getScenarios().getFailed() > 0) {
-            PieSeries failed = pieChart.addSeries("Failed", resultSummary.getScenarios().getFailed());
-            failed.setToolTip(resultSummary.getScenarios().getFailed() + " failed scenarios");
+            PieSeries failed = pieChart.addSeries(format("Failed (%d)", resultSummary.getScenarios().getFailed()), resultSummary.getScenarios().getFailed());
             failed.setFillColor(new Color(255, 0, 0));
         }
 
         if (resultSummary.getScenarios().getUndefined() > 0) {
-            PieSeries undefined = pieChart.addSeries("Undefined", resultSummary.getScenarios().getUndefined());
-            undefined.setToolTip(resultSummary.getScenarios().getUndefined() + " undefined scenarios");
+            PieSeries undefined = pieChart.addSeries(format("Undefined (%d)", resultSummary.getScenarios().getUndefined()), resultSummary.getScenarios().getUndefined());
             undefined.setFillColor(new Color(255, 197, 0));
         }
 
         if (resultSummary.getScenarios().getPending() > 0) {
-            PieSeries pending = pieChart.addSeries("Pending", resultSummary.getScenarios().getPending());
-            pending.setToolTip(resultSummary.getScenarios().getPending() + " pending scenarios");
+            PieSeries pending = pieChart.addSeries(format("Pending (%d)", resultSummary.getScenarios().getPending()), resultSummary.getScenarios().getPending());
             pending.setFillColor(new Color(234, 236, 45));
         }
 
         if (resultSummary.getScenarios().getSkipped() > 0) {
-            PieSeries skipped = pieChart.addSeries("Skipped", resultSummary.getScenarios().getSkipped());
-            skipped.setToolTip(resultSummary.getScenarios().getSkipped() + " skipped scenarios");
+            PieSeries skipped = pieChart.addSeries(format("Skipped (%d)", resultSummary.getScenarios().getSkipped()), resultSummary.getScenarios().getSkipped());
             skipped.setFillColor(new Color(45, 234, 236));
         }
 
         if (resultSummary.getScenarios().getAmbiguous() > 0) {
-            PieSeries ambiguous = pieChart.addSeries("Ambiguous", resultSummary.getScenarios().getAmbiguous());
-            ambiguous.setToolTip(resultSummary.getScenarios().getAmbiguous() + " ambiguous scenarios");
+            PieSeries ambiguous = pieChart.addSeries(format("Ambiguous (%d)", resultSummary.getScenarios().getAmbiguous()), resultSummary.getScenarios().getAmbiguous());
             ambiguous.setFillColor(new Color(45, 234, 236));
         }
-        return pieChart;
     }
 }
