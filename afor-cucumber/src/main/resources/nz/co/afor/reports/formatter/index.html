@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <title>{{title}}</title>
@@ -28,13 +28,14 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-74450213-2');
+
     </script>
 </head>
 <body>
 <div class="title-section">
     <div class="logo">
         <a href="https://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png"
-                                                             alt="afor automation ${project.version}"></a>
+                                                              alt="afor automation ${project.version}"></a>
     </div>
     <div class="title-heading"><span class="title-heading title-heading-name">{{heading}}</span><span
             class="title-heading title-heading-date"></span></div>
@@ -53,6 +54,29 @@
     </section>
     <section class="blockelement summary">
         <article id="scenarioSummaryBreakdown" class="col breakdown"></article>
+        <article id="filterResults" class="chart col chart-table">
+            <div class="chart-table">
+                <input name="keyword" id="keyword" type="search" onchange="searchFunction()" onkeyup="searchFunction()"
+                       placeholder="Keyword filter"/>
+            </div>
+            <div class="chart-table switches">
+                <label class="cl-switch cl-switch-large cl-switch-green">
+                    <input type="checkbox" name="passed" id="passed" onchange="togglePassedFunction()" checked>
+                    <span class="switcher"></span>
+                    <span class="label">Passed</span>
+                </label>
+                <label class="cl-switch cl-switch-large cl-switch-red">
+                    <input type="checkbox" name="failed" id="failed" onchange="toggleFailedFunction()" checked>
+                    <span class="switcher"></span>
+                    <span class="label">Failed</span>
+                </label>
+                <label class="cl-switch cl-switch-large">
+                    <input type="checkbox" name="other" id="other" onchange="toggleOtherFunction()" checked>
+                    <span class="switcher"></span>
+                    <span class="label">Other</span>
+                </label>
+            </div>
+        </article>
     </section>
 </div>
 <div class="afor-report">

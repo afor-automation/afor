@@ -125,7 +125,7 @@ function drawLineChart(data, elementId, title, vAxisTitle) {
 
 function writeBreakdown(elementId) {
 	var element = document.getElementById(elementId);
-	element.innerHTML += "<div class=\"breakdownRow\">" + getTotalFeatureCount() + " <b>Features</b> (<span class=\"passed\">" + formatterHighLevelSummary.features.passed + " passed,</span>	 <span class=\"failed\">" + formatterHighLevelSummary.features.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.features.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.features.pending + " pending</span>)</div>";
+	element.innerHTML = "<div class=\"breakdownRow\">" + getTotalFeatureCount() + " <b>Features</b> (<span class=\"passed\">" + formatterHighLevelSummary.features.passed + " passed,</span>	 <span class=\"failed\">" + formatterHighLevelSummary.features.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.features.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.features.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getScenarioCount() + " <b>Scenarios</b> (<span class=\"passed\">" + formatterHighLevelSummary.scenarios.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.scenarios.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.scenarios.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.scenarios.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getStepCount() + " <b>Steps</b> (<span class=\"passed\">" + formatterHighLevelSummary.steps.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.steps.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.steps.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.steps.pending + " pending,</span> <span class=\"skipped\">" + formatterHighLevelSummary.steps.skipped + " skipped</span>  <span class=\"skipped\">" + formatterHighLevelSummary.steps.ambiguous + " ambiguous</span>)</div>";
 }
@@ -178,4 +178,94 @@ function loadMoreFeatureBreakdownRows() {
         }
     }
     document.getElementById("featureScenarioContainer").style.display = "table";
+}
+
+$.extend($.expr[':'], {
+  'containsi': function(elem, i, match, array) {
+    return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+  }
+});
+
+var delayTimer;
+function searchFunction() {
+        clearTimeout(delayTimer);
+        if ($("input[name='keyword']").val().length == 0) {
+            $("section.feature").show();
+            $("section.scenario").show();
+            if (undefined == $("input[name='passed']").attr('checked')) {
+                $("section.scenario.passed").hide();
+            }
+            if (undefined == $("input[name='failed']").attr('checked')) {
+                $("section.scenario.failed").hide();
+            }
+            if (undefined == $("input[name='other']").attr('checked')) {
+                $("section.scenario.ambiguous").hide();
+                $("section.scenario.pending").hide();
+                $("section.scenario.skipped").hide();
+                $("section.scenario.undefined").hide();
+            }
+        } else {
+            delayTimer = setTimeout(function() {
+                filter();
+            }, 1000);
+        }
+}
+
+function togglePassedFunction() {
+    if (undefined == $("input[name='passed']").attr('checked')) {
+        $("section.scenario.passed").hide();
+    } else {
+        $("section.scenario.passed").show();
+    }
+    filter();
+}
+
+function toggleFailedFunction() {
+    if (undefined == $("input[name='failed']").attr('checked')) {
+        $("section.scenario.failed").hide();
+    } else {
+        $("section.scenario.failed").show();
+    }
+    filter();
+}
+
+function toggleOtherFunction() {
+    if (undefined == $("input[name='other']").attr('checked')) {
+        $("section.scenario.ambiguous").hide();
+        $("section.scenario.pending").hide();
+        $("section.scenario.skipped").hide();
+        $("section.scenario.undefined").hide();
+    } else {
+        $("section.scenario.ambiguous").show();
+        $("section.scenario.pending").show();
+        $("section.scenario.skipped").show();
+        $("section.scenario.undefined").show();
+    }
+    filter();
+}
+
+function filter() {
+    if ($("input[name='keyword']").val().length > 2) {
+        $("section.feature")
+            .hide()
+            .filter(":containsi('" + $("input[name='keyword']").val() + "')")
+            .show();
+        $("section.scenario")
+            .hide()
+            .filter(":contains('" + $("input[name='keyword']").val() + "')")
+            .show();
+        if (undefined == $("input[name='passed']").attr('checked')) {
+            $("section.scenario.passed").hide();
+        }
+        if (undefined == $("input[name='failed']").attr('checked')) {
+            $("section.scenario.failed").hide();
+        }
+        if (undefined == $("input[name='other']").attr('checked')) {
+            $("section.scenario.ambiguous").hide();
+            $("section.scenario.pending").hide();
+            $("section.scenario.skipped").hide();
+            $("section.scenario.undefined").hide();
+        }
+    }
 }
