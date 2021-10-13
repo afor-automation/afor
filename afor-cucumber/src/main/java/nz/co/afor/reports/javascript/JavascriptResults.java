@@ -1,6 +1,6 @@
 package nz.co.afor.reports.javascript;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.messages.internal.com.fasterxml.jackson.databind.ObjectMapper;
 import nz.co.afor.reports.results.FeatureSummaryResult;
 import nz.co.afor.reports.results.ResultSummary;
 import nz.co.afor.reports.results.ScenarioTimelineResult;

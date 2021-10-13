@@ -13,6 +13,3 @@ Feature: Visually show the report with scenario outlines only in a feature
       | result 2 | pass            |
       | result 3 | pass            |
       | result 3 | pass            |
-      | result 4 | assert          |
-      | result 4 | pending         |
-      | result 4 | not implemented |

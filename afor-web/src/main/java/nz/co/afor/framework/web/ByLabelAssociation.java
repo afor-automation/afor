@@ -3,7 +3,6 @@ package nz.co.afor.framework.web;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.internal.FindsByXPath;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,12 +28,12 @@ public class ByLabelAssociation extends By implements Serializable {
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        return ((FindsByXPath) context).findElementsByXPath(xpathExpression);
+        return context.findElements(By.xpath(xpathExpression));
     }
 
     @Override
     public WebElement findElement(SearchContext context) {
-        return ((FindsByXPath) context).findElementByXPath(xpathExpression);
+        return context.findElement(By.xpath(xpathExpression));
     }
 
 

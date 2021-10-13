@@ -1,7 +1,7 @@
 package nz.co.afor.framework;
 
 import com.codeborne.selenide.ElementsCollection;
-import cucumber.api.java8.En;
+import io.cucumber.java8.En;
 
 import static com.codeborne.selenide.Selenide.$$;
 import static nz.co.afor.framework.web.Condition.*;

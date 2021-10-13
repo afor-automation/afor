@@ -1,6 +1,6 @@
 package nz.co.afor.framework;
 
-import cucumber.api.java8.En;
+import io.cucumber.java8.En;
 import nz.co.afor.framework.web.By;
 
 import static com.codeborne.selenide.Condition.attribute;

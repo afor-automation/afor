@@ -1,6 +1,6 @@
 package io.cucumber.core.gherkin.messages;
 
-import io.cucumber.messages.Messages;
+import io.cucumber.messages.types.Feature;
 import io.cucumber.plugin.event.Node;
 import io.cucumber.plugin.event.Status;
 
@@ -20,7 +20,7 @@ public final class FeatureMapping {
         try {
             Field featureField = GherkinMessagesFeature.class.getDeclaredField("feature");
             featureField.setAccessible(true);
-            this.description = ((Messages.GherkinDocument.Feature) (featureField.get(node))).getDescription();
+            this.description = ((Feature) (featureField.get(node))).getDescription();
         } catch (IllegalAccessException | NoSuchFieldException e) {
             throw new FeatureMappingException(e);
         }

@@ -14,7 +14,7 @@ Feature: Visually show the report
     And I wait for 50 milliseconds
     And I wait for 150 milliseconds
     And I wait for 250 milliseconds
-    Then I should receive a "fail" result
+    Then I should receive a "pass" result
 
   @scenario-outline-tag
   Scenario Outline: Single scenario 2
@@ -32,4 +32,4 @@ Feature: Visually show the report
     And I wait for 50 milliseconds
     And I wait for 150 milliseconds
     And I wait for 1250 milliseconds
-    Then I should receive a "ambigious" result
+    Then I should receive a "pass" result
