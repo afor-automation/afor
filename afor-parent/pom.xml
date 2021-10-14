@@ -10,7 +10,7 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-parent</artifactId>
-    <version>1.1.40-SNAPSHOT</version>
+    <version>1.1.40</version>
     <packaging>pom</packaging>
     <url>http://www.afor.co.nz</url>
     <name>${project.groupId}:${project.artifactId}</name>
@@ -45,7 +45,7 @@
         <connection>scm:git@github.com:afor-automation/afor.git</connection>
         <developerConnection>scm:git:git@github.com:afor-automation/afor.git</developerConnection>
         <url>git@github.com:afor-automation/afor.git</url>
-        <tag>afor-parent-0.1.26</tag>
+        <tag>afor-parent-1.1.40</tag>
     </scm>
 
     <build>
@@ -84,7 +84,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
