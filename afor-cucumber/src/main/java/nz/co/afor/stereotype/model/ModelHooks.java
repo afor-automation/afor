@@ -1,8 +1,8 @@
 package nz.co.afor.stereotype.model;
 
-import io.cucumber.core.api.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,12 @@ public class ModelHooks {
     ApplicationContext applicationContext;
 
     @Before
-    public void before() {
+    public void before(Scenario scenario) {
         for (Map.Entry<String, Object> entry : applicationContext.getBeansWithAnnotation(AforModel.class).entrySet()) {
             if (Model.class.isAssignableFrom(entry.getValue().getClass())) {
-                ((ModelList) entry.getValue()).clear();
+                ModelList modelList = (ModelList) entry.getValue();
+                modelList.clear();
+                modelList.before(scenario);
             } else {
                 log.warn("The class '" + entry.getValue().getClass() + "' must be assignable from Model.class");
             }
@@ -32,7 +34,9 @@ public class ModelHooks {
     public void after(Scenario scenario) {
         for (Map.Entry<String, Object> entry : applicationContext.getBeansWithAnnotation(AforModel.class).entrySet()) {
             if (Model.class.isAssignableFrom(entry.getValue().getClass())) {
-                ((ModelList) entry.getValue()).log(scenario);
+                ModelList modelList = (ModelList) entry.getValue();
+                modelList.after(scenario);
+                modelList.log(scenario);
             } else {
                 log.warn("The class '" + entry.getValue().getClass() + "' must be assignable from Model.class");
             }

@@ -1,5 +1,6 @@
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -8,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @RunWith(Cucumber.class)
 @ContextConfiguration("classpath:cucumber.xml")
-@CucumberOptions(plugin = {"pretty", "nz.co.afor.reports.HTML:target/afor", "junit:target/afor/junit.xml", "rerun:target/afor/rerun.txt"})
+@CucumberContextConfiguration
+@CucumberOptions(plugin = {"pretty"})
 public class RunTest {
 }

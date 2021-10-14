@@ -3,7 +3,6 @@ var scenarioBreakdownData;
 var scenarioDurationData;
 
 google.charts.setOnLoadCallback(drawScenarioDataCharts);
-google.charts.setOnLoadCallback(drawFeatureScenarioBreakdownCharts);
 google.charts.setOnLoadCallback(drawScenarioDurationCharts);
 
 $(window).on("throttledresize", function (event) {
@@ -12,19 +11,11 @@ $(window).on("throttledresize", function (event) {
 
 function drawCharts() {
     drawScenarioDataCharts();
-    drawFeatureScenarioBreakdownCharts();
     drawScenarioDurationCharts();
 }
 
 function drawScenarioDataCharts() {
 	writeBreakdown('scenarioSummaryBreakdown');
-}
-
-function drawFeatureScenarioBreakdownCharts() {
-    if (null == scenarioBreakdownData) {
-        scenarioBreakdownData = getFeatureScenarioBreakdownData();
-    }
-	drawStackedBarChart(scenarioBreakdownData, getTotalFeatureCount(), 'featureScenarioBarChart', 'Feature Results (' + getTotalFeatureCount() + ' in total)');
 }
 
 function drawScenarioDurationCharts() {
@@ -66,164 +57,15 @@ function getScenarioData() {
     return data;
 }
 
-function getFeatureScenarioBreakdownData() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Feature');
-	data.addColumn('number', 'Passed');
-	data.addColumn('number', 'Failed');
-	if (formatterHighLevelSummary.scenarios.undefined > 0 || formatterHighLevelSummary.scenarios.pending > 0 || formatterHighLevelSummary.scenarios.ambiguous > 0) {
-		data.addColumn('number', 'Undefined');
-    	data.addColumn('number', 'Pending');
-    	data.addColumn('number', 'Ambiguous');
-	}
-
-	for(var feature = 0; feature < formatterSummary.length; feature++) {
-		var resultPassed = 0;
-		var resultFailed = 0;
-		var resultUndefined = 0;
-		var resultPending = 0;
-		var resultSkipped = 0;
-		var resultAmbiguous = 0;
-		for(var scenario = 0; scenario < formatterSummary[feature].scenarios.length; scenario++) {
-            var scenarioResult = null;
-			for(var step = 0; step < formatterSummary[feature].scenarios[scenario].steps.length; step++) {
-				if (formatterSummary[feature].scenarios[scenario].steps[step].result != null) {
-					switch(formatterSummary[feature].scenarios[scenario].steps[step].result) {
-						case "PASSED":
-							if (scenarioResult == null) {
-								scenarioResult = "passed";
-							}
-							break;
-						case "FAILED":
-							scenarioResult = "failed";
-							break;
-						case "UNDEFINED":
-							if (scenarioResult == null || scenarioResult == "passed") {
-								scenarioResult = "undefined";
-							}
-							break;
-						case "PENDING":
-							if (scenarioResult == null || scenarioResult == "passed") {
-								scenarioResult = "pending";
-							}
-							break;
-                        case "SKIPPED":
-                          if (scenarioResult == null || scenarioResult == "passed") {
-                            scenarioResult = "skipped";
-                          }
-                          break;
-                        case "AMBIGUOUS":
-                          if (scenarioResult == null || scenarioResult == "passed") {
-                            scenarioResult = "ambiguous";
-                          }
-                          break;
-					}
-				}
-			}
-			if (null != scenarioResult) {
-                switch(scenarioResult) {
-                    case "passed":
-                        resultPassed++;
-                        break;
-                    case "failed":
-                        resultFailed++;
-                        break;
-                    case "undefined":
-                        resultUndefined++;
-                        break;
-                    case "pending":
-                        resultPending++;
-                    case "skipped":
-                        resultSkipped++;
-                    case "ambiguous":
-                        resultAmbiguous++;
-                        break;
-                }
-            }
-		}
-        for(var scenario = 0; scenario < formatterSummary[feature].scenarioOutlines.length; scenario++) {
-            var scenarioResult = null;
-            for(var step = 0; step < formatterSummary[feature].scenarioOutlines[scenario].steps.length; step++) {
-                if (formatterSummary[feature].scenarioOutlines[scenario].steps[step].result != null) {
-                    switch(formatterSummary[feature].scenarioOutlines[scenario].steps[step].result) {
-                        case "PASSED":
-                            if (scenarioResult == null) {
-                                scenarioResult = "passed";
-                            }
-                            break;
-                        case "FAILED":
-                            scenarioResult = "failed";
-                            break;
-                        case "UNDEFINED":
-                            if (scenarioResult == null || scenarioResult == "passed") {
-                                scenarioResult = "undefined";
-                            }
-                            break;
-                        case "PENDING":
-                            if (scenarioResult == null || scenarioResult == "passed") {
-                                scenarioResult = "pending";
-                            }
-                            break;
-                        case "SKIPPED":
-                          if (scenarioResult == null || scenarioResult == "passed") {
-                            scenarioResult = "skipped";
-                          }
-                          break;
-                        case "AMBIGUOUS":
-                          if (scenarioResult == null || scenarioResult == "passed") {
-                            scenarioResult = "ambiguous";
-                          }
-                          break;
-                    }
-                }
-            }
-            if (null != scenarioResult) {
-                switch(scenarioResult) {
-                    case "passed":
-                        resultPassed++;
-                        break;
-                    case "failed":
-                        resultFailed++;
-                        break;
-                    case "undefined":
-                        resultUndefined++;
-                        break;
-                    case "pending":
-                        resultPending++;
-                    case "skipped":
-                        resultSkipped++;
-                    case "ambiguous":
-                        resultAmbiguous++;
-                        break;
-                }
-            }
-        }
-        if (formatterHighLevelSummary.scenarios.undefined > 0 || formatterHighLevelSummary.scenarios.pending > 0 || formatterHighLevelSummary.scenarios.ambiguous > 0) {
-            data.addRow([formatterSummary[feature].name, resultPassed == 0 ? null : resultPassed, resultFailed == 0 ? null : resultFailed, resultUndefined == 0 ? null : resultUndefined, resultPending == 0 ? null : resultPending, resultAmbiguous == 0 ? null : resultAmbiguous]);
-        } else {
-            data.addRow([formatterSummary[feature].name, resultPassed == 0 ? null : resultPassed, resultFailed == 0 ? null : resultFailed]);
-        }
-    }
-    return data;
-}
-
 function getScenarioDurationData() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Scenario');
     data.addColumn('number', 'Scenario duration');
 
-    for(var feature = 0; feature < formatterSummary.length; feature++) {
-        for(var scenario = 0; scenario < formatterSummary[feature].scenarios.length; scenario++) {
-			var scenarioDuration = formatterSummary[feature].scenarios[scenario].duration;
-       	    data.addRow([formatterSummary[feature].scenarios[scenario].name + " - (" + formatterSummary[feature].scenarios[scenario].steps.length + " steps)", (Math.round((scenarioDuration / 1000000) + 0.00001) * 1000) / 1000000]);
-        }
+    for(var scenario = 0; scenario < formatterPerformanceSummary.length; scenario++) {
+        data.addRow([formatterPerformanceSummary[scenario].name, formatterPerformanceSummary[scenario].durationInSeconds]);
     }
-    for(var feature = 0; feature < formatterSummary.length; feature++) {
-        for(var scenario = 0; scenario < formatterSummary[feature].scenarioOutlines.length; scenario++) {
-			var scenarioDuration = formatterSummary[feature].scenarioOutlines[scenario].duration;
-       	    data.addRow([formatterSummary[feature].scenarioOutlines[scenario].name + " - (" + formatterSummary[feature].scenarioOutlines[scenario].steps.length + " steps)", (Math.round((scenarioDuration / 1000000) + 0.00001) * 1000) / 1000000]);
-        }
-    }
+
     return data;
 }
 
@@ -268,7 +110,8 @@ function drawLineChart(data, elementId, title, vAxisTitle) {
         width: "100%",
         height: "100%",
 		vAxis: {
-            title: vAxisTitle
+            title: vAxisTitle,
+            titleTextStyle: {italic: false, fontSize: '14', fontName: 'Helvetica, Arial, sans-serif'}
 	    },
 	    hAxis: { textPosition: 'none' },
         legend: { position: 'none' },
@@ -282,8 +125,147 @@ function drawLineChart(data, elementId, title, vAxisTitle) {
 
 function writeBreakdown(elementId) {
 	var element = document.getElementById(elementId);
-	element.innerHTML = "<div class=\"breakdownHeading chartHeading\">Breakdown</div>";
-	element.innerHTML += "<div class=\"breakdownRow\">" + getTotalFeatureCount() + " <b>Features</b> (<span class=\"passed\">" + formatterHighLevelSummary.features.passed + " passed,</span>	 <span class=\"failed\">" + formatterHighLevelSummary.features.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.features.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.features.pending + " pending</span>)</div>";
+	element.innerHTML = "<div class=\"breakdownRow\">" + getTotalFeatureCount() + " <b>Features</b> (<span class=\"passed\">" + formatterHighLevelSummary.features.passed + " passed,</span>	 <span class=\"failed\">" + formatterHighLevelSummary.features.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.features.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.features.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getScenarioCount() + " <b>Scenarios</b> (<span class=\"passed\">" + formatterHighLevelSummary.scenarios.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.scenarios.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.scenarios.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.scenarios.pending + " pending</span>)</div>";
 	element.innerHTML += "<div class=\"breakdownRow\">" + getStepCount() + " <b>Steps</b> (<span class=\"passed\">" + formatterHighLevelSummary.steps.passed + " passed,</span> <span class=\"failed\">" + formatterHighLevelSummary.steps.failed + " failed,</span> <span class=\"undefined\">" + formatterHighLevelSummary.steps.undefined + " undefined,</span> <span class=\"pending\">" + formatterHighLevelSummary.steps.pending + " pending,</span> <span class=\"skipped\">" + formatterHighLevelSummary.steps.skipped + " skipped</span>  <span class=\"skipped\">" + formatterHighLevelSummary.steps.ambiguous + " ambiguous</span>)</div>";
+}
+
+// Feature table breakdown
+var loadedFeatures = 0;
+$(window).load(function() {
+    loadFeatureBreakdown();
+    loadMoreFeatureBreakdownRows();
+});
+
+$(window).scroll(function() {
+    if($('#featureScenarioContainer').scrollTop() + $('#featureScenarioContainer').innerHeight() >= $('#featureScenarioContainer')[0].scrollHeight) {
+        loadMoreFeatureBreakdownRows();
+    }
+});
+
+function loadFeatureBreakdown() {
+    var hasExtendedFailures = (formatterHighLevelSummary.scenarios.undefined + formatterHighLevelSummary.scenarios.pending + formatterHighLevelSummary.scenarios.skipped + formatterHighLevelSummary.scenarios.ambiguous) > 0;
+    var tableHeader = "<table id='featureScenarioTable'><thead><tr class=\"headerRow\"><th class=\"headerCell\">Name</th><th>Passed</th><th class=\"headerCell\">Failed</th>";
+    if (hasExtendedFailures) {
+        tableHeader += "<th class=\"headerCell\">Undefined</th><th class=\"headerCell\">Pending</th><th class=\"headerCell\">Skipped</th><th class=\"headerCell\">Ambiguous</th>";
+    }
+    tableHeader += "</tr></thead></table>";
+    $('#featureScenarioContainer').append(tableHeader);
+}
+
+function loadMoreFeatureBreakdownRows() {
+    var hasExtendedFailures = (formatterHighLevelSummary.scenarios.undefined + formatterHighLevelSummary.scenarios.pending + formatterHighLevelSummary.scenarios.skipped + formatterHighLevelSummary.scenarios.ambiguous) > 0;
+    if (formatterFeatureSummary.length > loadedFeatures) {
+        for(var maxFeature = loadedFeatures + 25; loadedFeatures < maxFeature && loadedFeatures < formatterFeatureSummary.length; loadedFeatures++) {
+            var row = document.getElementById("featureScenarioTable").insertRow(-1);
+            row.classList.add("tableRow");
+            var name = row.insertCell(0);
+            name.innerHTML = "<a href=\"#" + formatterFeatureSummary[loadedFeatures].href + "\">" + formatterFeatureSummary[loadedFeatures].name + "</a>";
+            var passed = row.insertCell(1);
+            passed.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.passed;
+            var failed = row.insertCell(2);
+            failed.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.failed;
+            if (hasExtendedFailures) {
+                var undefined = row.insertCell(3);
+                undefined.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.undefined;
+                var pending = row.insertCell(4);
+                pending.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.pending;
+                var skipped = row.insertCell(5);
+                skipped.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.skipped;
+                var ambiguous = row.insertCell(6);
+                ambiguous.innerHTML = formatterFeatureSummary[loadedFeatures].scenarioResults.ambiguous;
+            }
+        }
+    }
+    document.getElementById("featureScenarioContainer").style.display = "table";
+}
+
+$.extend($.expr[':'], {
+  'containsi': function(elem, i, match, array) {
+    return (elem.textContent || elem.innerText || '').toLowerCase()
+        .indexOf((match[3] || "").toLowerCase()) >= 0;
+  }
+});
+
+var delayTimer;
+function searchFunction() {
+        clearTimeout(delayTimer);
+        if ($("input[name='keyword']").val().length == 0) {
+            $("section.feature").show();
+            $("section.scenario").show();
+            if (undefined == $("input[name='passed']").attr('checked')) {
+                $("section.scenario.passed").hide();
+            }
+            if (undefined == $("input[name='failed']").attr('checked')) {
+                $("section.scenario.failed").hide();
+            }
+            if (undefined == $("input[name='other']").attr('checked')) {
+                $("section.scenario.ambiguous").hide();
+                $("section.scenario.pending").hide();
+                $("section.scenario.skipped").hide();
+                $("section.scenario.undefined").hide();
+            }
+        } else {
+            delayTimer = setTimeout(function() {
+                filter();
+            }, 1000);
+        }
+}
+
+function togglePassedFunction() {
+    if (undefined == $("input[name='passed']").attr('checked')) {
+        $("section.scenario.passed").hide();
+    } else {
+        $("section.scenario.passed").show();
+    }
+    filter();
+}
+
+function toggleFailedFunction() {
+    if (undefined == $("input[name='failed']").attr('checked')) {
+        $("section.scenario.failed").hide();
+    } else {
+        $("section.scenario.failed").show();
+    }
+    filter();
+}
+
+function toggleOtherFunction() {
+    if (undefined == $("input[name='other']").attr('checked')) {
+        $("section.scenario.ambiguous").hide();
+        $("section.scenario.pending").hide();
+        $("section.scenario.skipped").hide();
+        $("section.scenario.undefined").hide();
+    } else {
+        $("section.scenario.ambiguous").show();
+        $("section.scenario.pending").show();
+        $("section.scenario.skipped").show();
+        $("section.scenario.undefined").show();
+    }
+    filter();
+}
+
+function filter() {
+    if ($("input[name='keyword']").val().length > 2) {
+        $("section.feature")
+            .hide()
+            .filter(":containsi('" + $("input[name='keyword']").val() + "')")
+            .show();
+        $("section.scenario")
+            .hide()
+            .filter(":contains('" + $("input[name='keyword']").val() + "')")
+            .show();
+        if (undefined == $("input[name='passed']").attr('checked')) {
+            $("section.scenario.passed").hide();
+        }
+        if (undefined == $("input[name='failed']").attr('checked')) {
+            $("section.scenario.failed").hide();
+        }
+        if (undefined == $("input[name='other']").attr('checked')) {
+            $("section.scenario.ambiguous").hide();
+            $("section.scenario.pending").hide();
+            $("section.scenario.skipped").hide();
+            $("section.scenario.undefined").hide();
+        }
+    }
 }

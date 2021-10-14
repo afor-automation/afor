@@ -3,7 +3,7 @@
     <parent>
         <artifactId>afor-parent</artifactId>
         <groupId>nz.co.afor.framework</groupId>
-        <version>0.1.40-SNAPSHOT</version>
+        <version>1.1.42-SNAPSHOT</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -20,22 +20,22 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>5.2.4.RELEASE</version>
+            <version>5.3.10</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>5.2.4.RELEASE</version>
+            <version>5.3.10</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.12</version>
+            <version>4.5.13</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.6</version>
+            <version>3.8.0</version>
         </dependency>
         <dependency>
             <groupId>guru.nidi.raml</groupId>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
-            <version>3.3.5</version>
+            <version>3.4.5</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -59,24 +59,24 @@
             <version>2.0.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>6.1.2.Final</version>
+            <version>7.0.1.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
-            <version>3.0.8.RELEASE</version>
+            <version>3.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-support</artifactId>
-            <version>3.0.8.RELEASE</version>
+            <version>3.1.1</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
@@ -98,9 +98,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.0.8.Final</version>
+            <version>7.0.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -141,7 +141,7 @@
                                 <include>commons-net:commons-net</include>
                                 <include>org.apache.cxf:cxf-rt-rs-client</include>
                                 <include>javax.validation:validation-api</include>
-                                <include>org.hibernate:hibernate-validator-annotation-processor</include>
+                                <include>org.hibernate.validator</include>
                                 <include>org.apache.commons:commons-lang3</include>
                             </includes>
                         </configuration>
@@ -153,8 +153,16 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <parallel>methods</parallel>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
             </plugin>
             <plugin>

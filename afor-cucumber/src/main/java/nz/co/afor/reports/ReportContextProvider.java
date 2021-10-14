@@ -1,5 +1,7 @@
 package nz.co.afor.reports;
 
+import io.cucumber.core.options.CucumberProperties;
+import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -13,6 +15,7 @@ import java.time.format.DateTimeFormatter;
  */
 @Component
 public class ReportContextProvider implements ApplicationContextAware {
+
     private static ApplicationContext applicationContext;
 
     private static String reportTitle;
@@ -39,7 +42,7 @@ public class ReportContextProvider implements ApplicationContextAware {
 
     @Value("${nz.co.afor.report.title:Automation Results}")
     public void setReportTitle(String reportTitle) {
-        ReportContextProvider.reportTitle = reportTitle;
+        ReportContextProvider.reportTitle = "Afor Automation - " + reportTitle;
     }
 
     @Value("${nz.co.afor.report.date.format:yyyy-MMM-dd HH:mm:ss}")

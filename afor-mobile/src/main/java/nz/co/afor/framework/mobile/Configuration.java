@@ -21,7 +21,7 @@ public class Configuration {
     @Value("${appium.platformName:Android}")
     private String platformName;
 
-    @Value("${appium.platformVersion:7.1}")
+    @Value("${appium.platformVersion:11}")
     private String platformVersion;
 
     @Value("${appium.deviceName:Android Emulator}")

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
-    <title>Afor Automation</title>
+    <title>{{title}}</title>
     <meta name="description" content="Afor Automation Cucumber Report">
     <link href="style.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="print" href="print.css"/>
@@ -10,9 +10,9 @@
     <script src="jquery-1.8.2.min.js"></script>
     <script src="moment.min.js"></script>
     <script src="formatter.js"></script>
-    <script src="report.js"></script>
+    <script src="featuresummaryreport.js"></script>
     <script src="summaryreport.js"></script>
-    <script src="details-shim.min.js"></script>
+    <script src="performancesummaryreport.js"></script>
     <script src="loader.js"></script>
     <script src="jquery.throttledresize.js"></script>
     <script src="render-charts.js"></script>
@@ -28,36 +28,59 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-74450213-2');
+
     </script>
 </head>
 <body>
 <div class="title-section">
     <div class="logo">
-        <a href="http://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png"
-                                                             alt="afor automation ${project.version}"></a>
+        <a href="https://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png"
+                                                              alt="afor automation ${project.version}"></a>
     </div>
-    <div class="title-heading"><span class="title-heading title-heading-name">Automation Results</span><span
+    <div class="title-heading"><span class="title-heading title-heading-name">{{heading}}</span><span
             class="title-heading title-heading-date"></span></div>
 </div>
 <div class="afor-summary grid2">
-    <h2>Summary</h2>
     <section class="blockelement summary">
         <article id="scenarioPieChart" class="chart col center"><img src="piechart.svg"/></article>
-        <article id="featureScenarioBarChart" class="chart col"><div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></article>
+        <article id="scenarioScatterChart" class="chart col center"><img src="scatterchart.svg"/></article>
     </section>
     <section class="blockelement summary">
         <article class="chart col chart-table">
             <div class="chartHeading chartHeadingTable">Feature Result Statistics</div>
-            <div id="featureScenarioTable" class="chart-table">${feature-result-table}</div>
+            <div id="featureScenarioContainer" class="chart-table"></div>
         </article>
         <article id="scenarioPerformanceLineChart" class="chart col chart-table"></article>
     </section>
     <section class="blockelement summary">
         <article id="scenarioSummaryBreakdown" class="col breakdown"></article>
+        <article id="filterResults" class="chart col chart-table">
+            <div class="chart-table">
+                <input name="keyword" id="keyword" type="search" onchange="searchFunction()" onkeyup="searchFunction()"
+                       placeholder="Keyword filter"/>
+            </div>
+            <div class="chart-table switches">
+                <label class="cl-switch cl-switch-large cl-switch-green">
+                    <input type="checkbox" name="passed" id="passed" onchange="togglePassedFunction()" checked>
+                    <span class="switcher"></span>
+                    <span class="label">Passed</span>
+                </label>
+                <label class="cl-switch cl-switch-large cl-switch-red">
+                    <input type="checkbox" name="failed" id="failed" onchange="toggleFailedFunction()" checked>
+                    <span class="switcher"></span>
+                    <span class="label">Failed</span>
+                </label>
+                <label class="cl-switch cl-switch-large">
+                    <input type="checkbox" name="other" id="other" onchange="toggleOtherFunction()" checked>
+                    <span class="switcher"></span>
+                    <span class="label">Other</span>
+                </label>
+            </div>
+        </article>
     </section>
 </div>
 <div class="afor-report">
-    <h2>Detailed Report</h2>
+    {{detailedreport}}
 </div>
 </body>
 </html>

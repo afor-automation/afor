@@ -1,6 +1,6 @@
 package nz.co.afor.reports.results;
 
-import cucumber.api.Result;
+import io.cucumber.plugin.event.Status;
 
 /**
  * Created by Matt on 11/04/2016.
@@ -13,7 +13,7 @@ public class ResultValue {
     private Integer skipped = 0;
     private Integer ambiguous = 0;
 
-    public void addResult(Result.Type result) {
+    public void addResult(Status result) {
         if (null == result)
             return;
         switch (result) {
@@ -35,6 +35,7 @@ public class ResultValue {
             case AMBIGUOUS:
                 ambiguous();
                 break;
+            case UNUSED:
             default:
                 throw new RuntimeException(String.format("ResultValue type '%s' is not defined in reporting", result));
         }

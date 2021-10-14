@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.cucumber.core.api.Scenario;
+import io.cucumber.java.Scenario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,5 +35,21 @@ public interface Model<T> extends List<T> {
                 log.warn("Failed to log the '{}' data model for the scenario '{}', {}", this.getClass().getSimpleName(), scenario.getName(), e);
             }
         }
+    }
+
+    /**
+     * Allows implementing custom before hooks at a model level
+     *
+     * @param scenario The current cucumber scenario
+     */
+    default void before(Scenario scenario) {
+    }
+
+    /**
+     * Allows implementing custom after hooks at a model level
+     *
+     * @param scenario The current cucumber scenario
+     */
+    default void after(Scenario scenario) {
     }
 }
