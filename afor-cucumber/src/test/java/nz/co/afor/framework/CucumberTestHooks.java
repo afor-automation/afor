@@ -12,10 +12,11 @@ public class CucumberTestHooks {
     @After
     public void after(Scenario scenario) throws IOException {
         if (scenario.getSourceTagNames().contains("@attach")) {
-            scenario.attach(HTML.class.getResourceAsStream("formatter/aforLogoLargeGradient.png").readAllBytes(), "png", scenario.getId());
+            scenario.attach(HTML.class.getResourceAsStream("formatter/aforLogoLargeGradient.png").readAllBytes(), "image/png", scenario.getId());
         }
         if (scenario.getSourceTagNames().contains("@log")) {
-            scenario.log(format("log for scenario '%s'", scenario.getId()));
+            scenario.log(format("log1 for scenario '%s'", scenario.getId()));
+            scenario.log(format("log2 for scenario '%s'", scenario.getId()));
         }
     }
 }

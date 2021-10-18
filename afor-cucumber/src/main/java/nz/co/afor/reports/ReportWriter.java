@@ -1,7 +1,9 @@
 package nz.co.afor.reports;
 
+import com.google.common.net.MediaType;
 import com.hp.gagawa.java.EscapeText;
 import io.cucumber.core.gherkin.messages.FeatureMapping;
+import io.cucumber.messages.types.Source;
 import io.cucumber.plugin.event.*;
 import nz.co.afor.reports.charts.PieChart;
 import nz.co.afor.reports.charts.PlotChart;
@@ -123,11 +125,24 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
         scenarioTimelineResults.add(new ScenarioTimelineResult(testCaseFinished.getTestCase().getName(), testCaseFinished.getResult().getStatus(), testCaseFinished.getTestCase().getTestSteps().stream().filter(testStep -> PickleStepTestStep.class.isAssignableFrom(testStep.getClass())).count(), testCaseFinished.getResult().getDuration().toMillis()));
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public void writeAttachment(EmbedEvent embedEvent) {
-        htmlWriter.addResource("attachment-" + attachments + "." + embedEvent.getMediaType(), embedEvent.getData());
-        if (embedEvent.getMediaType().equalsIgnoreCase("png") || embedEvent.getMediaType().equalsIgnoreCase("jpg") || embedEvent.getMediaType().equalsIgnoreCase("gif"))
-            stepBuffer.append("<img src=\"" + "attachment-").append(attachments).append(".").append(embedEvent.getMediaType()).append("\">");
+        MediaType mediaType = MediaType.APPLICATION_BINARY;
+        try {
+            mediaType = MediaType.parse(embedEvent.getMediaType());
+        } catch (Exception ignore) {
+        }
+        htmlWriter.addResource("attachment-" + attachments + "." + mediaType.subtype(), embedEvent.getData());
+        if (mediaType.is(MediaType.ANY_IMAGE_TYPE)) {
+            stepBuffer.append("<img src=\"" + "attachment-").append(attachments).append(".").append(mediaType.subtype()).append("\">");
+        } else {
+            stepBuffer.append("<a class=\"attachment\" href=\"" + "attachment-").append(attachments).append(".").append(mediaType.subtype()).append("\">attachment-").append(attachments).append("</a>");
+        }
         attachments++;
+    }
+
+    public void writeLog(WriteEvent writeEvent) {
+        stepBuffer.append("<div class=\"embedded-text\">").append(EscapeText.escapeHTML(writeEvent.getText())).append("</div>");
     }
 
     private void initialise() {
@@ -138,8 +153,11 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
     }
 
     public void close() {
-        if (features != 0) {
+        if (null != featureMapping) {
             writeFeatureContent(this.featureMapping);
+        } else {
+            initialise();
+            htmlWriter.write("<h3>No scenarios were run, try changing your filter criteria</h3>");
         }
         htmlWriter.close();
     }

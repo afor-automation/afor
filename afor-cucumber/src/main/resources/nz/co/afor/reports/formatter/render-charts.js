@@ -177,7 +177,7 @@ function loadMoreFeatureBreakdownRows() {
             }
         }
     }
-    document.getElementById("featureScenarioContainer").style.display = "table";
+    document.getElementById("featureScenarioContainer").style.display = "block";
 }
 
 $.extend($.expr[':'], {

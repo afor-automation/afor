@@ -57,20 +57,20 @@
         <article id="filterResults" class="chart col chart-table">
             <div class="chart-table">
                 <input name="keyword" id="keyword" type="search" onchange="searchFunction()" onkeyup="searchFunction()"
-                       placeholder="Keyword filter"/>
+                       placeholder="Keyword filter" autocomplete="off" spellcheck="false" aria-live="off"/>
             </div>
             <div class="chart-table switches">
-                <label class="cl-switch cl-switch-large cl-switch-green">
+                <label class="cl-switch cl-switch-green">
                     <input type="checkbox" name="passed" id="passed" onchange="togglePassedFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Passed</span>
                 </label>
-                <label class="cl-switch cl-switch-large cl-switch-red">
+                <label class="cl-switch cl-switch-red">
                     <input type="checkbox" name="failed" id="failed" onchange="toggleFailedFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Failed</span>
                 </label>
-                <label class="cl-switch cl-switch-large">
+                <label class="cl-switch">
                     <input type="checkbox" name="other" id="other" onchange="toggleOtherFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Other</span>
