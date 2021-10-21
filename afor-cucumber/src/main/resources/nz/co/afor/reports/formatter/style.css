@@ -697,3 +697,8 @@ tr.tableRow td:empty {
 .cl-switch.cl-switch-green .switcher:active:before {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 10px rgba(41, 204, 151, 0.3);
 }
+
+#expandCollapse {
+    color: #aad400;
+    padding-left: 10px;
+}

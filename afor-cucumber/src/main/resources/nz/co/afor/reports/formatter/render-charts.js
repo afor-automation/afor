@@ -205,6 +205,7 @@ function searchFunction() {
                 $("section.scenario.skipped").hide();
                 $("section.scenario.undefined").hide();
             }
+            filter();
         } else {
             delayTimer = setTimeout(function() {
                 filter();
@@ -253,7 +254,7 @@ function filter() {
             .show();
         $("section.scenario")
             .hide()
-            .filter(":contains('" + $("input[name='keyword']").val() + "')")
+            .filter(":containsi('" + $("input[name='keyword']").val() + "')")
             .show();
         if (undefined == $("input[name='passed']").attr('checked')) {
             $("section.scenario.passed").hide();
@@ -267,5 +268,26 @@ function filter() {
             $("section.scenario.skipped").hide();
             $("section.scenario.undefined").hide();
         }
+    }
+
+    $("section.feature").filter(function() {
+        return $(this).find("section.scenario").filter(function() {
+            return $(this).css("display") === "block";
+        }).length > 0;
+    }).show();
+    $("section.feature").filter(function() {
+        return $(this).find("section.scenario").filter(function() {
+            return $(this).css("display") === "block";
+        }).length == 0;
+    }).hide();
+}
+
+function toggleExpandCollapse() {
+    if ($("#expandCollapse").text() == "expand all") {
+        $("#expandCollapse").text("collapse all");
+        $("section details").attr("open", "open");
+    } else {
+        $("#expandCollapse").text("expand all");
+        $("section details").removeAttr("open");
     }
 }
