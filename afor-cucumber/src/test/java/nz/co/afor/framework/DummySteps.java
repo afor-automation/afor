@@ -1,5 +1,6 @@
 package nz.co.afor.framework;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.PendingException;
 import io.cucumber.java8.En;
 import io.cucumber.java8.StepDefinitionBody;
@@ -35,5 +36,6 @@ public class DummySteps implements En {
             }
             throw new RuntimeException("Unexpected step definition value " + value);
         });
+        And("^I perform a block action:$", (DataTable dataTable) -> log.info("I perform a block action '{}'", dataTable));
     }
 }

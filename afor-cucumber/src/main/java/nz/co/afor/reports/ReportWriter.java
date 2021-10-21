@@ -2,6 +2,7 @@ package nz.co.afor.reports;
 
 import com.google.common.net.MediaType;
 import com.hp.gagawa.java.EscapeText;
+import io.cucumber.core.gherkin.DataTableArgument;
 import io.cucumber.core.gherkin.messages.FeatureMapping;
 import io.cucumber.messages.types.Source;
 import io.cucumber.plugin.event.*;
@@ -55,6 +56,22 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
                     .append(":</span><span class=\"name\">").append(EscapeText.escapeHTML(step.getText())).append("</span>")
                     .append("<span class=\"duration\">").append(formatDuration(testStepFinished.getResult().getDuration().toMillis())).append("</span>")
                     .append("<span class=\"startTime\">").append(TIME_FORMAT.format(startTime)).append("</span>");
+            if (null != step.getArgument() && DataTableArgument.class.isAssignableFrom(step.getArgument().getClass())) {
+                stepBuffer.append("<table class=\"data_table\">");
+                List<List<String>> cells = ((DataTableArgument) step.getArgument()).cells();
+                for (int i = 0, cellsSize = cells.size(); i < cellsSize; i++) {
+                    stepBuffer.append("<tr>");
+                    for (String cell : cells.get(i)) {
+                        if (i == 0) {
+                            stepBuffer.append("<th>").append(EscapeText.escapeHTML(cell)).append("</th>");
+                        } else {
+                            stepBuffer.append("<td>").append(EscapeText.escapeHTML(cell)).append("</td>");
+                        }
+                    }
+                    stepBuffer.append("</tr>");
+                }
+                stepBuffer.append("</table>");
+            }
             if (null != testStepFinished.getResult().getError() && null != testStepFinished.getResult().getError().getStackTrace()) {
                 stepBuffer.append("<pre class=\"error\">")
                         .append(EscapeText.escapeHTML(testStepFinished.getResult().getError().toString())).append("\n");
@@ -104,7 +121,7 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
                 .append("><summary class=\"header\">");
         if (testCaseFinished.getTestCase().getTags().size() > 0) {
             scenarioBuffer.append("<div class=\"tags\">");
-            testCaseFinished.getTestCase().getTags().forEach(tag-> scenarioBuffer.append("<span class=\"tag\">").append(EscapeText.escapeHTML(tag)).append("</span>"));
+            testCaseFinished.getTestCase().getTags().forEach(tag -> scenarioBuffer.append("<span class=\"tag\">").append(EscapeText.escapeHTML(tag)).append("</span>"));
             scenarioBuffer.append("</div>");
         }
         scenarioBuffer.append("<span class=\"keyword\" itemprop=\"keyword\">")
