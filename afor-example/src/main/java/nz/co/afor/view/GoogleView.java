@@ -31,10 +31,10 @@ public class GoogleView {
     }
 
     public SelenideElement getResultStats() {
-        return $("div#resultStats");
+        return $("div#result-stats");
     }
 
     public ElementsCollection getResultLinks() {
-        return $$("div.r a h3");
+        return $$("div a h3");
     }
 }
