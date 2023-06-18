@@ -1,7 +1,14 @@
 package nz.co.afor.framework.api.soap;
 
+import nz.co.afor.framework.api.HttpClassicClientFactory;
 import nz.co.afor.framework.api.HttpClientFactory;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.hc.core5.http.EntityDetails;
+import org.apache.hc.core5.http.HttpRequest;
+import org.apache.hc.core5.http.HttpRequestInterceptor;
+import org.apache.hc.core5.http.protocol.HttpContext;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.client.HttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -16,13 +23,11 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import static org.springframework.ws.transport.http.HttpComponentsMessageSender.RemoveSoapHeadersInterceptor;
-
 /**
  * Created by Matt on 6/09/2017.
  */
 public class AbstractClient extends WebServiceGatewaySupport {
-    private SoapServiceInterceptor soapServiceInterceptor = new SoapServiceInterceptor();
+    private final SoapServiceInterceptor soapServiceInterceptor = new SoapServiceInterceptor();
     private String contextPath;
     private final SoapActionCallback soapActionCallback;
     private String url;
@@ -42,8 +47,23 @@ public class AbstractClient extends WebServiceGatewaySupport {
     @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
 
-    @Value("${api.connection.reuse:true}")
-    Boolean reuseConnections;
+    @Value("${api.pool.connections.max:}")
+    Integer maxTotalConnections;
+
+    @Value("${api.pool.connections.route.max:}")
+    Integer maxConnectionsPerRoute;
+
+    @Value("${api.pool.inactivity.validate:}")
+    Integer validateAfterInactivityMilliseconds;
+
+    @Value("${api.pool.connections.timeToLive:}")
+    Integer timeToLive;
+
+    @Value("${api.pool.connect.timeout:}")
+    Integer connectTimeout;
+
+    @Value("${api.pool.socket.timeout:}")
+    Integer socketTimeout;
 
     protected AbstractClient(String contextPath, String soapActionCallback, String url) {
         this.contextPath = contextPath;
@@ -112,16 +132,37 @@ public class AbstractClient extends WebServiceGatewaySupport {
             ClientInterceptor[] interceptors = ArrayUtils.add(webServiceTemplate.getInterceptors(), soapServiceInterceptor);
             webServiceTemplate.setInterceptors(interceptors);
 
-            HttpClientFactory httpClientFactory = new HttpClientFactory().withReuseConnections(reuseConnections);
-            if (acceptSelfSignedSSLCertificates)
-                httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
-            if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
+            HttpClassicClientFactory httpClientFactory = new HttpClassicClientFactory()
+                    .withSelfSignedSSLCertificates(acceptSelfSignedSSLCertificates)
+                    .withMaxConnections(maxTotalConnections)
+                    .withMaxConnectionsPerRoute(maxConnectionsPerRoute)
+                    .withValidateAfterInactivity(validateAfterInactivityMilliseconds)
+                    .withTimeToLive(timeToLive)
+                    .withConnectTimeout(connectTimeout)
+                    .withSocketTimeoutMilliseconds(socketTimeout);
+            if (null != proxyAddress)
                 httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
 
             HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
-            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().addInterceptorFirst(new RemoveSoapHeadersInterceptor()).build());
+            sender.setHttpClient(httpClientFactory.getHttpClientBuilder().addInterceptorFirst(new HttpComponentsMessageSender.RemoveSoapHeadersInterceptor()).build());
             webServiceTemplate.setMessageSender(sender);
             setWebServiceTemplate(webServiceTemplate);
+        }
+    }
+
+    private static final class RemoveSoapHeadersInterceptor implements HttpRequestInterceptor {
+
+        @Override
+        public void process(HttpRequest request, EntityDetails entityDetails, HttpContext httpContext) {
+            if (request instanceof HttpEntityEnclosingRequest) {
+                if (request.containsHeader("Transfer-Encoding")) {
+                    request.removeHeaders("Transfer-Encoding");
+                }
+
+                if (request.containsHeader("Content-Length")) {
+                    request.removeHeaders("Content-Length");
+                }
+            }
         }
     }
 

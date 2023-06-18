@@ -1,29 +1,36 @@
 package nz.co.afor.framework.api.rest;
 
 import nz.co.afor.framework.api.HttpClientFactory;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.client.CredentialsProvider;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.auth.NTCredentials;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.CookieSpecSupport;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.cookie.IgnoreCookieSpecFactory;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.security.KeyManagementException;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+
+import static org.apache.http.auth.AuthScope.ANY_HOST;
+import static org.apache.http.auth.AuthScope.ANY_PORT;
 
 /**
  * Created by Matt Belcher on 10/10/2015.
  */
+@Scope("thread")
 @Configuration
 public class RestTemplateFactory {
 
@@ -42,20 +49,23 @@ public class RestTemplateFactory {
     @Value("${api.ssl.selfsigned:true}")
     Boolean acceptSelfSignedSSLCertificates;
 
-    @Value("${api.pool.enabled:false}")
-    Boolean useConnectionPool;
-
-    @Value("${api.pool.connections.max:10}")
+    @Value("${api.pool.connections.max:}")
     Integer maxTotalConnections;
 
-    @Value("${api.pool.connections.route.max:5}")
-    Integer defaultMaxPerRoute;
+    @Value("${api.pool.connections.route.max:}")
+    Integer maxConnectionsPerRoute;
 
-    @Value("${api.pool.inactivity.validate:2000}")
+    @Value("${api.pool.inactivity.validate:}")
     Integer validateAfterInactivityMilliseconds;
 
-    @Value("${api.pool.connections.timeToLive:300000}")
+    @Value("${api.pool.connections.timeToLive:}")
     Integer timeToLive;
+
+    @Value("${api.pool.connect.timeout:}")
+    Integer connectTimeout;
+
+    @Value("${api.pool.socket.timeout:}")
+    Integer socketTimeout;
 
     @Autowired
     CookieStore basicCookieStore;
@@ -64,15 +74,21 @@ public class RestTemplateFactory {
     ClientHttpRequestFactory requestFactory;
 
     @PostConstruct
-    public void setupClientConfig() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
-        HttpClientFactory httpClientFactory = new HttpClientFactory();
-        if (useConnectionPool)
-            httpClientFactory = httpClientFactory.withConnectionPooling(maxTotalConnections, defaultMaxPerRoute, validateAfterInactivityMilliseconds, timeToLive);
-        if (acceptSelfSignedSSLCertificates)
-            httpClientFactory = httpClientFactory.withSelfSignedSSLCertificates();
-        if (proxyUsername.compareTo("@null") != 0 && null != proxyAddress)
+    public void setupClientConfig() throws KeyManagementException, NoSuchAlgorithmException {
+        HttpClientFactory httpClientFactory = new HttpClientFactory()
+                .withSelfSignedSSLCertificates(acceptSelfSignedSSLCertificates)
+                .withMaxConnections(maxTotalConnections)
+                .withMaxConnectionsPerRoute(maxConnectionsPerRoute)
+                .withValidateAfterInactivity(validateAfterInactivityMilliseconds)
+                .withTimeToLive(timeToLive)
+                .withConnectTimeout(connectTimeout)
+                .withSocketTimeoutMilliseconds(socketTimeout);
+        if (null != proxyAddress)
             httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
-        httpClientBuilder = httpClientFactory.getHttpClientBuilder().setDefaultCookieStore(basicCookieStore);
+        httpClientBuilder = httpClientFactory.getHttpClientBuilder()
+                .setDefaultCookieSpecRegistry(CookieSpecSupport.createDefaultBuilder().register("ignore", new IgnoreCookieSpecFactory()).build())
+                .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                .setDefaultCookieStore(basicCookieStore);
         requestFactory = httpClientFactory.getClientHttpRequestFactory();
     }
 
@@ -84,11 +100,10 @@ public class RestTemplateFactory {
     }
 
     public RestTemplate getRestTemplate(String username, String password, String domain) {
-        AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
-        CredentialsProvider credential = new BasicCredentialsProvider();
-        credential.setCredentials(authScope, new NTCredentials(username, password, System.getenv("COMPUTERNAME"), domain));
-        HttpClientContext context = HttpClientContext.create();
-        context.setCredentialsProvider(credential);
+        AuthScope authScope = new AuthScope(ANY_HOST, ANY_PORT);
+        NTCredentials credentials = new NTCredentials(username, password.toCharArray(), System.getenv("COMPUTERNAME"), domain);
+        BasicCredentialsProvider credential = new BasicCredentialsProvider();
+        credential.setCredentials(authScope, credentials);
         httpClientBuilder.setDefaultCredentialsProvider(credential);
         return getRestTemplate();
     }

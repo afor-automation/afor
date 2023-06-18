@@ -1,16 +1,21 @@
 package nz.co.afor.framework.steps;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import nz.co.afor.framework.GsonFactory;
+import nz.co.afor.framework.ObjectMapperInstance;
 import nz.co.afor.framework.model.Customer;
 import org.exparity.hamcrest.date.DateMatchers;
+import org.exparity.hamcrest.date.ZonedDateTimeMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,39 +29,44 @@ import static org.hamcrest.core.IsNot.not;
 public class DateSteps {
 
     @Autowired
-    GsonFactory gsonFactory;
+    private ObjectMapperInstance objectMapperInstance;
 
     @Value("${nz.co.afor.fixture.dateformat}")
-    String dateFormat;
+    private String dateFormat;
 
-    String json;
+    private String json;
 
-    Customer parsedJson;
-    private Date currentDate = new Date();
+    private Customer parsedJson;
+
+    @Value("${nz.co.afor.fixture.timezone:UTC}")
+    private String timezone;
+
+    private ZonedDateTime currentDate;
 
     @Given("^I have a new JSON parser instance$")
-    public void iHaveANewGsonInstance() throws Throwable {
-        assertThat(gsonFactory, is(not(nullValue())));
+    public void iHaveANewGsonInstance() {
+        assertThat(objectMapperInstance.getObjectMapper(), is(not(nullValue())));
     }
 
     @And("^I have JSON which matches the configuration date format$")
     public void iHaveJSONWhichMatchesTheConfigurationDateFormat() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
-        json = "{\"dateOfBirth\":\"" + simpleDateFormat.format(currentDate) + "\"}";
+        currentDate = ZonedDateTime.now(ZoneId.of(timezone));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
+        json = "{\"dateOfBirth\":\"" + currentDate.format(dateTimeFormatter) + "\"}";
     }
 
     @When("^I parse the JSON$")
-    public void iParseTheJSON() {
-        parsedJson = gsonFactory.getGson().fromJson(json, Customer.class);
+    public void iParseTheJSON() throws JsonProcessingException {
+        parsedJson = objectMapperInstance.getObjectMapper().readValue(json, Customer.class);
     }
 
     @Then("^the JSON date format should match the configuration$")
     public void theGsonDateFormatShouldMatchTheConfiguration() {
-        assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameYear(currentDate));
-        assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameMonth(currentDate));
-        assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameDay(currentDate));
-        assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameHour(currentDate));
-        assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameMinute(currentDate));
-        assertThat(parsedJson.getDateOfBirth(), DateMatchers.sameSecond(currentDate));
+        assertThat(parsedJson.getDateOfBirth(), ZonedDateTimeMatchers.sameYear(currentDate));
+        assertThat(parsedJson.getDateOfBirth(), ZonedDateTimeMatchers.sameMonthOfYear(currentDate));
+        assertThat(parsedJson.getDateOfBirth(), ZonedDateTimeMatchers.sameDay(currentDate));
+        assertThat(parsedJson.getDateOfBirth(), ZonedDateTimeMatchers.sameHourOfDay(currentDate));
+        assertThat(parsedJson.getDateOfBirth(), ZonedDateTimeMatchers.sameMinuteOfHour(currentDate));
+        assertThat(parsedJson.getDateOfBirth(), ZonedDateTimeMatchers.sameSecondOfMinute(currentDate));
     }
 }

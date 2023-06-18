@@ -25,18 +25,18 @@ public class MockServiceSteps {
     private String browser;
 
     @Given("^I have a mock service running$")
-    public void I_have_a_mock_service_running() throws Throwable {
+    public void I_have_a_mock_service_running() {
         assertThat(serverPort, is(greaterThan(0)));
     }
 
     @When("^I open the \"([^\"]*)\" page$")
-    public void I_open_the_page(String page) throws Throwable {
+    public void I_open_the_page(String page) {
         com.codeborne.selenide.Configuration.browser = browser;
-        open(String.format("http://localhost:%s/%s", serverPort, page));
+        open(String.format("http://localhost:%s%s", serverPort, page));
     }
 
     @Then("^the page should have the text \"([^\"]*)\"$")
-    public void the_page_should_have_the_text(String pageText) throws Throwable {
+    public void the_page_should_have_the_text(String pageText) {
         $("body").shouldHave(text(pageText));
     }
 }

@@ -23,8 +23,11 @@ import java.util.TimeZone;
 public abstract class AbstractApiFactory {
     private static ApplicationContext applicationContext;
 
-    @Value("${nz.co.afor.fixture.dateformat}")
+    @Value("${nz.co.afor.fixture.dateformat:yyyy-MM-dd'T'HH:mm:ss.SSSZ}")
     private String datePattern;
+
+    @Value("${nz.co.afor.fixture.timezone:UTC}")
+    private String timezone;
 
     @Value("${api.hostUrl}")
     private String apiBaseUrl;
@@ -49,7 +52,7 @@ public abstract class AbstractApiFactory {
     public ObjectMapper getObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleDateFormat dateFormat = new SimpleDateFormat(datePattern);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
         objectMapper.setDateFormat(dateFormat);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return objectMapper;

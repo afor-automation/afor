@@ -1,5 +1,6 @@
 package nz.co.afor.framework;
 
+import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -24,7 +25,7 @@ public class MockServiceSteps {
 
     @Given("^I have an android device running$")
     public void iHaveAnAndroidDeviceRunning() {
-        appium.getDriver().launchApp();
+        appium.cleanLaunch();
     }
 
     @When("^I fill in a field$")

@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 @Component
 public class Configuration {
-    private DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+    private final DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
     @Value("${appium.platformName:Android}")
     private String platformName;
@@ -62,9 +62,6 @@ public class Configuration {
 
     @Value("${appium.automationName:}")
     private String automationName;
-
-    @Value("${appium.takesScreenshot:true}")
-    private Boolean takesScreenshot;
 
     @Value("${appium.nativeScreenshot:true}")
     private Boolean nativeScreenshot;
@@ -124,7 +121,6 @@ public class Configuration {
         desiredCapabilities.setCapability("noReset", noReset);
         desiredCapabilities.setCapability("autoGrantPermissions", autoGrantPermissions);
         desiredCapabilities.setCapability("fullReset", fullReset);
-        desiredCapabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, takesScreenshot);
         desiredCapabilities.setCapability("nativeWebScreenshot", nativeScreenshot);
         desiredCapabilities.setCapability("recreateChromeDriverSessions", recreateChromeDriverSessions);
         if (!Strings.isNullOrEmpty(appiumVersion))
@@ -227,10 +223,6 @@ public class Configuration {
 
     public String getAutomationName() {
         return automationName;
-    }
-
-    public Boolean getTakesScreenshot() {
-        return takesScreenshot;
     }
 
     public Boolean getNativeScreenshot() {

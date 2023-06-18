@@ -17,14 +17,9 @@ public final class HtmlWriter implements AutoCloseable {
 
     private static final String TEMPLATE_PATH = "formatter/";
     private static final String TEMPLATE_LOCATION = TEMPLATE_PATH + "index.html";
-    private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/aforLogoLargeGradient.png",
+    private static final String[] TEXT_ASSETS = new String[]{"/nz/co/afor/reports/formatter/aforLogo.png",
             "/nz/co/afor/reports/formatter/details-shim.min.css",
-            "/nz/co/afor/reports/formatter/favicon-120x120.png",
-            "/nz/co/afor/reports/formatter/favicon-152x152.png",
-            "/nz/co/afor/reports/formatter/favicon-16x16.png",
-            "/nz/co/afor/reports/formatter/favicon-180x180.png",
-            "/nz/co/afor/reports/formatter/favicon-32x32.png",
-            "/nz/co/afor/reports/formatter/favicon-96x96.png",
+            "/nz/co/afor/reports/formatter/favicon.png",
             "/nz/co/afor/reports/formatter/font1.woff2",
             "/nz/co/afor/reports/formatter/font2.woff2",
             "/nz/co/afor/reports/formatter/font3.woff2",

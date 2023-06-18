@@ -1,18 +1,18 @@
 package nz.co.afor.framework.api;
 
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.NTCredentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.NoConnectionReuseStrategy;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.ProxyAuthenticationStrategy;
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.NTCredentials;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.config.ConnectionConfig;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.ssl.SSLContexts;
+import org.apache.hc.core5.util.TimeValue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -24,18 +24,17 @@ import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+
+import static org.apache.http.auth.AuthScope.ANY_HOST;
+import static org.apache.http.auth.AuthScope.ANY_PORT;
 
 /**
  * Created by Matt on 14/09/2017.
  */
-@SuppressWarnings("deprecation")
 public class HttpClientFactory {
-    private static Logger log = LoggerFactory.getLogger(HttpClientFactory.class);
-
-    Boolean proxy = false;
-
-    Boolean useConnectionPool = false;
+    private static final Logger log = LoggerFactory.getLogger(HttpClientFactory.class);
 
     String proxyUsername;
 
@@ -47,15 +46,30 @@ public class HttpClientFactory {
 
     Boolean acceptSelfSignedSSLCertificates = false;
 
-    Boolean reuseConnections = true;
+    private Integer maxConnections;
+    private Integer maxConnectionsPerRoute;
+    private Integer validateAfterInactivity;
+    private Integer timeToLiveMilliseconds;
+    private Integer connectTimeoutMilliseconds;
+    private Integer socketTimeoutMilliseconds;
 
-    private int maxTotal;
-    private int defaultMaxPerRoute;
-    private int validateAfterInactivity;
-    private int timeToLiveMilliseconds;
+    public HttpClientFactory withHttpProxy(URI proxyAddress) {
+        this.proxyUsername = null;
+        this.proxyPassword = null;
+        this.proxyDomain = null;
+        this.proxyAddress = proxyAddress;
+        return this;
+    }
+
+    public HttpClientFactory withHttpProxy(String proxyUsername, String proxyPassword, URI proxyAddress) {
+        this.proxyUsername = "@null".equals(proxyUsername) ? null : proxyUsername;
+        this.proxyPassword = "@null".equals(proxyPassword) ? null : proxyPassword;
+        this.proxyDomain = null;
+        this.proxyAddress = proxyAddress;
+        return this;
+    }
 
     public HttpClientFactory withHttpProxy(String proxyUsername, String proxyPassword, String proxyDomain, URI proxyAddress) {
-        this.proxy = true;
         this.proxyUsername = "@null".equals(proxyUsername) ? null : proxyUsername;
         this.proxyPassword = "@null".equals(proxyPassword) ? null : proxyPassword;
         this.proxyDomain = "@null".equals(proxyDomain) ? null : proxyDomain;
@@ -63,52 +77,61 @@ public class HttpClientFactory {
         return this;
     }
 
-    public HttpClientFactory withConnectionPooling(int maxTotalConnections, int defaultMaxPerRoute, int validateAfterInactivityMilliseconds, int timeToLiveMilliseconds) {
-        this.useConnectionPool = true;
-        this.maxTotal = maxTotalConnections;
-        this.defaultMaxPerRoute = defaultMaxPerRoute;
+    public HttpClientFactory withMaxConnections(Integer maxTotalConnections) {
+        this.maxConnections = maxTotalConnections;
+        return this;
+    }
+
+    public HttpClientFactory withMaxConnectionsPerRoute(Integer maxConnectionsPerRoute) {
+        this.maxConnectionsPerRoute = maxConnectionsPerRoute;
+        return this;
+    }
+
+    public HttpClientFactory withValidateAfterInactivity(Integer validateAfterInactivityMilliseconds) {
         this.validateAfterInactivity = validateAfterInactivityMilliseconds;
+        return this;
+    }
+
+    public HttpClientFactory withTimeToLive(Integer timeToLiveMilliseconds) {
         this.timeToLiveMilliseconds = timeToLiveMilliseconds;
         return this;
     }
 
-    public HttpClientFactory withSelfSignedSSLCertificates() {
-        acceptSelfSignedSSLCertificates = true;
+    public HttpClientFactory withConnectTimeout(Integer connectTimeoutMilliseconds) {
+        this.connectTimeoutMilliseconds = connectTimeoutMilliseconds;
         return this;
     }
 
-    public HttpClientFactory withReuseConnections(Boolean reuseConnections) {
-        this.reuseConnections = reuseConnections;
+    public HttpClientFactory withSocketTimeoutMilliseconds(Integer socketTimeoutMilliseconds) {
+        this.socketTimeoutMilliseconds = socketTimeoutMilliseconds;
+        return this;
+    }
+
+    public HttpClientFactory withSelfSignedSSLCertificates(Boolean acceptSelfSignedSSLCertificates) {
+        this.acceptSelfSignedSSLCertificates = acceptSelfSignedSSLCertificates;
         return this;
     }
 
     public HttpClientBuilder getHttpClientBuilder() throws KeyManagementException, NoSuchAlgorithmException {
-        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+        org.apache.hc.client5.http.impl.classic.HttpClientBuilder httpClientBuilder = org.apache.hc.client5.http.impl.classic.HttpClientBuilder.create();
 
-        if (useConnectionPool) {
-            PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(timeToLiveMilliseconds, TimeUnit.MILLISECONDS);
-            connectionManager.setMaxTotal(maxTotal);
-            connectionManager.setDefaultMaxPerRoute(defaultMaxPerRoute);
-            connectionManager.setValidateAfterInactivity(validateAfterInactivity);
-            httpClientBuilder.setConnectionManager(connectionManager);
-        } else {
-            httpClientBuilder.setConnectionManager(new BasicHttpClientConnectionManager());
-        }
+        ConnectionConfig.Builder connectionConfig = ConnectionConfig.custom();
+        if (null != timeToLiveMilliseconds)
+            connectionConfig.setTimeToLive(timeToLiveMilliseconds, TimeUnit.MILLISECONDS);
+        if (null != connectTimeoutMilliseconds)
+            connectionConfig.setConnectTimeout(connectTimeoutMilliseconds, TimeUnit.MILLISECONDS);
+        if (null != socketTimeoutMilliseconds)
+            connectionConfig.setSocketTimeout(socketTimeoutMilliseconds, TimeUnit.MILLISECONDS);
+        if (null != validateAfterInactivity)
+            connectionConfig.setValidateAfterInactivity(TimeValue.of(Duration.ofMillis(validateAfterInactivity)));
 
-        // Set up proxy authentication if we have all the required proxy details
-        if (proxy) {
-            log.debug("Using the http client proxy address '{}', username '{}' and domain '{}", proxyAddress, proxyUsername, proxyDomain);
-            AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
-            CredentialsProvider credential = new BasicCredentialsProvider();
-            if (null == proxyDomain) {
-                credential.setCredentials(authScope, new UsernamePasswordCredentials(proxyUsername, proxyPassword));
-            } else {
-                credential.setCredentials(authScope, new NTCredentials(proxyUsername, proxyPassword, System.getenv("COMPUTERNAME"), proxyDomain));
-            }
-            HttpHost proxy = new HttpHost(proxyAddress.getHost(), proxyAddress.getPort(), proxyAddress.getScheme());
+        PoolingHttpClientConnectionManagerBuilder connectionManager = PoolingHttpClientConnectionManagerBuilder.create();
 
-            httpClientBuilder.setProxy(proxy).setProxyAuthenticationStrategy(new ProxyAuthenticationStrategy()).setDefaultCredentialsProvider(credential);
-        }
+        connectionManager.setDefaultConnectionConfig(connectionConfig.build());
+        if (null != maxConnections)
+            connectionManager.setMaxConnTotal(maxConnections);
+        if (null != maxConnectionsPerRoute)
+            connectionManager.setMaxConnPerRoute(maxConnectionsPerRoute);
 
         // Accept self signed certificates
         if (acceptSelfSignedSSLCertificates) {
@@ -116,14 +139,26 @@ public class HttpClientFactory {
 
             SSLContext sslcontext = SSLContexts.custom().build();
             sslcontext.init(null, new X509TrustManager[]{new SSLTrustManager()}, new SecureRandom());
-            SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            httpClientBuilder.setSSLSocketFactory(factory);
+            SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext, new NoopHostnameVerifier());
+            connectionManager.setSSLSocketFactory(factory);
+        }
+        httpClientBuilder.setConnectionManager(connectionManager.build());
+
+        // Set up proxy authentication if we have all the required proxy details
+        if (null != proxyAddress) {
+            log.debug("Using the http client proxy address '{}', username '{}' and domain '{}", proxyAddress, proxyUsername, proxyDomain);
+            AuthScope authScope = new AuthScope(ANY_HOST, ANY_PORT);
+            BasicCredentialsProvider credential = new BasicCredentialsProvider();
+            if (null == proxyDomain) {
+                credential.setCredentials(authScope, new UsernamePasswordCredentials(proxyUsername, proxyPassword.toCharArray()));
+            } else {
+                credential.setCredentials(authScope, new NTCredentials(proxyUsername, proxyPassword.toCharArray(), System.getenv("COMPUTERNAME"), proxyDomain));
+            }
+            HttpHost proxy = new HttpHost(proxyAddress.getScheme(), proxyAddress.getHost(), proxyAddress.getPort());
+
+            httpClientBuilder.setProxy(proxy).setDefaultCredentialsProvider(credential);
         }
 
-        // Prevent reusing connections
-        if (!reuseConnections) {
-            httpClientBuilder.setConnectionReuseStrategy(new NoConnectionReuseStrategy());
-        }
         return httpClientBuilder;
     }
 

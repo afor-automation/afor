@@ -11,5 +11,5 @@ Feature: Interact with static web pages
 
   Scenario: Retrieve a page with an http parameter
     Given I have a mock service running
-    When I open the "/plainHtmlWithParameter/?parameter=Testing 1 2 3" page
+    When I open the "/plainHtmlWithParameter?parameter=Testing%201%202%203" page
     Then the page should have the text "Testing 1 2 3"

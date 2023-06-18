@@ -42,7 +42,7 @@ public class Retry {
 
             // If we have reached our limit on attempts and have exceptions
             // in either the action or condition, then rethrow the appropriate exception
-            if (attempts == options.maxAttempts) {
+            if (attempts == options.maxAttempts - 1 || new Date().getTime() - startTime >= options.timeout) {
                 if (null != actionException) {
                     throw actionException;
                 } else if (null != conditionException) {
@@ -111,7 +111,7 @@ public class Retry {
 
             // If we have reached our limit on attempts and have exceptions
             // in either the action or condition, then rethrow the appropriate exception
-            if (attempts == options.maxAttempts) {
+            if (attempts == options.maxAttempts - 1 || new Date().getTime() - startTime >= options.timeout) {
                 if (null != actionException) {
                     throw actionException;
                 } else if (null != conditionException) {

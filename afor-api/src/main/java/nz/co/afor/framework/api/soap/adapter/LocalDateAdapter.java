@@ -1,6 +1,7 @@
 package nz.co.afor.framework.api.soap.adapter;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.time.LocalDate;
 
 /**

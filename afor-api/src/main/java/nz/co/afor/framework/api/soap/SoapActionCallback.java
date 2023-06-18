@@ -1,5 +1,8 @@
 package nz.co.afor.framework.api.soap;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.ws.WebServiceMessage;
@@ -8,8 +11,6 @@ import org.springframework.ws.soap.SoapHeader;
 import org.springframework.ws.soap.SoapMessage;
 import org.w3c.dom.Document;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,7 +55,7 @@ public class SoapActionCallback implements WebServiceMessageCallback {
         return soapHeaders;
     }
 
-    public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
+    public void doWithMessage(WebServiceMessage message) throws TransformerException {
         Assert.isInstanceOf(SoapMessage.class, message);
         SoapMessage soapMessage = (SoapMessage) message;
         SoapHeader soapHeader = soapMessage.getSoapHeader();
@@ -67,7 +68,7 @@ public class SoapActionCallback implements WebServiceMessageCallback {
 
                 Document headerDocument = builder.newDocument();
 
-                javax.xml.bind.Marshaller marshaller = context.createMarshaller();
+                Marshaller marshaller = context.createMarshaller();
                 marshaller.marshal(soapComplexHeader, headerDocument);
 
                 Transformer t = TransformerFactory.newInstance().newTransformer();
