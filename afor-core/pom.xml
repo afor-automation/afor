@@ -5,12 +5,17 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.1.44-SNAPSHOT</version>
+        <version>1.2.44</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
     <artifactId>afor-core</artifactId>
     <description>afor-core provides a basis for core dependencies of the afor framework</description>
+
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <!-- Spring framework -->

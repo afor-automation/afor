@@ -5,12 +5,17 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.1.44-SNAPSHOT</version>
+        <version>1.2.44</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
     <artifactId>afor-mobile</artifactId>
     <description>afor-mobile enables you to automate mobile user interfaces</description>
+
+    <properties>
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
