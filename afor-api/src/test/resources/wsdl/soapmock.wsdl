@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.afor.co.nz/soap/mock" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.afor.co.nz/soap/mock" targetNamespace="http://www.afor.co.nz/soap/mock">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.afor.co.nz/framework/mock/soap" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.afor.co.nz/framework/mock/soap" targetNamespace="http://www.afor.co.nz/framework/mock/soap">
   <wsdl:types>
-    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.afor.co.nz/soap/mock">
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.afor.co.nz/framework/mock/soap">
 
     <xs:element name="getMockRequest">
         <xs:complexType>
@@ -36,12 +36,12 @@
     </xs:simpleType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="getMockResponse">
-    <wsdl:part element="tns:getMockResponse" name="getMockResponse">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getMockRequest">
     <wsdl:part element="tns:getMockRequest" name="getMockRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMockResponse">
+    <wsdl:part element="tns:getMockResponse" name="getMockResponse">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="SoapMockPort">
@@ -66,7 +66,7 @@
   </wsdl:binding>
   <wsdl:service name="SoapMockPortService">
     <wsdl:port binding="tns:SoapMockPortSoap11" name="SoapMockPortSoap11">
-      <soap:address location="http://localhost:16151/ws"/>
+      <soap:address location="http://127.0.0.1:16151/ws"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -12,17 +12,17 @@
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-api</artifactId>
-            <version>0.1.31</version>
+            <version>1.1.43</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-web</artifactId>
-            <version>0.1.31</version>
+            <version>1.1.43</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-cucumber</artifactId>
-            <version>0.1.31</version>
+            <version>1.1.43</version>
         </dependency>
     </dependencies>
     <build>
@@ -30,9 +30,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
                 <configuration>
-                    <release>11</release>
+                    <source>17</source>
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>

@@ -136,8 +136,12 @@ span.title-heading-date {
     margin-bottom: 0;
 }
 
-.afor-report .step .embedded-text {
+.embedded-text {
+    padding: 5px;
     background: #dddddd;
+    box-shadow: 0 0 0 1px #999; /* this draws the table border  */
+    margin: 0 0 0 20px;
+    border-radius: 5px;
 }
 
 .afor-report .doc_string {
@@ -167,11 +171,11 @@ span.title-heading-date {
     border-bottom-right-radius: 5px;
 }
 
-.afor-report table.data_table tbody tr:first-child td:first-child {
+.afor-report table.data_table tr:first-child th:first-child {
     border-top-left-radius: 5px;
 }
 
-.afor-report table.data_table tbody tr:first-child td:last-child {
+.afor-report table.data_table tr:first-child th:last-child {
     border-top-right-radius: 5px;
 }
 
@@ -268,12 +272,13 @@ section.blockelement.scenario, section.blockelement.background {
     text-overflow: ellipsis;
     display: inline-block;
     position:absolute;
-    max-width: 70%;
+    max-width: 65%;
     white-space:nowrap
 }
 
 .afor-report .tags {
-    display: inline;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: bold;
 }
 
@@ -327,10 +332,11 @@ span.duration, span.startTime {
     float:right;
     padding-left: 5px;
     padding-right: 5px;
-    min-width: 150px;
+    min-width: 135px;
     text-align: right;
     clear:left;
 }
+
 span.duration.long {
     font-weight: bold;
 }
@@ -461,14 +467,24 @@ MEDIA QUERIES
     padding: 2px .35em;
     margin: 0px;
 }
-    a {
-        text-decoration-line: none;
-        color: #000
-    }
-    a:hover {
-        color: #aad400;
-        text-decoration-line: underline
-    }
+a {
+    text-decoration-line: none;
+    color: #000
+}
+a:hover {
+    color: #aad400;
+    text-decoration-line: underline
+}
+a.attachment {
+    text-decoration-line: underline;
+    color: #000;
+    font-weight: bold;
+}
+a.attachment:hover {
+    color: #000;
+    text-decoration-line: underline;
+    font-weight: bold;
+}
 tr.tableRow td {
     text-align: center;
 }
@@ -680,4 +696,9 @@ tr.tableRow td:empty {
 }
 .cl-switch.cl-switch-green .switcher:active:before {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 10px rgba(41, 204, 151, 0.3);
+}
+
+#expandCollapse {
+    color: #aad400;
+    padding-left: 10px;
 }

@@ -18,7 +18,7 @@ import java.net.URI;
 @Scope("thread")
 @Component
 public class Delete extends AbstractHttpRequest {
-    private static Log log = LogFactory.getLog(Delete.class);
+    private static final Log log = LogFactory.getLog(Delete.class);
 
     public <T> ResponseEntity<T> request(String uri, Class<T> responseType) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);

@@ -1,6 +1,7 @@
 package nz.co.afor.framework.api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,9 +17,10 @@ import javax.annotation.Resource;
 @Scope("thread")
 @Component
 public class AbstractHttpRequest {
-    private HttpHeaders headers = new HttpHeaders();
+    private final HttpHeaders headers = new HttpHeaders();
 
-    @Resource(name = "aforRestTemplate")
+    @Autowired()
+    @Qualifier("aforRestTemplate")
     private RestTemplate restTemplate;
 
     @Autowired

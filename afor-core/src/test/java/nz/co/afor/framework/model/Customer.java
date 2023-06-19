@@ -1,5 +1,8 @@
 package nz.co.afor.framework.model;
 
+import org.exparity.hamcrest.date.ZonedDateTimeMatchers;
+
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -8,7 +11,7 @@ import java.util.Date;
 public class Customer {
     private String username;
     private String password;
-    private Date dateOfBirth;
+    private ZonedDateTime dateOfBirth;
 
     public String getUsername() {
         return username;
@@ -26,11 +29,11 @@ public class Customer {
         this.password = password;
     }
 
-    public Date getDateOfBirth() {
+    public ZonedDateTime getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(ZonedDateTime dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 }

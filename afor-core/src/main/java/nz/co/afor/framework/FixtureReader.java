@@ -27,6 +27,14 @@ public class FixtureReader {
         return inputStream;
     }
 
+    public InputStream getFixtureStream() {
+        return getResourceAsStream(getFixturePath());
+    }
+
+    public InputStream getFixtureStream(String path) {
+        return getResourceAsStream(path);
+    }
+
     public InputStreamReader getFixtureReader() {
         return new InputStreamReader(getResourceAsStream(getFixturePath()));
     }

@@ -17,7 +17,7 @@ import java.net.URI;
 @Scope("thread")
 @Component
 public class Get extends AbstractHttpRequest {
-    private static Log log = LogFactory.getLog(Get.class);
+    private static final Log log = LogFactory.getLog(Get.class);
 
     public <T> ResponseEntity<T> request(String uri, Class<T> responseType) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);

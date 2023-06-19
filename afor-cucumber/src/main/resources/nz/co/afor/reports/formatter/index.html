@@ -16,12 +16,7 @@
     <script src="loader.js"></script>
     <script src="jquery.throttledresize.js"></script>
     <script src="render-charts.js"></script>
-    <link rel="shortcut icon" type="image/png" href="favicon-16x16.png" sizes="16x16">
-    <link rel="shortcut icon" type="image/png" href="favicon-32x32.png" sizes="32x32">
-    <link rel="shortcut icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-    <link rel="shortcut icon" type="image/png" href="favicon-120x120.png" sizes="120x120">
-    <link rel="shortcut icon" type="image/png" href="favicon-152x152.png" sizes="152x152">
-    <link rel="shortcut icon" type="image/png" href="favicon-180x180.png" sizes="180x180">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-74450213-2"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -34,7 +29,7 @@
 <body>
 <div class="title-section">
     <div class="logo">
-        <a href="https://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogoLargeGradient.png"
+        <a href="https://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogo.png"
                                                               alt="afor automation ${project.version}"></a>
     </div>
     <div class="title-heading"><span class="title-heading title-heading-name">{{heading}}</span><span
@@ -57,24 +52,25 @@
         <article id="filterResults" class="chart col chart-table">
             <div class="chart-table">
                 <input name="keyword" id="keyword" type="search" onchange="searchFunction()" onkeyup="searchFunction()"
-                       placeholder="Keyword filter"/>
+                       placeholder="Keyword filter" autocomplete="off" spellcheck="false" aria-live="off"/>
             </div>
             <div class="chart-table switches">
-                <label class="cl-switch cl-switch-large cl-switch-green">
+                <label class="cl-switch cl-switch-green">
                     <input type="checkbox" name="passed" id="passed" onchange="togglePassedFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Passed</span>
                 </label>
-                <label class="cl-switch cl-switch-large cl-switch-red">
+                <label class="cl-switch cl-switch-red">
                     <input type="checkbox" name="failed" id="failed" onchange="toggleFailedFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Failed</span>
                 </label>
-                <label class="cl-switch cl-switch-large">
+                <label class="cl-switch">
                     <input type="checkbox" name="other" id="other" onchange="toggleOtherFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Other</span>
                 </label>
+                <label><a id="expandCollapse" href="#" onclick="toggleExpandCollapse();return false;">expand all</a></label>
             </div>
         </article>
     </section>

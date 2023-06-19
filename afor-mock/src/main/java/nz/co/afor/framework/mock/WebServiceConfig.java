@@ -29,7 +29,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("SoapMockPort");
         wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://www.afor.co.nz/soap/mock");
+        wsdl11Definition.setTargetNamespace("http://www.afor.co.nz/framework/mock/soap");
         wsdl11Definition.setSchema(soapMockSchema);
         return wsdl11Definition;
     }

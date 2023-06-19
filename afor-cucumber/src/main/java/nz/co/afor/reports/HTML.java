@@ -8,6 +8,7 @@ import io.cucumber.plugin.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,11 @@ public class HTML implements EventListener {
         publisher.registerHandlerFor(TestStepFinished.class, this::handleTestStepFinished);
         publisher.registerHandlerFor(TestCaseStarted.class, this::handleTestCaseStarted);
         publisher.registerHandlerFor(EmbedEvent.class, this::handleEmbedEvent);
+        publisher.registerHandlerFor(WriteEvent.class, this::handleWriteEvent);
+    }
+
+    private void handleWriteEvent(WriteEvent writeEvent) {
+        reportWriter.writeLog(writeEvent);
     }
 
     private void handleEmbedEvent(EmbedEvent embedEvent) {

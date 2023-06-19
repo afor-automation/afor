@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by Matt Belcher on 10/10/2015.
  */
 public class RestTemplateErrorHandler implements ResponseErrorHandler {
-    private static Log log = LogFactory.getLog(RestTemplateErrorHandler.class);
+    private static final Log log = LogFactory.getLog(RestTemplateErrorHandler.class);
 
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
@@ -21,7 +21,7 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
 
     @Override
     public boolean hasError(ClientHttpResponse response) throws IOException {
-        return hasError(response.getStatusCode());
+        return response.getStatusCode().isError();
     }
 
     public static boolean hasError(HttpStatus status) {

@@ -55,10 +55,12 @@ public class PlotChart {
         scatterPlotChart.getStyler().setMarkerSize(8);
         scatterPlotChart.getStyler().setXAxisTickMarkSpacingHint(90);
 
-        Pair<List<Double>, List<Double>> passedResults = getResults(scenarioTimelineResults, Status.PASSED);
-        XYSeries passed = scatterPlotChart.addSeries("Passed", passedResults.getLeft(), passedResults.getRight());
-        passed.setMarkerColor(new Color(176, 214, 51));
-        passed.setMarker(SeriesMarkers.CIRCLE);
+        if (resultSummary.getScenarios().getPassed() > 0) {
+            Pair<List<Double>, List<Double>> passedResults = getResults(scenarioTimelineResults, Status.PASSED);
+            XYSeries passed = scatterPlotChart.addSeries("Passed", passedResults.getLeft(), passedResults.getRight());
+            passed.setMarkerColor(new Color(176, 214, 51));
+            passed.setMarker(SeriesMarkers.CIRCLE);
+        }
 
         if (resultSummary.getScenarios().getFailed() > 0) {
             Pair<List<Double>, List<Double>> results = getResults(scenarioTimelineResults, Status.FAILED);

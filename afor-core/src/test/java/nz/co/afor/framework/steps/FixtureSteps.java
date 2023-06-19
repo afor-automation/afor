@@ -1,6 +1,6 @@
 package nz.co.afor.framework.steps;
 
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -31,14 +31,14 @@ public class FixtureSteps {
 
     @When("^I read the fixture data$")
     public void I_read_the_fixture_data() throws Throwable {
-        model = fixture.getFixture(new TypeToken<Map<String, Customer>>() {
-        }.getType());
+        model = fixture.getFixture(new TypeReference<>() {
+        });
     }
 
     @When("^I read the fixture data by classpath$")
     public void I_read_the_fixture_data_by_classpath() throws Throwable {
-        model = fixture.getFixture("fixture.json", new TypeToken<Map<String, Customer>>() {
-        }.getType());
+        model = fixture.getFixture("fixture.json", new TypeReference<>() {
+        });
     }
 
     @Then("^I should have fixture data$")
