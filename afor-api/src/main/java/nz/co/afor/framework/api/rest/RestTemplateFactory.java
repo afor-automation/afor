@@ -83,7 +83,7 @@ public class RestTemplateFactory {
                 .withTimeToLive(timeToLive)
                 .withConnectTimeout(connectTimeout)
                 .withSocketTimeoutMilliseconds(socketTimeout);
-        if (null != proxyAddress)
+        if (null != proxyAddress && null != proxyUsername)
             httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
         httpClientBuilder = httpClientFactory.getHttpClientBuilder()
                 .setDefaultCookieSpecRegistry(CookieSpecSupport.createDefaultBuilder().register("ignore", new IgnoreCookieSpecFactory()).build())

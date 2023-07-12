@@ -6,6 +6,8 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.appmanagement.AndroidInstallApplicationOptions;
 import io.appium.java_client.ios.IOSDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,13 +31,6 @@ public class Appium {
 
     @Value("${appium.remote.url:http://127.0.0.1:4723/}")
     private URL remoteUrl;
-
-    @Value("${appium.appPackage:}")
-    private String appPackage;
-
-    @Value("${appium.app:}")
-    private String app;
-
 
     public Configuration getConfiguration() {
         return configuration;
@@ -71,24 +66,24 @@ public class Appium {
         validate();
         if (configuration.getPlatformName().equalsIgnoreCase("android")) {
             AndroidDriver androidDriver = (AndroidDriver) getDriver();
-            if (androidDriver.isAppInstalled(appPackage)) {
-                androidDriver.removeApp(appPackage);
+            if (androidDriver.isAppInstalled(configuration.getBundleId())) {
+                androidDriver.removeApp(configuration.getBundleId());
             }
             androidDriver.installApp(getAppPath(), new AndroidInstallApplicationOptions().withGrantPermissionsEnabled());
-            androidDriver.activateApp(appPackage);
+            androidDriver.activateApp(configuration.getBundleId());
         } else {
             IOSDriver iosDriver = (IOSDriver) getDriver();
-            if (iosDriver.isAppInstalled(appPackage)) {
-                iosDriver.removeApp(appPackage);
+            if (iosDriver.isAppInstalled(configuration.getBundleId())) {
+                iosDriver.removeApp(configuration.getBundleId());
             }
             iosDriver.installApp(getAppPath());
-            iosDriver.activateApp(appPackage);
+            iosDriver.activateApp(configuration.getBundleId());
         }
         return driver;
     }
 
     private String getAppPath() {
-        URL resource = this.getClass().getClassLoader().getResource(app.replaceFirst("^classpath:", ""));
+        URL resource = this.getClass().getClassLoader().getResource(configuration.getApp().replaceFirst("^classpath:", ""));
         if (null != resource) {
             try {
                 return Path.of(resource.toURI()).toAbsolutePath().toString();
@@ -96,7 +91,7 @@ public class Appium {
                 throw new IllegalArgumentException(e);
             }
         }
-        return app;
+        return configuration.getApp();
     }
 
     /**
@@ -108,32 +103,25 @@ public class Appium {
         validate();
         if (configuration.getPlatformName().equalsIgnoreCase("android")) {
             AndroidDriver androidDriver = (AndroidDriver) getDriver();
-            if (!androidDriver.isAppInstalled(appPackage)) {
+            if (!androidDriver.isAppInstalled(configuration.getBundleId())) {
                 androidDriver.installApp(getAppPath(), new AndroidInstallApplicationOptions().withGrantPermissionsEnabled());
             }
-            androidDriver.activateApp(appPackage);
+            androidDriver.activateApp(configuration.getBundleId());
         } else {
             IOSDriver iosDriver = (IOSDriver) getDriver();
-            if (!iosDriver.isAppInstalled(appPackage)) {
+            if (!iosDriver.isAppInstalled(configuration.getBundleId())) {
                 iosDriver.installApp(getAppPath());
             }
-            iosDriver.activateApp(appPackage);
+            iosDriver.activateApp(configuration.getBundleId());
         }
         return driver;
     }
 
     private void validate() {
-        if (null == appPackage || appPackage.isEmpty())
-            throw new IllegalArgumentException("The app package 'appium.appPackage' must be specified when installing and launching the app");
-        if (null == app || app.isEmpty())
-            throw new IllegalArgumentException("The app location 'appium.app' must be specified when installing and launching the app");
-        if (null == getConfiguration().getAutomationName() || getConfiguration().getAutomationName().isEmpty()) {
-            if (configuration.getPlatformName().equalsIgnoreCase("android")) {
-                configuration.setCapability("automationName", "uiautomator2");
-            } else {
-                configuration.setCapability("automationName", "xcuitest");
-            }
-        }
+        if (null == configuration.getApp() || configuration.getApp().isEmpty())
+            throw new IllegalArgumentException("The app location 'appium.app' should be specified when installing and launching the app");
+        if (null == getConfiguration().getBundleId() || getConfiguration().getBundleId().isEmpty())
+            throw new IllegalArgumentException("The app bundle 'appium.bundleId' should be specified when installing and launching the app");
     }
 
     public AppiumDriver getDriver() {

@@ -99,6 +99,9 @@ public class Configuration {
     @Value("${appium.remote:false}")
     private Boolean remote;
 
+    @Value("${appium.bundleId:}")
+    private String bundleId;
+
     @PostConstruct
     public void setConfiguration() throws IOException {
         desiredCapabilities.setCapability("platformName", platformName);
@@ -106,12 +109,17 @@ public class Configuration {
         desiredCapabilities.setCapability("deviceName", deviceName);
         if (!Strings.isNullOrEmpty(udid))
             desiredCapabilities.setCapability("udid", udid);
-        if (!Strings.isNullOrEmpty(automationName))
+        if (!Strings.isNullOrEmpty(automationName)) {
             desiredCapabilities.setCapability("automationName", automationName);
+        } else {
+            desiredCapabilities.setCapability("automationName", getPlatformName().equalsIgnoreCase("android") ? "uiautomator2" : "xcuitest");
+        }
         if (!Strings.isNullOrEmpty(app))
             desiredCapabilities.setCapability("app", getPath(app));
         if (!Strings.isNullOrEmpty(appPackage))
             desiredCapabilities.setCapability("appPackage", getPath(appPackage));
+        if (!Strings.isNullOrEmpty(bundleId))
+            desiredCapabilities.setCapability("bundleId", bundleId);
         if (!Strings.isNullOrEmpty(browser))
             desiredCapabilities.setCapability("browser", browser);
         desiredCapabilities.setCapability("browserName", browserName);
@@ -271,5 +279,13 @@ public class Configuration {
 
     public Boolean getRemote() {
         return remote;
+    }
+
+    public String getUdid() {
+        return udid;
+    }
+
+    public String getBundleId() {
+        return bundleId;
     }
 }

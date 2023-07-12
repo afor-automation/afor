@@ -66,7 +66,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator-annotation-processor</artifactId>
-            <version>8.0.0.Final</version>
+            <version>8.0.1.Final</version>
         </dependency>
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
@@ -81,12 +81,12 @@
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
-            <version>4.0.4</version>
+            <version>4.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-support</artifactId>
-            <version>4.0.4</version>
+            <version>4.0.5</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>8.0.0.Final</version>
+            <version>8.0.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>

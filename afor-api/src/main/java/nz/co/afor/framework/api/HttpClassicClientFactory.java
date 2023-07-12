@@ -130,7 +130,7 @@ public class HttpClassicClientFactory {
 
         httpClientBuilder.setConnectionManager(connectionManager);
 
-        if (null != proxyAddress) {
+        if (null != proxyAddress && null != proxyUsername) {
             log.debug("Using the http client proxy address '{}', username '{}' and domain '{}", proxyAddress, proxyUsername, proxyDomain);
             AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT);
             CredentialsProvider credential = new BasicCredentialsProvider();

@@ -140,7 +140,7 @@ public class AbstractClient extends WebServiceGatewaySupport {
                     .withTimeToLive(timeToLive)
                     .withConnectTimeout(connectTimeout)
                     .withSocketTimeoutMilliseconds(socketTimeout);
-            if (null != proxyAddress)
+            if (null != proxyAddress && null != proxyUsername)
                 httpClientFactory = httpClientFactory.withHttpProxy(proxyUsername, proxyPassword, proxyDomain, proxyAddress);
 
             HttpComponentsMessageSender sender = new HttpComponentsMessageSender();
