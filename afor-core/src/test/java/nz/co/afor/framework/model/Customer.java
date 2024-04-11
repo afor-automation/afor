@@ -1,9 +1,6 @@
 package nz.co.afor.framework.model;
 
-import org.exparity.hamcrest.date.ZonedDateTimeMatchers;
-
 import java.time.ZonedDateTime;
-import java.util.Date;
 
 /**
  * Created by Matt Belcher on 11/01/2016.

@@ -1,7 +1,5 @@
 package nz.co.afor.reports;
 
-import io.cucumber.core.options.CucumberProperties;
-import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

@@ -1,19 +1,19 @@
 package nz.co.afor.framework.web;
 
+import com.codeborne.selenide.CheckResult;
 import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.WebElementCondition;
 import com.codeborne.selenide.impl.Html;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.regex.Pattern;
 
 /**
  * Created by Matt on 10/02/2016.
  */
-public abstract class Condition extends com.codeborne.selenide.Condition {
+public abstract class Condition extends com.codeborne.selenide.WebElementCondition {
 
     private final String name;
 
@@ -25,23 +25,24 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
 
     public Condition(String name, boolean absentElementMatchesCondition) {
         super(name, absentElementMatchesCondition);
-        this.name= name;
+        this.name = name;
     }
 
     /**
      * <p>Sample: <code>$("input").shouldHave(css("div.active"));</code></p>
      */
-    public static Condition css(final String css) {
+    public static WebElementCondition css(final String css) {
+
         return new Condition("css") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
+            public CheckResult check(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
+                    return new CheckResult(cssElement.isDisplayed(), css);
                 } catch (NoSuchElementException e) {
-                    return false;
+                    return new CheckResult(false, e);
                 }
-                return null != cssElement;
             }
 
             @Override
@@ -51,17 +52,18 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
         };
     }
 
-    public static com.codeborne.selenide.Condition cssWithText(final String css, final String text) {
-        return new com.codeborne.selenide.Condition("css textCaseInsensitive") {
+    public static WebElementCondition cssWithText(final String css, final String text) {
+        return new Condition("css textCaseInsensitive") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
+            public CheckResult check(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
                 } catch (NoSuchElementException e) {
-                    return false;
+                    return new CheckResult(false, e);
                 }
-                return Html.text.contains(cssElement.getText(), text);
+                String value = cssElement.getText();
+                return new CheckResult(Html.text.contains(value, text), value);
             }
 
             @Override
@@ -71,17 +73,18 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
         };
     }
 
-    public static com.codeborne.selenide.Condition cssWithTextCaseSensitive(final String css, final String text) {
-        return new com.codeborne.selenide.Condition("css textCaseSensitive") {
+    public static WebElementCondition cssWithTextCaseSensitive(final String css, final String text) {
+        return new Condition("css textCaseSensitive") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
+            public CheckResult check(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
                 } catch (NoSuchElementException e) {
-                    return false;
+                    return new CheckResult(false, e);
                 }
-                return Html.text.containsCaseSensitive(cssElement.getText(), text);
+                String value = cssElement.getText();
+                return new CheckResult(Html.text.containsCaseSensitive(value, text), value);
             }
 
             @Override
@@ -91,17 +94,18 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
         };
     }
 
-    public static com.codeborne.selenide.Condition cssWithExactText(final String css, final String text) {
-        return new com.codeborne.selenide.Condition("css exact text") {
+    public static WebElementCondition cssWithExactText(final String css, final String text) {
+        return new Condition("css exact text") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
+            public CheckResult check(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
                 } catch (NoSuchElementException e) {
-                    return false;
+                    return new CheckResult(false, e);
                 }
-                return Html.text.equals(cssElement.getText(), text);
+                String value = cssElement.getText();
+                return new CheckResult(Html.text.equals(value, text), value);
             }
 
             @Override
@@ -111,17 +115,18 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
         };
     }
 
-    public static com.codeborne.selenide.Condition cssWithExactTextCaseSensitive(final String css, final String text) {
-        return new com.codeborne.selenide.Condition("css exact text case sensitive") {
+    public static WebElementCondition cssWithExactTextCaseSensitive(final String css, final String text) {
+        return new Condition("css exact text case sensitive") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
+            public CheckResult check(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
                 } catch (NoSuchElementException e) {
-                    return false;
+                    return new CheckResult(false, e);
                 }
-                return Html.text.equalsCaseSensitive(cssElement.getText(), text);
+                String value = cssElement.getText();
+                return new CheckResult(Html.text.equalsCaseSensitive(value, text), value);
             }
 
             @Override
@@ -137,15 +142,15 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static Condition cssAndMatches(final String css, final String regex) {
         return new Condition("css") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
+            public CheckResult check(Driver driver, WebElement element) {
                 WebElement cssElement;
                 try {
                     cssElement = element.findElement(By.cssSelector(css));
                 } catch (NoSuchElementException e) {
-                    return false;
+                    return new CheckResult(false, e);
                 }
                 Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE + Pattern.DOTALL);
-                return null != cssElement && pattern.matcher(cssElement.getText()).matches();
+                return new CheckResult(null != cssElement && pattern.matcher(cssElement.getText()).matches(), null != cssElement ? cssElement.getText() : "");
             }
 
             @Override
@@ -166,8 +171,9 @@ public abstract class Condition extends com.codeborne.selenide.Condition {
     public static Condition valueAsNumber(final String expectedValue) {
         return new Condition("value") {
             @Override
-            public boolean apply(Driver driver, WebElement element) {
-                return Html.text.contains(getAttributeValueAsNumber(element, "value"), expectedValue);
+            public CheckResult check(Driver driver, WebElement element) {
+                String value = getAttributeValueAsNumber(element, "value");
+                return new CheckResult(Html.text.contains(value, expectedValue), value);
             }
 
             @Override

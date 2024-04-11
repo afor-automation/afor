@@ -12,7 +12,6 @@ import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
 import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.util.TimeValue;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -145,14 +144,14 @@ public class HttpClientFactory {
         httpClientBuilder.setConnectionManager(connectionManager.build());
 
         // Set up proxy authentication if we have all the required proxy details
-        if (null != proxyAddress) {
+        if (null != proxyAddress && null != proxyUsername) {
             log.debug("Using the http client proxy address '{}', username '{}' and domain '{}", proxyAddress, proxyUsername, proxyDomain);
             AuthScope authScope = new AuthScope(ANY_HOST, ANY_PORT);
             BasicCredentialsProvider credential = new BasicCredentialsProvider();
             if (null == proxyDomain) {
-                credential.setCredentials(authScope, new UsernamePasswordCredentials(proxyUsername, proxyPassword.toCharArray()));
+                credential.setCredentials(authScope, new UsernamePasswordCredentials(proxyUsername, null != proxyPassword ? proxyPassword.toCharArray() : null));
             } else {
-                credential.setCredentials(authScope, new NTCredentials(proxyUsername, proxyPassword.toCharArray(), System.getenv("COMPUTERNAME"), proxyDomain));
+                credential.setCredentials(authScope, new NTCredentials(proxyUsername, null != proxyPassword ? proxyPassword.toCharArray() : null, System.getenv("COMPUTERNAME"), proxyDomain));
             }
             HttpHost proxy = new HttpHost(proxyAddress.getScheme(), proxyAddress.getHost(), proxyAddress.getPort());
 

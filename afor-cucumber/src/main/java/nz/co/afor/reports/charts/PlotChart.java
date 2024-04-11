@@ -8,7 +8,6 @@ import nz.co.afor.reports.results.ResultSummary;
 import nz.co.afor.reports.results.ScenarioTimelineResult;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.knowm.xchart.PieSeries;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
@@ -21,7 +20,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.String.format;
+import static java.awt.BasicStroke.CAP_BUTT;
+import static java.awt.BasicStroke.JOIN_MITER;
 
 public class PlotChart {
     private PlotChart() {
@@ -51,7 +51,7 @@ public class PlotChart {
         scatterPlotChart.getStyler().setLegendPosition(Styler.LegendPosition.OutsideE);
         scatterPlotChart.getStyler().setLegendBorderColor(Color.WHITE);
         scatterPlotChart.getStyler().setPlotGridLinesColor(Color.lightGray);
-        scatterPlotChart.getStyler().setPlotGridLinesStroke(new BasicStroke(1.0F, 0, 0, 1.0F, new float[]{1.0F, 5.0F}, 10.0F));
+        scatterPlotChart.getStyler().setPlotGridLinesStroke(new BasicStroke(1.0F, CAP_BUTT, JOIN_MITER, 1.0F, new float[]{1.0F, 5.0F}, 10.0F));
         scatterPlotChart.getStyler().setMarkerSize(8);
         scatterPlotChart.getStyler().setXAxisTickMarkSpacingHint(90);
 

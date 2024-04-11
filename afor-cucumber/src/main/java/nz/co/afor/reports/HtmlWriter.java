@@ -1,16 +1,12 @@
 package nz.co.afor.reports;
 
-import org.springframework.util.FileSystemUtils;
-
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
-import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class HtmlWriter implements AutoCloseable {
