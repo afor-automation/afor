@@ -1,7 +1,6 @@
 package nz.co.afor.framework.mobile;
 
 import com.google.common.base.Strings;
-import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.beans.factory.annotation.Value;

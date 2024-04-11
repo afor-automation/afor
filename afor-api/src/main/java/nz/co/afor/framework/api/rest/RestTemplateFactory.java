@@ -2,7 +2,6 @@ package nz.co.afor.framework.api.rest;
 
 import nz.co.afor.framework.api.HttpClientFactory;
 import org.apache.hc.client5.http.auth.AuthScope;
-import org.apache.hc.client5.http.auth.CredentialsProvider;
 import org.apache.hc.client5.http.auth.NTCredentials;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.CookieSpecSupport;
@@ -10,7 +9,6 @@ import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.cookie.IgnoreCookieSpecFactory;
 import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

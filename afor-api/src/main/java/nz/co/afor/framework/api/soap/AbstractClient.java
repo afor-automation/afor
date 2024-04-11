@@ -1,14 +1,12 @@
 package nz.co.afor.framework.api.soap;
 
 import nz.co.afor.framework.api.HttpClassicClientFactory;
-import nz.co.afor.framework.api.HttpClientFactory;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.hc.core5.http.EntityDetails;
 import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpRequestInterceptor;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.client.HttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;

@@ -2,7 +2,6 @@ package nz.co.afor.framework.mock;
 
 import nz.co.afor.framework.mock.soap.GetMockRequest;
 import nz.co.afor.framework.mock.soap.GetMockResponse;
-
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;

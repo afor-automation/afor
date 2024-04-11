@@ -1,7 +1,5 @@
 package nz.co.afor.model;
 
-import nz.co.afor.model.Post;
-
 import java.util.List;
 
 /**

@@ -4,6 +4,7 @@ import com.codeborne.selenide.ElementsCollection;
 import io.cucumber.java8.En;
 
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.Condition.cssClass;
 import static com.codeborne.selenide.Selenide.$$;
 import static nz.co.afor.framework.web.Condition.*;
 

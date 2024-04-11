@@ -7,16 +7,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import nz.co.afor.framework.ObjectMapperInstance;
 import nz.co.afor.framework.model.Customer;
-import org.exparity.hamcrest.date.DateMatchers;
 import org.exparity.hamcrest.date.ZonedDateTimeMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

@@ -1,7 +1,5 @@
 package nz.co.afor.reports.results;
 
-import java.util.Objects;
-
 import io.cucumber.plugin.event.Status;
 
 import static io.cucumber.plugin.event.Status.*;

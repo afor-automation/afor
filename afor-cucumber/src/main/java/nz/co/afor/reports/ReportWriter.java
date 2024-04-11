@@ -4,7 +4,6 @@ import com.google.common.net.MediaType;
 import com.hp.gagawa.java.EscapeText;
 import io.cucumber.core.gherkin.DataTableArgument;
 import io.cucumber.core.gherkin.messages.FeatureMapping;
-import io.cucumber.messages.types.Source;
 import io.cucumber.plugin.event.*;
 import nz.co.afor.reports.charts.PieChart;
 import nz.co.afor.reports.charts.PlotChart;
@@ -142,7 +141,6 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
         scenarioTimelineResults.add(new ScenarioTimelineResult(testCaseFinished.getTestCase().getName(), testCaseFinished.getResult().getStatus(), testCaseFinished.getTestCase().getTestSteps().stream().filter(testStep -> PickleStepTestStep.class.isAssignableFrom(testStep.getClass())).count(), testCaseFinished.getResult().getDuration().toMillis()));
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     public void writeAttachment(EmbedEvent embedEvent) {
         MediaType mediaType = MediaType.APPLICATION_BINARY;
         try {
