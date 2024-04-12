@@ -3,7 +3,7 @@
     <parent>
         <artifactId>afor-parent</artifactId>
         <groupId>nz.co.afor.framework</groupId>
-        <version>1.3.49-SNAPSHOT</version>
+        <version>1.3.49</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -92,6 +92,17 @@
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-support</artifactId>
             <version>4.0.10</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.angus</groupId>
+                    <artifactId>angus-mail</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-mail</artifactId>
+            <version>2.0.3</version>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
@@ -152,6 +163,7 @@
                                 <include>javax.validation:validation-api</include>
                                 <include>org.hibernate.validator</include>
                                 <include>org.apache.commons:commons-lang3</include>
+                                <include>org.eclipse.angus:angus-mail</include>
                             </includes>
                         </configuration>
                     </execution>
