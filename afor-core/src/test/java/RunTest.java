@@ -13,4 +13,3 @@ import org.springframework.test.context.ContextConfiguration;
 @CucumberOptions(plugin = {"pretty"})
 public class RunTest {
 }
-

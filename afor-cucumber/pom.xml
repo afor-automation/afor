@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.2.48-SNAPSHOT</version>
+        <version>1.3.50-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -47,14 +47,20 @@
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-spring</artifactId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
             <version>7.16.1</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
-            <artifactId>pro-plugin</artifactId>
-            <version>3.0.2</version>
+            <artifactId>cucumber-spring</artifactId>
+            <version>7.16.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
@@ -69,14 +75,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.11.0</version>
-        </dependency>
-
-        <!-- Logging libraries -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.8.0-beta4</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -111,6 +109,7 @@
                                 <include>io.cucumber:cucumber-java</include>
                                 <include>io.cucumber:cucumber-java8</include>
                                 <include>io.cucumber:cucumber-junit</include>
+                                <include>io.cucumber:cucumber-junit-platform-engine</include>
                                 <include>io.cucumber:cucumber-spring</include>
                                 <include>io.cucumber:pro-plugin</include>
                                 <include>io.cucumber:datatable</include>
