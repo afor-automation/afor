@@ -6,27 +6,51 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-example</artifactId>
-    <version>0.1.31-SNAPSHOT</version>
+    <version>1.3.49-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-api</artifactId>
-            <version>1.1.43</version>
+            <version>1.3.49</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-web</artifactId>
-            <version>1.1.43</version>
+            <version>1.3.49</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-cucumber</artifactId>
-            <version>1.1.43</version>
+            <version>1.3.49</version>
         </dependency>
     </dependencies>
     <build>
         <plugins>
+
+            <!-- Ensure that we always have the latest version of the Afor framework our pom -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <id>versions</id>
+                        <configuration>
+                            <allowMinorUpdates>true</allowMinorUpdates>
+                            <allowMajorUpdates>true</allowMajorUpdates>
+                            <allowIncrementalUpdates>true</allowIncrementalUpdates>
+                            <allowSnapshots>false</allowSnapshots>
+                            <includes>
+                                <include>nz.co.afor</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--- Use JDK 17 (or alternatively, a later version) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
