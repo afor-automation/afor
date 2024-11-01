@@ -48,7 +48,9 @@ public final class HtmlWriter implements AutoCloseable {
         initialised = true;
         writeTemplateBetween(writer, template, null, "{{title}}");
         write(reportContext.getFormattedTitle());
-        writeTemplateBetween(writer, template, "{{title}}", "{{heading}}");
+        writeTemplateBetween(writer, template, "{{title}}", "{{mainheading}}");
+        write(reportContext.getReportHeading());
+        writeTemplateBetween(writer, template, "{{mainheading}}", "{{heading}}");
         write(reportContext.getFormattedTitle());
         writeTemplateBetween(writer, template, "{{heading}}", "{{detailedreport}}");
     }
