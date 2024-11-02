@@ -40,25 +40,26 @@ public class PlotChart {
                 .build();
 
         scatterPlotChart.getStyler()
-                .setChartBackgroundColor(Color.white)
-                .setLegendBackgroundColor(Color.white)
-                .setPlotBackgroundColor(Color.white)
+                .setChartBackgroundColor(new Color(239, 235, 229))
+                .setLegendBackgroundColor(new Color(239, 235, 229))
+                .setPlotBackgroundColor(new Color(239, 235, 229))
+                .setLegendBorderColor(new Color(239, 235, 229))
                 .setChartTitleBoxVisible(false)
                 .setPlotBorderVisible(false);
 
         scatterPlotChart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Scatter);
         scatterPlotChart.getStyler().setChartTitleVisible(false);
         scatterPlotChart.getStyler().setLegendPosition(Styler.LegendPosition.OutsideE);
-        scatterPlotChart.getStyler().setLegendBorderColor(Color.WHITE);
+        scatterPlotChart.getStyler().setLegendBorderColor(new Color(239, 235, 229));
         scatterPlotChart.getStyler().setPlotGridLinesColor(Color.lightGray);
         scatterPlotChart.getStyler().setPlotGridLinesStroke(new BasicStroke(1.0F, CAP_BUTT, JOIN_MITER, 1.0F, new float[]{1.0F, 5.0F}, 10.0F));
-        scatterPlotChart.getStyler().setMarkerSize(8);
+        scatterPlotChart.getStyler().setMarkerSize(10);
         scatterPlotChart.getStyler().setXAxisTickMarkSpacingHint(90);
 
         if (resultSummary.getScenarios().getPassed() > 0) {
             Pair<List<Double>, List<Double>> passedResults = getResults(scenarioTimelineResults, Status.PASSED);
             XYSeries passed = scatterPlotChart.addSeries("Passed", passedResults.getLeft(), passedResults.getRight());
-            passed.setMarkerColor(new Color(176, 214, 51));
+            passed.setMarkerColor(new Color(86, 196, 76));
             passed.setMarker(SeriesMarkers.CIRCLE);
         }
 

@@ -122,8 +122,9 @@ span.title-heading-main-heading {
     }
 }
 
-.afor-report, .afor-summary {
-    padding: 8px;
+.title-section-break {
+    padding: 15px;
+    background-color: #4f4959;
 }
 
 .afor-report .header {
@@ -171,9 +172,8 @@ span.title-heading-main-heading {
 }
 
 .afor-report tbody td, .afor-report tbody th {
-    padding: 3px 4px 3px 4px;
+    padding: none;
     background-color: #ddd;
-    border: 1px SOLID #ccc;
 }
 
 .afor-report tbody tr:last-child td:first-child {
@@ -201,18 +201,18 @@ span.title-heading-main-heading {
     border: none;
 }
 
+section.blockelement.feature, section.blockelement.statistics {
+    background-color: #fff !important;
+}
+
 section.blockelement.feature, section.blockelement.summary {
     content-visibility: auto;
-    background-color: #fff;
-    padding: 5px;
-    border-radius: 8px;
-    margin-bottom: 6px;
-    -webkit-box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.5);
-    box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.5);
+    background-color: #efebe5;
+    padding: 10px;
 }
 
 section.blockelement.summary {
+    background-color: #efebe5;
     overflow: hidden;
 }
 
@@ -220,18 +220,10 @@ section.blockelement.scenario, section.blockelement.background {
     padding: 2px;
     border-radius: 5px;
     margin: 3px;
-    /*-webkit-box-shadow: inset 3px 3px 3px -1px rgba(0,0,0,0.19);
-    -moz-box-shadow: inset 3px 3px 3px -1px rgba(0,0,0,0.19);
-    box-shadow: inset 3px 3px 3px -1px rgba(0,0,0,0.19);*/
 }
 
 .afor-report .passed {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b0d633+0,8fb700+100 */
-    background: rgb(176,214,51); /* Old browsers */
-    background: -moz-linear-gradient(left,  rgba(176,214,51,1) 0%, rgba(143,183,0,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  rgba(176,214,51,1) 0%,rgba(143,183,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  rgba(176,214,51,1) 0%,rgba(143,183,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b0d633', endColorstr='#8fb700',GradientType=1 ); /* IE6-9 */
+    background-color: #56c44c;
 }
 
 .afor-report .pending {
@@ -483,7 +475,7 @@ a {
     color: #000
 }
 a:hover {
-    color: #aad400;
+    color: #000;
     text-decoration-line: underline
 }
 a.attachment {
@@ -503,7 +495,7 @@ tr.headerRow th:nth-child(1) {
     width: 100%;
 }
 tr.headerRow th:nth-child(2) {
-    background-color: #b0d633;
+    background-color: #56c44c;
 }
 tr.headerRow th:nth-child(3) {
     background-color: #ed2525;
@@ -522,7 +514,7 @@ tr.headerRow th:nth-child(7) {
 }
 
 tr.tableRow td:nth-child(2) {
-    background-color: #b0d633;
+    background-color: #56c44c;
 }
 tr.tableRow td:nth-child(3) {
     background-color: #ed2525;
@@ -569,7 +561,7 @@ tr.tableRow td:empty {
 }
 
 .breakdownRow .passed {
-    color: #b0d633;
+    color: #56c44c;
 }
 
 .breakdownRow .pending {
@@ -625,8 +617,8 @@ tr.tableRow td:empty {
 .cl-switch .switcher {
   display: inline-block;
   border-radius: 100px;
-  width: 35px;
-  height: 15px;
+  width: 50px;
+  height: 25px;
   background-color: #ccc;
   position: relative;
   -webkit-box-sizing: border-box;
@@ -638,12 +630,12 @@ tr.tableRow td:empty {
 .cl-switch .switcher:before {
   content: "";
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
   border-radius: 50%;
-  margin-top: -2.5px;
+  margin-top: 3px;
   position: absolute;
   top: 0;
   right: 0;
@@ -691,25 +683,30 @@ tr.tableRow td:empty {
   margin-right: -30px;
 }
 .cl-switch.cl-switch-red input[type="checkbox"]:checked + .switcher {
-  background-color: #ffcece;
+  background-color: #ff3131;
 }
 .cl-switch.cl-switch-red input[type="checkbox"]:checked + .switcher:before {
-  background-color: #ff0000;
+  background-color: #fff;
 }
 .cl-switch.cl-switch-red .switcher:active:before {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 10px rgba(255, 104, 104, 0.3);
 }
 .cl-switch.cl-switch-green input[type="checkbox"]:checked + .switcher {
-  background-color: #e4fc92;
+  background-color: #56c44c;
 }
 .cl-switch.cl-switch-green input[type="checkbox"]:checked + .switcher:before {
-  background-color: #b0d633;
+  background-color: #fff;
+}
+.cl-switch.cl-switch-grey input[type="checkbox"]:checked + .switcher {
+  background-color: #4f4959;
+}
+.cl-switch.cl-switch-grey input[type="checkbox"]:checked + .switcher:before {
+  background-color: #fff;
 }
 .cl-switch.cl-switch-green .switcher:active:before {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 0 10px rgba(41, 204, 151, 0.3);
 }
 
 #expandCollapse {
-    color: #aad400;
     padding-left: 10px;
 }
