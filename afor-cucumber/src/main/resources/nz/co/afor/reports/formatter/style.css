@@ -174,7 +174,6 @@ span.title-heading-main-heading {
     border-collapse: collapse;
     border-radius: 5px;
     border-style: hidden; /* hide standard table (collapsed) border */
-    box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
     margin-bottom: 5px;
 }
 
@@ -217,6 +216,7 @@ section.blockelement.feature {
     border-radius: 5px;
     margin: 5px;
     padding: 1px;
+    cursor: pointer;
 }
 
 section.blockelement.summary {
@@ -234,55 +234,39 @@ section.blockelement.scenario, section.blockelement.background {
     padding: 2px;
     border-radius: 5px;
     margin: 3px;
+    cursor: pointer;
 }
 
 .afor-report .passed {
     background-color: #56c44c;
+    cursor: auto;
 }
 
 .afor-report .pending {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eaec2d+0,d1d100+100 */
-    background: rgb(234,236,45); /* Old browsers */
-    background: -moz-linear-gradient(left,  rgba(234,236,45,1) 0%, rgba(209,209,0,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  rgba(234,236,45,1) 0%,rgba(209,209,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  rgba(234,236,45,1) 0%,rgba(209,209,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eaec2d', endColorstr='#d1d100',GradientType=1 ); /* IE6-9 */
+    background-color: #ffde59;
+    cursor: auto;
 }
 
 .afor-report .undefined {
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e07a3e+0,d16100+100 */
-    background: rgb(224,122,62); /* Old browsers */
-    background: -moz-linear-gradient(left,  rgba(224,122,62,1) 0%, rgba(209,97,0,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  rgba(224,122,62,1) 0%,rgba(209,97,0,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  rgba(224,122,62,1) 0%,rgba(209,97,0,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e07a3e', endColorstr='#d16100',GradientType=1 ); /* IE6-9 */
+    background-color: #ff914d;
+    cursor: auto;
 }
 
 .afor-report .ambiguous {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e0a42c+0,ed3700+100 */
-    background: #e0a42c; /* Old browsers */
-    background: -moz-linear-gradient(top, #e0a42c 0%, #ed3700 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #e0a42c 0%,#ed3700 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #e0a42c 0%,#ed3700 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0a42c', endColorstr='#ed3700',GradientType=0 ); /* IE6-9 */
+    background-color: #4f4959;
+    color: #fff;
+    cursor: auto;
 }
 
 .afor-report .skipped {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2deaec+0,00b7b7+100 */
-    background: rgb(45,234,236); /* Old browsers */
-    background: -moz-linear-gradient(left,  rgba(45,234,236,1) 0%, rgba(0,183,183,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  rgba(45,234,236,1) 0%,rgba(0,183,183,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  rgba(45,234,236,1) 0%,rgba(0,183,183,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2deaec', endColorstr='#00b7b7',GradientType=1 ); /* IE6-9 */
+    background-color: #4f4959;
+    color: #fff;
+    cursor: auto;
 }
 
 .afor-report .failed {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ea9a9a+0,ed2525+100 */
-    background: rgb(234,154,154); /* Old browsers */
-    background: -moz-linear-gradient(left,  rgba(234,154,154,1) 0%, rgba(237,37,37,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  rgba(234,154,154,1) 0%,rgba(237,37,37,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  rgba(234,154,154,1) 0%,rgba(237,37,37,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea9a9a', endColorstr='#ed2525',GradientType=1 ); /* IE6-9 */
+background-color: #ff3131;
+    cursor: auto;
 }
 
 .afor-report .name {
@@ -476,11 +460,12 @@ MEDIA QUERIES
     margin-top: 5px;
 }
 .chart table {
-    border: 1px solid #ddd;
+    border: 2px solid #fff;
     border-collapse: collapse;
+    background-color: #efebe5;
 }
 .chart th,td {
-    border: 1px solid #ddd;
+    border: 2px solid #fff;
     padding: 2px .35em;
     margin: 0px;
 }
@@ -572,30 +557,44 @@ tr.tableRow td:empty {
 
 .breakdownRow {
     margin-top: 5px;
+    padding-bottom: 5px;
+}
+
+.breakdownRow span {
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 
 .breakdownRow .passed {
-    color: #56c44c;
+    background-color: #56c44c;
+    color: #fff;
 }
 
 .breakdownRow .pending {
-    color: #eaec2d;
+    background-color: #ffde59;
 }
 
 .breakdownRow .undefined {
-    color: #ffc500;
+    background-color: #ff914d;
 }
 
 .breakdownRow .skipped {
-    color: #2deaec;
+    background-color: #4f4959;
+    color: #fff;
 }
 
 .breakdownRow .ambiguous {
-    color: #e0a42c;
+    background-color: #4f4959;
+    color: #fff;
 }
 
 .breakdownRow .failed {
-    color: #ff0000;
+    background-color: #ff3131;
+    color: #fff;
 }
 
 #featureScenarioContainer {

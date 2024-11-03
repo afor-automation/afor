@@ -29,7 +29,7 @@ public class PieChart {
                 .theme(Styler.ChartTheme.GGPlot2)
                 .build();
 
-        pieChart.getStyler()
+        pieChart.getStyler().setTheme(new PieTheme())
                 .setDonutThickness(0.3)
                 .setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut)
                 .setChartBackgroundColor(new Color(239, 235, 229))
@@ -37,7 +37,6 @@ public class PieChart {
                 .setPlotBackgroundColor(new Color(239, 235, 229))
                 .setLegendBorderColor(new Color(239, 235, 229))
                 .setChartTitleBoxVisible(false)
-                .setAnnotationTextPanelPadding(250)
                 .setPlotBorderVisible(false)
                 .setAnnotationTextFont(new Font("Arial", Font.BOLD, 44))
                 .setChartTitleFont(new Font("Arial", Font.BOLD, 18));
@@ -68,6 +67,7 @@ public class PieChart {
 
         if (resultSummary.getScenarios().getFailed() > 0) {
             PieSeries failed = pieChart.addSeries(format("Failed (%d)", resultSummary.getScenarios().getFailed()), resultSummary.getScenarios().getFailed());
+            failed.setChartPieSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut);
             failed.setFillColor(new Color(255, 0, 0));
         }
 
