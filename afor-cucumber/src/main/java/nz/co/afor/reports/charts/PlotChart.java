@@ -40,6 +40,8 @@ public class PlotChart {
                 .build();
 
         scatterPlotChart.getStyler()
+                .setAxisTitleFont(new Font("Arial", Font.PLAIN, 15))
+                .setLegendFont(new Font("Arial", Font.PLAIN, 15))
                 .setChartBackgroundColor(new Color(239, 235, 229))
                 .setLegendBackgroundColor(new Color(239, 235, 229))
                 .setPlotBackgroundColor(new Color(239, 235, 229))
@@ -66,35 +68,35 @@ public class PlotChart {
         if (resultSummary.getScenarios().getFailed() > 0) {
             Pair<List<Double>, List<Double>> results = getResults(scenarioTimelineResults, Status.FAILED);
             XYSeries failed = scatterPlotChart.addSeries("Failed", results.getLeft(), results.getRight());
-            failed.setMarkerColor(new Color(255, 0, 0));
+            failed.setMarkerColor(new Color(255, 49, 49));
             failed.setMarker(SeriesMarkers.CIRCLE);
         }
 
         if (resultSummary.getScenarios().getUndefined() > 0) {
             Pair<List<Double>, List<Double>> results = getResults(scenarioTimelineResults, Status.UNDEFINED);
             XYSeries undefined = scatterPlotChart.addSeries("Undefined", results.getLeft(), results.getRight());
-            undefined.setFillColor(new Color(255, 197, 0));
+            undefined.setMarkerColor(new Color(255, 145, 77));
             undefined.setMarker(SeriesMarkers.CIRCLE);
         }
 
         if (resultSummary.getScenarios().getPending() > 0) {
             Pair<List<Double>, List<Double>> results = getResults(scenarioTimelineResults, Status.PENDING);
             XYSeries pending = scatterPlotChart.addSeries("Pending", results.getLeft(), results.getRight());
-            pending.setFillColor(new Color(234, 236, 45));
+            pending.setMarkerColor(new Color(255, 222, 89));
             pending.setMarker(SeriesMarkers.CIRCLE);
         }
 
         if (resultSummary.getScenarios().getSkipped() > 0) {
             Pair<List<Double>, List<Double>> results = getResults(scenarioTimelineResults, Status.PENDING);
             XYSeries skipped = scatterPlotChart.addSeries("Skipped", results.getLeft(), results.getRight());
-            skipped.setFillColor(new Color(45, 234, 236));
+            skipped.setMarkerColor(new Color(79, 73, 89));
             skipped.setMarker(SeriesMarkers.CIRCLE);
         }
 
         if (resultSummary.getScenarios().getAmbiguous() > 0) {
             Pair<List<Double>, List<Double>> results = getResults(scenarioTimelineResults, Status.PENDING);
             XYSeries ambiguous = scatterPlotChart.addSeries("Ambiguous", results.getLeft(), results.getRight());
-            ambiguous.setFillColor(new Color(45, 234, 236));
+            ambiguous.setMarkerColor(new Color(79, 73, 89));
             ambiguous.setMarker(SeriesMarkers.CIRCLE);
         }
 

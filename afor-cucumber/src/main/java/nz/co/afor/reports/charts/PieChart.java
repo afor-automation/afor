@@ -68,27 +68,27 @@ public class PieChart {
         if (resultSummary.getScenarios().getFailed() > 0) {
             PieSeries failed = pieChart.addSeries(format("Failed (%d)", resultSummary.getScenarios().getFailed()), resultSummary.getScenarios().getFailed());
             failed.setChartPieSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut);
-            failed.setFillColor(new Color(255, 0, 0));
+            failed.setFillColor(new Color(255, 49, 49));
         }
 
         if (resultSummary.getScenarios().getUndefined() > 0) {
             PieSeries undefined = pieChart.addSeries(format("Undefined (%d)", resultSummary.getScenarios().getUndefined()), resultSummary.getScenarios().getUndefined());
-            undefined.setFillColor(new Color(255, 197, 0));
+            undefined.setFillColor(new Color(255, 145, 77));
         }
 
         if (resultSummary.getScenarios().getPending() > 0) {
             PieSeries pending = pieChart.addSeries(format("Pending (%d)", resultSummary.getScenarios().getPending()), resultSummary.getScenarios().getPending());
-            pending.setFillColor(new Color(234, 236, 45));
+            pending.setFillColor(new Color(255, 222, 89));
         }
 
         if (resultSummary.getScenarios().getSkipped() > 0) {
             PieSeries skipped = pieChart.addSeries(format("Skipped (%d)", resultSummary.getScenarios().getSkipped()), resultSummary.getScenarios().getSkipped());
-            skipped.setFillColor(new Color(45, 234, 236));
+            skipped.setFillColor(new Color(79, 73, 89));
         }
 
         if (resultSummary.getScenarios().getAmbiguous() > 0) {
             PieSeries ambiguous = pieChart.addSeries(format("Ambiguous (%d)", resultSummary.getScenarios().getAmbiguous()), resultSummary.getScenarios().getAmbiguous());
-            ambiguous.setFillColor(new Color(45, 234, 236));
+            ambiguous.setFillColor(new Color(79, 73, 89));
         }
     }
 }

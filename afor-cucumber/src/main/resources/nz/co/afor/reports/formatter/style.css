@@ -495,40 +495,48 @@ tr.headerRow th:nth-child(1) {
 }
 tr.headerRow th:nth-child(2) {
     background-color: #56c44c;
+    color: #fff;
 }
 tr.headerRow th:nth-child(3) {
-    background-color: #ed2525;
+    background-color: #ff3131;
+    color: #fff;
 }
 tr.headerRow th:nth-child(4) {
-    background-color: #e07a3e;
+    background-color: #ff914d;
 }
 tr.headerRow th:nth-child(5) {
-    background-color: #eaec2d;
+    background-color: #ffde59;
 }
 tr.headerRow th:nth-child(6) {
-    background-color: #2deaec;
+    background-color: #4f4959;
+    color: #fff;
 }
 tr.headerRow th:nth-child(7) {
-    background-color: #2deaec;
+    background-color: #4f4959;
+    color: #fff;
 }
 
 tr.tableRow td:nth-child(2) {
     background-color: #56c44c;
+    color: #fff;
 }
 tr.tableRow td:nth-child(3) {
-    background-color: #ed2525;
+    background-color: #ff3131;
+    color: #fff;
 }
 tr.tableRow td:nth-child(4) {
-    background-color: #e07a3e;
+    background-color: #ff914d;
 }
 tr.tableRow td:nth-child(5) {
-    background-color: #eaec2d;
+    background-color: #ffde59;
 }
 tr.tableRow td:nth-child(6) {
-    background-color: #2deaec;
+    background-color: #4f4959;
+    color: #fff;
 }
 tr.tableRow td:nth-child(7) {
-    background-color: #2deaec;
+    background-color: #4f4959;
+    color: #fff;
 }
 
 tr.tableRow td:empty {
