@@ -104,50 +104,50 @@ public class Configuration {
     @PostConstruct
     public void setConfiguration() throws IOException {
         desiredCapabilities.setCapability("platformName", platformName);
-        desiredCapabilities.setCapability("platformVersion", platformVersion);
-        desiredCapabilities.setCapability("deviceName", deviceName);
+        desiredCapabilities.setCapability("appium:platformVersion", platformVersion);
+        desiredCapabilities.setCapability("appium:deviceName", deviceName);
         if (!Strings.isNullOrEmpty(udid))
-            desiredCapabilities.setCapability("udid", udid);
+            desiredCapabilities.setCapability("appium:udid", udid);
         if (!Strings.isNullOrEmpty(automationName)) {
-            desiredCapabilities.setCapability("automationName", automationName);
+            desiredCapabilities.setCapability("appium:automationName", automationName);
         } else {
-            desiredCapabilities.setCapability("automationName", getPlatformName().equalsIgnoreCase("android") ? "uiautomator2" : "xcuitest");
+            desiredCapabilities.setCapability("appium:automationName", getPlatformName().equalsIgnoreCase("android") ? "uiautomator2" : "xcuitest");
         }
         if (!Strings.isNullOrEmpty(app))
-            desiredCapabilities.setCapability("app", getPath(app));
+            desiredCapabilities.setCapability("appium:app", getPath(app));
         if (!Strings.isNullOrEmpty(appPackage))
-            desiredCapabilities.setCapability("appPackage", getPath(appPackage));
+            desiredCapabilities.setCapability("appium:appPackage", getPath(appPackage));
         if (!Strings.isNullOrEmpty(bundleId))
-            desiredCapabilities.setCapability("bundleId", bundleId);
+            desiredCapabilities.setCapability("appium:bundleId", bundleId);
         if (!Strings.isNullOrEmpty(browser))
-            desiredCapabilities.setCapability("browser", browser);
+            desiredCapabilities.setCapability("appium:browser", browser);
         desiredCapabilities.setCapability("browserName", browserName);
-        desiredCapabilities.setCapability("newCommandTimeout", newCommandTimeout);
-        desiredCapabilities.setCapability("orientation", orientation);
-        desiredCapabilities.setCapability("autoWebview", autoWebview);
-        desiredCapabilities.setCapability("noReset", noReset);
-        desiredCapabilities.setCapability("autoGrantPermissions", autoGrantPermissions);
-        desiredCapabilities.setCapability("fullReset", fullReset);
-        desiredCapabilities.setCapability("nativeWebScreenshot", nativeScreenshot);
-        desiredCapabilities.setCapability("recreateChromeDriverSessions", recreateChromeDriverSessions);
+        desiredCapabilities.setCapability("appium:newCommandTimeout", newCommandTimeout);
+        desiredCapabilities.setCapability("appium:orientation", orientation);
+        desiredCapabilities.setCapability("appium:autoWebview", autoWebview);
+        desiredCapabilities.setCapability("appium:noReset", noReset);
+        desiredCapabilities.setCapability("appium:autoGrantPermissions", autoGrantPermissions);
+        desiredCapabilities.setCapability("appium:fullReset", fullReset);
+        desiredCapabilities.setCapability("appium:nativeWebScreenshot", nativeScreenshot);
+        desiredCapabilities.setCapability("appium:recreateChromeDriverSessions", recreateChromeDriverSessions);
         if (!Strings.isNullOrEmpty(appiumVersion))
-            desiredCapabilities.setCapability("appiumVersion", appiumVersion);
+            desiredCapabilities.setCapability("appium:appiumVersion", appiumVersion);
         if (!Strings.isNullOrEmpty(deviceOrientation))
-            desiredCapabilities.setCapability("deviceOrientation", deviceOrientation);
+            desiredCapabilities.setCapability("appium:deviceOrientation", deviceOrientation);
         if (!Strings.isNullOrEmpty(testobjectApiKey))
-            desiredCapabilities.setCapability("testobject_api_key", testobjectApiKey);
+            desiredCapabilities.setCapability("appium:testobject_api_key", testobjectApiKey);
         if (null != testobjectSessionCreateTimeout)
-            desiredCapabilities.setCapability("testobject_session_creation_timeout", String.valueOf(testobjectSessionCreateTimeout));
+            desiredCapabilities.setCapability("appium:testobject_session_creation_timeout", String.valueOf(testobjectSessionCreateTimeout));
         if (null != ignoreUnimportantViews)
-            desiredCapabilities.setCapability("ignoreUnimportantViews", ignoreUnimportantViews);
+            desiredCapabilities.setCapability("appium:ignoreUnimportantViews", ignoreUnimportantViews);
         if (null != phoneOnly)
-            desiredCapabilities.setCapability("phoneOnly", phoneOnly);
+            desiredCapabilities.setCapability("appium:phoneOnly", phoneOnly);
         if (null != idleTimeout)
-            desiredCapabilities.setCapability("idleTimeout", String.valueOf(idleTimeout));
+            desiredCapabilities.setCapability("appium:idleTimeout", String.valueOf(idleTimeout));
         if (null != maxDuration)
-            desiredCapabilities.setCapability("maxDuration", String.valueOf(maxDuration));
+            desiredCapabilities.setCapability("appium:maxDuration", String.valueOf(maxDuration));
         if (null != uiautomator2ServerLaunchTimeout)
-            desiredCapabilities.setCapability("uiautomator2ServerLaunchTimeout", String.valueOf(uiautomator2ServerLaunchTimeout));
+            desiredCapabilities.setCapability("appium:uiautomator2ServerLaunchTimeout", String.valueOf(uiautomator2ServerLaunchTimeout));
 
     }
 

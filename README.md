@@ -4,7 +4,7 @@ The Afor framework is designed to allow creating automated test suites, which ca
 Other applications can be added into the framework as desired, such as windows application capabilities.
 
 ## Getting started
-The framework requires jdk 17 or higher, maven, an IDE of your choice (unless running headless), along with a browser and associated drivers if performing web browser testing or simulators/real devices and appium if testing mobile applications.
+The framework requires jdk 21 or higher, maven, an IDE of your choice (unless running headless), along with a browser and associated drivers if performing web browser testing or simulators/real devices and appium if testing mobile applications.
 
 Detailed instructions can be found on the [getting started page](https://www.afor.co.nz/framework/installation/getting-started.html)
 
