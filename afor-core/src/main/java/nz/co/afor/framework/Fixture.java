@@ -38,6 +38,7 @@ public class Fixture {
         objectMapper.setDateFormat(dateFormat);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        objectMapper.setAnnotationIntrospector(new EncryptAnnotationIntrospector());
         return objectMapper;
     }
 

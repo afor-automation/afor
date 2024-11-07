@@ -47,8 +47,15 @@ public final class HtmlWriter implements AutoCloseable {
     public void initialise(ReportContext reportContext) {
         initialised = true;
         writeTemplateBetween(writer, template, null, "{{title}}");
+        if (Objects.equals(reportContext.getReportHeading(), "Afor Automation")) {
+            write(reportContext.getReportHeading() + " - ");
+        } else {
+            write("Afor Automation - " + reportContext.getReportHeading() + " ");
+        }
         write(reportContext.getFormattedTitle());
-        writeTemplateBetween(writer, template, "{{title}}", "{{heading}}");
+        writeTemplateBetween(writer, template, "{{title}}", "{{mainheading}}");
+        write(reportContext.getReportHeading());
+        writeTemplateBetween(writer, template, "{{mainheading}}", "{{heading}}");
         write(reportContext.getFormattedTitle());
         writeTemplateBetween(writer, template, "{{heading}}", "{{detailedreport}}");
     }
@@ -64,7 +71,9 @@ public final class HtmlWriter implements AutoCloseable {
     private void copyResources() throws IOException {
         for (String textAsset : TEXT_ASSETS) {
             InputStream textAssetStream = getClass().getResourceAsStream(textAsset);
-            Files.copy(textAssetStream, Path.of(path.getAbsolutePath() + textAsset.substring(textAsset.lastIndexOf("/"))),StandardCopyOption.REPLACE_EXISTING);
+            if (textAssetStream != null) {
+                Files.copy(textAssetStream, Path.of(path.getAbsolutePath() + textAsset.substring(textAsset.lastIndexOf("/"))), StandardCopyOption.REPLACE_EXISTING);
+            }
         }
     }
 

@@ -28,19 +28,20 @@
 </head>
 <body>
 <div class="title-section">
+    <div class="title-heading"><span class="title-heading title-heading-main-heading">{{mainheading}}</span><span
+            class="title-heading title-heading-name">{{heading}}</span></div>
     <div class="logo">
         <a href="https://www.afor.co.nz" target="_blank"><img class="logo" src="aforLogo.png"
                                                               alt="afor automation ${project.version}"></a>
     </div>
-    <div class="title-heading"><span class="title-heading title-heading-name">{{heading}}</span><span
-            class="title-heading title-heading-date"></span></div>
 </div>
+<div class="title-section-break"></div>
 <div class="afor-summary grid2">
     <section class="blockelement summary">
         <article id="scenarioPieChart" class="chart col center"><img src="piechart.svg"/></article>
         <article id="scenarioScatterChart" class="chart col center"><img src="scatterchart.svg"/></article>
     </section>
-    <section class="blockelement summary">
+    <section class="blockelement summary statistics">
         <article class="chart col chart-table">
             <div class="chartHeading chartHeadingTable">Feature Result Statistics</div>
             <div id="featureScenarioContainer" class="chart-table"></div>
@@ -65,7 +66,7 @@
                     <span class="switcher"></span>
                     <span class="label">Failed</span>
                 </label>
-                <label class="cl-switch">
+                <label class="cl-switch cl-switch-grey">
                     <input type="checkbox" name="other" id="other" onchange="toggleOtherFunction()" checked>
                     <span class="switcher"></span>
                     <span class="label">Other</span>

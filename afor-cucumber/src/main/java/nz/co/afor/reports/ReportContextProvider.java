@@ -16,9 +16,16 @@ public class ReportContextProvider implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
+    private static String reportHeading;
     private static String reportTitle;
     private static DateTimeFormatter dateFormat;
     private static ZoneId timezone;
+
+    public static String getReportHeading() {
+        if (null == reportHeading)
+            return "Afor Automation";
+        return reportHeading;
+    }
 
     public static String getReportTitle() {
         if (null == reportTitle)
@@ -38,9 +45,14 @@ public class ReportContextProvider implements ApplicationContextAware {
         return timezone;
     }
 
+    @Value("${nz.co.afor.report.heading:Afor Automation}")
+    public void setReportHeading(String reportHeading) {
+        ReportContextProvider.reportHeading = reportHeading;
+    }
+
     @Value("${nz.co.afor.report.title:Automation Results}")
     public void setReportTitle(String reportTitle) {
-        ReportContextProvider.reportTitle = "Afor Automation - " + reportTitle;
+        ReportContextProvider.reportTitle = reportTitle;
     }
 
     @Value("${nz.co.afor.report.date.format:yyyy-MMM-dd HH:mm:ss}")

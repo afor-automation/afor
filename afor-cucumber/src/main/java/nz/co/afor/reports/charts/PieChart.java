@@ -4,6 +4,7 @@ import de.erichseifert.vectorgraphics2d.VectorGraphics2D;
 import de.erichseifert.vectorgraphics2d.svg.SVGProcessor;
 import de.erichseifert.vectorgraphics2d.util.PageSize;
 import nz.co.afor.reports.results.ResultSummary;
+import org.knowm.xchart.AnnotationText;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
 import org.knowm.xchart.style.Styler;
@@ -28,14 +29,19 @@ public class PieChart {
                 .theme(Styler.ChartTheme.GGPlot2)
                 .build();
 
-        pieChart.getStyler()
-                .setChartBackgroundColor(Color.white)
-                .setLegendBackgroundColor(Color.white)
-                .setPlotBackgroundColor(Color.white)
+        pieChart.getStyler().setTheme(new PieTheme())
+                .setDonutThickness(0.3)
+                .setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut)
+                .setChartBackgroundColor(new Color(239, 235, 229))
+                .setLegendBackgroundColor(new Color(239, 235, 229))
+                .setPlotBackgroundColor(new Color(239, 235, 229))
+                .setLegendBorderColor(new Color(239, 235, 229))
                 .setChartTitleBoxVisible(false)
                 .setPlotBorderVisible(false)
-                .setChartTitleFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+                .setAnnotationTextFont(new Font("Arial", Font.BOLD, 44))
+                .setChartTitleFont(new Font("Arial", Font.BOLD, 18));
 
+        addCentreText(resultSummary, pieChart, width, height);
         addData(resultSummary, pieChart);
 
         VectorGraphics2D vectorGraphics2D = new VectorGraphics2D();
@@ -48,33 +54,41 @@ public class PieChart {
         return resultSummary.getScenarios().getPassed() + resultSummary.getScenarios().getFailed() + resultSummary.getScenarios().getUndefined() + resultSummary.getScenarios().getPending();
     }
 
+    private static void addCentreText(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart, int width, int height) {
+        long passedPercentage = Math.round((resultSummary.getScenarios().getPassed().doubleValue() / getTotal(resultSummary)) * 100);
+        AnnotationText centreText = new AnnotationText(passedPercentage + " %", ((double) width / 3) + 22, ((double) height / 2) - 11, true);
+        centreText.init(pieChart);
+        pieChart.addAnnotation(centreText);
+    }
+
     private static void addData(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart) {
         PieSeries passed = pieChart.addSeries(format("Passed (%d)", resultSummary.getScenarios().getPassed()), resultSummary.getScenarios().getPassed());
-        passed.setFillColor(new Color(176, 214, 51));
+        passed.setFillColor(new Color(86, 196, 76));
 
         if (resultSummary.getScenarios().getFailed() > 0) {
             PieSeries failed = pieChart.addSeries(format("Failed (%d)", resultSummary.getScenarios().getFailed()), resultSummary.getScenarios().getFailed());
-            failed.setFillColor(new Color(255, 0, 0));
+            failed.setChartPieSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut);
+            failed.setFillColor(new Color(255, 49, 49));
         }
 
         if (resultSummary.getScenarios().getUndefined() > 0) {
             PieSeries undefined = pieChart.addSeries(format("Undefined (%d)", resultSummary.getScenarios().getUndefined()), resultSummary.getScenarios().getUndefined());
-            undefined.setFillColor(new Color(255, 197, 0));
+            undefined.setFillColor(new Color(255, 145, 77));
         }
 
         if (resultSummary.getScenarios().getPending() > 0) {
             PieSeries pending = pieChart.addSeries(format("Pending (%d)", resultSummary.getScenarios().getPending()), resultSummary.getScenarios().getPending());
-            pending.setFillColor(new Color(234, 236, 45));
+            pending.setFillColor(new Color(255, 222, 89));
         }
 
         if (resultSummary.getScenarios().getSkipped() > 0) {
             PieSeries skipped = pieChart.addSeries(format("Skipped (%d)", resultSummary.getScenarios().getSkipped()), resultSummary.getScenarios().getSkipped());
-            skipped.setFillColor(new Color(45, 234, 236));
+            skipped.setFillColor(new Color(79, 73, 89));
         }
 
         if (resultSummary.getScenarios().getAmbiguous() > 0) {
             PieSeries ambiguous = pieChart.addSeries(format("Ambiguous (%d)", resultSummary.getScenarios().getAmbiguous()), resultSummary.getScenarios().getAmbiguous());
-            ambiguous.setFillColor(new Color(45, 234, 236));
+            ambiguous.setFillColor(new Color(79, 73, 89));
         }
     }
 }

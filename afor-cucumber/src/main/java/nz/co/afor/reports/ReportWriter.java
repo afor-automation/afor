@@ -118,7 +118,7 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
                 .append("\"><details ")
                 .append(testCaseFinished.getResult().getStatus().equals(Status.PASSED) ? "closed" : "open")
                 .append("><summary class=\"header\">");
-        if (testCaseFinished.getTestCase().getTags().size() > 0) {
+        if (!testCaseFinished.getTestCase().getTags().isEmpty()) {
             scenarioBuffer.append("<div class=\"tags\">");
             testCaseFinished.getTestCase().getTags().forEach(tag -> scenarioBuffer.append("<span class=\"tag\">").append(EscapeText.escapeHTML(tag)).append("</span>"));
             scenarioBuffer.append("</div>");

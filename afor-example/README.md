@@ -1,6 +1,9 @@
 # Welcome to the Afor framework example
-To run the Afor framework example, you will need to have JDK 17 or greater, Maven and your preferred IDE installed. Chrome and chromedriver may also be required for some scenarios. \
-For more detailed installation, [follow the installation instructions](https://www.afor.co.nz/framework/installation/install-document.html) to get started
+
+To run the Afor framework example, you will need to have JDK 21 or greater, Maven and your preferred IDE installed.
+Chrome and chromedriver may also be required for some scenarios. \
+For more detailed installation, [follow the installation instructions](https://github.com/afor-automation/afor) to get
+started
 
 ## Structuring your code
 The intention of the framework is to loosely use an MVC pattern, to manage code.
@@ -104,4 +107,5 @@ public ResponseEntity<nz.co.afor.model.Post[]> getPosts() {
 }
 ```
 ## Viewing reports
-After running the test suite, you can view the reports under target/afor/index.html
+
+After running the test suite, you can view the reports under `target/afor/index.html`

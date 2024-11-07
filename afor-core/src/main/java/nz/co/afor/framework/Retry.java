@@ -9,6 +9,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by Matt on 13/09/2016.
  */
+@Deprecated
 public class Retry {
     private static final Log log = LogFactory.getLog(Retry.class);
 

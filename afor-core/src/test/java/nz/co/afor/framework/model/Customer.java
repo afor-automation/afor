@@ -1,5 +1,7 @@
 package nz.co.afor.framework.model;
 
+import nz.co.afor.framework.Encrypted;
+
 import java.time.ZonedDateTime;
 
 /**
@@ -7,6 +9,8 @@ import java.time.ZonedDateTime;
  */
 public class Customer {
     private String username;
+
+    @Encrypted
     private String password;
     private ZonedDateTime dateOfBirth;
 

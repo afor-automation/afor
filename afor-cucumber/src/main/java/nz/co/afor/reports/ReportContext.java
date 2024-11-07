@@ -8,6 +8,10 @@ public interface ReportContext {
 
     ZonedDateTime START_TIME = ZonedDateTime.now();
 
+    default String getReportHeading() {
+        return ReportContextProvider.getReportHeading();
+    }
+
     default String getReportTitle() {
         return ReportContextProvider.getReportTitle();
     }
