@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.cucumber.java.Scenario;
+import nz.co.afor.framework.EncryptAnnotationIntrospector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ public interface Model<T> extends List<T> {
             .enable(INDENT_OUTPUT)
             .registerModule(new JavaTimeModule())
             .configure(WRITE_DATES_AS_TIMESTAMPS, false)
+            .setAnnotationIntrospector(new EncryptAnnotationIntrospector())
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     default T get() {
