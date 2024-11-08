@@ -33,6 +33,11 @@
             <version>6.1.14</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>6.1.14</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
             <version>5.2.1</version>
@@ -87,6 +92,12 @@
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
             <version>4.0.11</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
@@ -155,6 +166,7 @@
                                 <include>nz.co.afor:afor-mock</include>
                                 <include>org.springframework:spring-web</include>
                                 <include>org.springframework:spring-core</include>
+                                <include>org.springframework:spring-webmvc</include>
                                 <include>org.springframework.ws:spring-ws-core</include>
                                 <include>org.springframework.ws:spring-ws-support</include>
                                 <include>org.apache.httpcomponents:httpclient</include>
