@@ -9,7 +9,7 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-parent</artifactId>
-    <version>1.4.51-SNAPSHOT</version>
+    <version>1.4.52-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://www.afor.co.nz</url>
     <name>${project.groupId}:${project.artifactId}</name>
@@ -64,7 +64,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>2.5.3</version>
             </plugin>
 
             <plugin>

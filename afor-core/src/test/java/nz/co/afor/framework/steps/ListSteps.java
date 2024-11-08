@@ -36,7 +36,7 @@ public class ListSteps {
 
     @Then("^the first list value should be returned$")
     public void theFirstListValueShouldBeReturned() {
-        assertThat(result, equalTo(list.getFirst()));
+        assertThat(result, equalTo(list.get(0)));
     }
 
     @When("^I get the last list value$")
@@ -46,7 +46,7 @@ public class ListSteps {
 
     @Then("^the last list value should be returned$")
     public void theLastListValueShouldBeReturned() {
-        assertThat(result, equalTo(list.getLast()));
+        assertThat(result, equalTo(list.get(list.size() - 1)));
     }
 
     @When("^I get any list value$")

@@ -3,7 +3,7 @@
     <parent>
         <artifactId>afor-parent</artifactId>
         <groupId>nz.co.afor.framework</groupId>
-        <version>1.4.51-SNAPSHOT</version>
+        <version>1.4.52-SNAPSHOT</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -30,6 +30,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>6.1.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
             <version>6.1.14</version>
         </dependency>
         <dependency>
@@ -87,6 +92,12 @@
             <groupId>org.springframework.ws</groupId>
             <artifactId>spring-ws-core</artifactId>
             <version>4.0.11</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.ws</groupId>
@@ -155,6 +166,7 @@
                                 <include>nz.co.afor:afor-mock</include>
                                 <include>org.springframework:spring-web</include>
                                 <include>org.springframework:spring-core</include>
+                                <include>org.springframework:spring-webmvc</include>
                                 <include>org.springframework.ws:spring-ws-core</include>
                                 <include>org.springframework.ws:spring-ws-support</include>
                                 <include>org.apache.httpcomponents:httpclient</include>
@@ -172,9 +184,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.13.0</version>
                 <configuration>
-                    <release>21</release>
+                    <release>17</release>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
