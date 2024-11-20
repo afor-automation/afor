@@ -75,7 +75,7 @@ public class AiClient {
                         .setCredentials(proxyUsername, proxyPassword);
                 clientBuilder.clientOptions(new HttpClientOptions().setProxyOptions(proxyOptions));
             }
-            clientBuilder.retryOptions(new RetryOptions(new FixedDelayOptions(1, Duration.of(5, ChronoUnit.SECONDS))));
+            clientBuilder.retryOptions(new RetryOptions(new FixedDelayOptions(3, Duration.of(5, ChronoUnit.SECONDS))));
             openAIClient = clientBuilder.buildClient();
         }
         return openAIClient;
