@@ -74,6 +74,7 @@ public class Appium {
             iosDriver.installApp(getAppPath());
             iosDriver.activateApp(configuration.getBundleId());
         }
+        WebDriverRunner.setWebDriver(driver);
         return driver;
     }
 
@@ -109,6 +110,7 @@ public class Appium {
             }
             iosDriver.activateApp(configuration.getBundleId());
         }
+        WebDriverRunner.setWebDriver(driver);
         return driver;
     }
 
