@@ -3,6 +3,7 @@ package nz.co.afor.ai.model;
 public abstract class AiResponse {
     private int promptTokens;
     private int completionTokens;
+    private int totalTokens;
     private String prompt;
 
     public int getPromptTokens() {
@@ -22,7 +23,11 @@ public abstract class AiResponse {
     }
 
     public int getTotalTokens() {
-        return promptTokens + completionTokens;
+        return totalTokens;
+    }
+
+    public void setTotalTokens(int totalTokens) {
+        this.totalTokens = totalTokens;
     }
 
     public String getPrompt() {

@@ -136,6 +136,7 @@ public class AiClient {
         CompletionsUsage usage = chatCompletions.getUsage();
         response.setCompletionTokens(usage.getCompletionTokens());
         response.setPromptTokens(usage.getPromptTokens());
+        response.setTotalTokens(usage.getTotalTokens());
         return response;
     }
 }
