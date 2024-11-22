@@ -13,6 +13,7 @@ import com.azure.core.http.policy.RetryOptions;
 import com.azure.core.util.HttpClientOptions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Splitter;
 import nz.co.afor.ai.model.AiResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -22,6 +23,7 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Scope("thread")
@@ -48,6 +50,9 @@ public class AiClient {
 
     @Value("${nz.co.afor.ai.model:gpt-4o}")
     private String deploymentOrModelId;
+
+    @Value("${nz.co.afor.ai.request.chunksize:40000}")
+    private Integer chunkSize;
 
     private OpenAIClient openAIClient;
     private AssistantsClient assistantsClient;
@@ -116,7 +121,18 @@ public class AiClient {
     }
 
     public ChatCompletions getChatCompletions(final String message) {
-        return getChatCompletions(List.of(new ChatRequestUserMessage(message)));
+        if (message.length() < chunkSize) {
+            // Send the message through as a single message
+            return getChatCompletions(List.of(new ChatRequestUserMessage(message)));
+        }
+        // Break the message up into chunks to send through
+        List<ChatRequestMessage> messages = new ArrayList<>();
+        final String preparedMessage = "The length of this request is too large for one message, multiple messages will be sent in chunks, do not respond until all messages have been received, the final message will end with ====EOM====\n" + message + "\n====EOM====";
+        for (String part : Splitter.fixedLength(chunkSize).splitToList(preparedMessage)) {
+            System.out.println(part);
+            messages.add(new ChatRequestUserMessage(part));
+        }
+        return getChatCompletions(messages);
     }
 
     public ChatCompletions getChatCompletions(List<ChatRequestMessage> messages) {

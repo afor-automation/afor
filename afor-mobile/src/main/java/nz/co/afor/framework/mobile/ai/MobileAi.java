@@ -7,6 +7,7 @@ import com.google.common.cache.CacheLoader;
 import in.wilsonl.minifyhtml.Configuration;
 import in.wilsonl.minifyhtml.MinifyHtml;
 import nz.co.afor.ai.AiClient;
+import nz.co.afor.ai.CoreAi;
 import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,16 @@ public class MobileAi {
             return aiResponse;
         }
     };
+
+    /**
+     * Use AI to manipulate an object, such as generating field data
+     *
+     * @param query The query to run, such as 'Generate realistic email addresses for email fields'
+     * @return Returns the object after generation
+     */
+    public static <T> T ai(String query, T object) {
+        return CoreAi.ai(query, object);
+    }
 
     /**
      * Find a browser element using an AI query against the html
