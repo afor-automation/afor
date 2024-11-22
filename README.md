@@ -169,89 +169,111 @@ After running the test suite, you can view the reports under `target/afor/index.
 There are many other options available to configure through your configuration properties or at runtime\
 A list of possible configuration options are available below
 
-### afor-api
+### AI Configuration
 
-#### API host and ssl config
+- `nz.co.afor.ai.key`: The API key used to authenticate requests to the AI service.
+- `nz.co.afor.ai.endpoint`: The endpoint URL for the AI service (e.g., `https://example.openai.azure.com`).
+- `nz.co.afor.ai.openapisecretkey`: The secret key for OpenAPI authentication (used for secure communication with the AI
+  service).
+- `nz.co.afor.ai.model`: The AI model to be used (e.g., `gpt-4o`, `gpt-4o-mini`).
+- `nz.co.afor.ai.request.chunksize`: The size of each chunk when sending requests to the AI service (used for handling
+  large data payloads).
 
-`api.hostUrl` \
-`api.ssl.selfsigned`
+#### Web AI Cache Configuration
+
+- `nz.co.afor.web.ai.cache.location`: The location where the AI cache is stored for web-based AI operations.
+- `nz.co.afor.web.ai.cache.revalidate`: Whether the web AI cache should be revalidated (e.g., `true` to revalidate on
+  each request).
+
+#### Mobile AI Cache Configuration
+
+- `nz.co.afor.mobile.ai.cache.location`: The location where the AI cache is stored for mobile-based AI operations.
+- `nz.co.afor.mobile.ai.cache.revalidate`: Whether the mobile AI cache should be revalidated (e.g., `true` to revalidate
+  on each request).
+
+### Afor-API
 
 #### Proxy configuration
 
-`proxy.username` \
-`proxy.password` \
-`proxy.domain` \
-`proxy.address`
+- `proxy.username`: The username for proxy authentication.
+- `proxy.password`: The password for proxy authentication.
+- `proxy.domain`: The domain for proxy authentication.
+- `proxy.address`: The address of the proxy server.
 
 #### Connection pooling
 
-`api.ssl.selfsigned` \
-`api.pool.connections.max` \
-`api.pool.connections.route.max` \
-`api.pool.inactivity.validate` \
-`api.pool.connections.timeToLive` \
-`api.pool.connect.timeout` \
-`api.pool.socket.timeout`
+- `api.ssl.selfsigned`: Indicates whether to allow self-signed SSL certificates.
+- `api.pool.connections.max`: The maximum number of connections allowed in the connection pool.
+- `api.pool.connections.route.max`: The maximum number of connections allowed per route in the connection pool.
+- `api.pool.inactivity.validate`: Specifies the time (in milliseconds) to validate inactive connections.
+- `api.pool.connections.timeToLive`: The maximum time (in milliseconds) a connection is kept alive in the pool.
+- `api.pool.connect.timeout`: The time (in milliseconds) to wait for a connection to be established.
+- `api.pool.socket.timeout`: The time (in milliseconds) to wait for a socket to read data.
 
-### afor-core
+### Afor-core
 
 #### Encryption configuration
 
-`nz.co.afor.encrypt.key` \
-`nz.co.afor.encrypt.algorithm` \
-`nz.co.afor.encrypt.key.algorithm` \
-`nz.co.afor.encrypt.iv`
+- `nz.co.afor.encrypt.key`: The encryption key used for encrypting data.
+- `nz.co.afor.encrypt.algorithm`: The encryption algorithm to be used
+- `nz.co.afor.encrypt.key.algorithm`: The algorithm used for key generation
+- `nz.co.afor.encrypt.iv`: The initialization vector (IV) used for encryption
 
 #### Fixtures
 
-`nz.co.afor.fixture.dateformat` \
-`nz.co.afor.fixture.timezone` \
-`nz.co.afor.fixture.path` \
-`nz.co.afor.fixture.dateformat` \
-`nz.co.afor.fixture.timezone`
+- `nz.co.afor.fixture.dateformat`: The format for displaying dates in the fixture (e.g., `yyyy-MM-dd`).
+- `nz.co.afor.fixture.timezone`: The timezone used for the fixture's date and time (e.g., `UTC`, `GMT`).
+- `nz.co.afor.fixture.path`: The path to the fixture file or directory.
 
-### afor-cucumber
+### Afor-cucumber
 
-`nz.co.afor.report.heading` \
-`nz.co.afor.report.title` \
-`nz.co.afor.report.date.format` \
-`nz.co.afor.report.date.timezone`
+- `nz.co.afor.report.heading`: The heading text to be displayed at the top of the report.
+- `nz.co.afor.report.title`: The title of the report.
+- `nz.co.afor.report.date.format`: The format used for displaying the date in the report (e.g., `yyyy-MM-dd`,
+  `MM/dd/yyyy`).
+- `nz.co.afor.report.date.timezone`: The timezone used for displaying the date in the report (e.g., `UTC`,
+  `America/New_York`).
 
-### afor-mobile
+### Afor-mobile
 
-`appium.remote.url` \
-`appium.platformName` \
-`appium.platformVersion` \
-`appium.deviceName` \
-`appium.udid` \
-`appium.app` \
-`appium.appPackage` \
-`appium.browser` \
-`appium.browserName` \
-`appium.newCommandTimeout` \
-`appium.orientation` \
-`appium.autoWebview` \
-`appium.noReset` \
-`appium.fullReset` \
-`appium.autoGrantPermissions` \
-`appium.automationName` \
-`appium.nativeScreenshot` \
-`appium.recreateChromeDriverSessions` \
-`appium.appiumVersion` \
-`appium.deviceOrientation` \
-`appium.ignoreUnimportantViews` \
-`appium.phoneOnly` \
-`appium.testobjectApiKey` \
-`appium.testobjectSessionCreateTimeout` \
-`appium.idleTimeout` \
-`appium.maxDuration` \
-`appium.uiautomator2ServerLaunchTimeout` \
-`appium.remote` \
-`appium.bundleId`
+- `appium.remote.url`: The URL of the remote Appium server.
+- `appium.platformName`: The name of the mobile platform (e.g., `Android`, `iOS`).
+- `appium.platformVersion`: The version of the mobile platform (e.g., `10.0`, `14.4`).
+- `appium.deviceName`: The name of the device (e.g., `iPhone 12`, `Pixel 4`).
+- `appium.udid`: The unique device identifier (UDID) for the device.
+- `appium.app`: The path to the application to be tested (APK for Android, IPA or .APP for iOS).
+- `appium.appPackage`: The package name of the Android app.
+- `appium.browser`: The path or URL of a mobile web browser to test on.
+- `appium.browserName`: The name of the browser to use for testing (e.g., `Chrome`, `Safari`).
+- `appium.newCommandTimeout`: The time (in seconds) to wait for a new command before the session times out.
+- `appium.orientation`: The initial screen orientation (e.g., `PORTRAIT`, `LANDSCAPE`).
+- `appium.autoWebview`: Indicates whether to automatically switch to the webview context when interacting with a web
+  app.
+- `appium.noReset`: Whether to avoid resetting app state before the session starts (`true` to keep the app data intact).
+- `appium.fullReset`: Whether to perform a full reset (clear app data and cache) before the session starts.
+- `appium.autoGrantPermissions`: Whether to automatically grant app permissions on startup (`true` to grant).
+- `appium.automationName`: The automation engine to be used (e.g., `UiAutomator2`, `XCUITest`).
+- `appium.nativeScreenshot`: Whether to capture native screenshots (`true` to capture).
+- `appium.recreateChromeDriverSessions`: Whether to recreate ChromeDriver sessions when necessary (e.g., for Chrome
+  browser automation).
+- `appium.appiumVersion`: The version of Appium being used for the session.
+- `appium.deviceOrientation`: The orientation of the device (`PORTRAIT` or `LANDSCAPE`).
+- `appium.ignoreUnimportantViews`: Whether to ignore views that are not important for the automation task (`true` to
+  ignore).
+- `appium.phoneOnly`: Whether to limit tests to phones only (ignores tablets if set to `true`).
+- `appium.testobjectApiKey`: The API key for integration with TestObject, used for cloud testing.
+- `appium.testobjectSessionCreateTimeout`: The timeout (in seconds) for creating a session with TestObject/SauceLabs.
+- `appium.idleTimeout`: The time (in seconds) the Appium server waits before timing out an idle session.
+- `appium.maxDuration`: The maximum duration (in seconds) for a session to run before it times out.
+- `appium.uiautomator2ServerLaunchTimeout`: The timeout (in milliseconds) for launching the UiAutomator2 server.
+- `appium.remote`: The URL of the remote Appium server (often used when connecting to a grid or cloud-based service).
+- `appium.bundleId`: The bundle ID of the iOS app to be tested.
 
-### afor-web
+### Afor-web
 
-`browser` \
-`selenide.baseUrl` \
-`selenide.timeout` \
-`selenide.pollingInterval`
+- `browser`: The web browser to be used for the tests (e.g., `chrome`, `firefox`, `edge`).
+- `selenide.baseUrl`: The base URL to be used for all relative URLs in the tests (e.g., `http://localhost:8080`).
+- `selenide.timeout`: The default timeout (in milliseconds) for all Selenide actions, such as waiting for elements to
+  appear.
+- `selenide.pollingInterval`: The interval (in milliseconds) for polling while waiting for an element or condition to be
+  met (e.g., waiting for visibility or clickability).
