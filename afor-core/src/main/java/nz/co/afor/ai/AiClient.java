@@ -15,6 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Splitter;
 import nz.co.afor.ai.model.AiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -30,6 +32,8 @@ import java.util.List;
 @Component
 public class AiClient {
 
+    private static final Logger log = LoggerFactory.getLogger(AiClient.class);
+
     @Value("${proxy.username:@null}")
     private String proxyUsername;
 
@@ -39,13 +43,13 @@ public class AiClient {
     @Value("${proxy.address:}")
     private URI proxyAddress;
 
-    @Value("${nz.co.afor.ai.key:}")
+    @Value("${nz.co.afor.ai.key:${AI_KEY:}}")
     private String key;
 
-    @Value("${nz.co.afor.ai.endpoint:}")
+    @Value("${nz.co.afor.ai.endpoint:${AI_ENDPOINT:}}")
     private String endpoint;
 
-    @Value("${nz.co.afor.ai.openapisecretkey:}")
+    @Value("${nz.co.afor.ai.openapisecretkey:${AI_SECRET_KEY:}}")
     private String openApiSecretKey;
 
     @Value("${nz.co.afor.ai.model:gpt-4o}")
@@ -56,6 +60,9 @@ public class AiClient {
 
     private OpenAIClient openAIClient;
     private AssistantsClient assistantsClient;
+    private static int completionTokens = 0;
+    private static int promptTokens = 0;
+    private static int totalTokens = 0;
 
     /**
      * Create an OpenAI chat client
@@ -154,5 +161,30 @@ public class AiClient {
         response.setPromptTokens(usage.getPromptTokens());
         response.setTotalTokens(usage.getTotalTokens());
         return response;
+    }
+
+    private void incrementTotalUsage(CompletionsUsage usage) {
+        AiClient.completionTokens += usage.getCompletionTokens();
+        AiClient.promptTokens += usage.getPromptTokens();
+        AiClient.totalTokens += usage.getTotalTokens();
+    }
+
+    public static int getCompletionTokens() {
+        return completionTokens;
+    }
+
+    public static int getPromptTokens() {
+        return promptTokens;
+    }
+
+    public static int getTotalTokens() {
+        return totalTokens;
+    }
+
+    public static void logUsage() {
+        log.info("AI Token Usage, prompt tokens {}, completion tokens {}, total tokens {}",
+                AiClient.promptTokens,
+                AiClient.completionTokens,
+                AiClient.totalTokens);
     }
 }

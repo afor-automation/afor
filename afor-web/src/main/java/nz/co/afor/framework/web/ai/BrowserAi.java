@@ -122,6 +122,7 @@ public class BrowserAi {
                 This is your task: %s
 
                 * First, create a unique XPath selector. The selector should be as specific as possible, combining attributes or structural relationships to uniquely identify the element. It’s important to avoid generic tags like h1 unless they are uniquely qualified by classes, IDs, or other attributes.
+                * When using text matching, use contains for partial matching
                 * Stop once a valid selector is found. Do not attempt to create multiple options or rectifications. Once a selector is determined to be valid, return it in the requested JSON format without modifications.
                 * Provide the answer in JSON format as follows: {"selector": "unique-selector","type": "XPATH"}
 

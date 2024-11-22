@@ -1,6 +1,8 @@
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import io.cucumber.spring.CucumberContextConfiguration;
+import nz.co.afor.ai.AiClient;
+import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -12,4 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 @CucumberContextConfiguration
 @CucumberOptions(plugin = {"pretty", "nz.co.afor.reports.HTML:target/afor"})
 public class RunTest {
+    @AfterClass
+    public static void logAiUsage() {
+        AiClient.logUsage();
+    }
 }

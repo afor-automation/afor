@@ -16,7 +16,7 @@ import java.util.Base64;
 @Component
 class EncryptConfig implements ApplicationContextAware {
 
-    @Value("${nz.co.afor.encrypt.key:}")
+    @Value("${nz.co.afor.encrypt.key:${ENCRYPT_KEY:}}")
     private String base64EncodedKey;
     private SecretKey key;
 
@@ -26,7 +26,7 @@ class EncryptConfig implements ApplicationContextAware {
     @Value("${nz.co.afor.encrypt.key.algorithm:AES}")
     private String keyAlgorithm;
 
-    @Value("${nz.co.afor.encrypt.iv:}")
+    @Value("${nz.co.afor.encrypt.iv:${ENCRYPT_IV:}}")
     private String base64EncodedIv;
     private IvParameterSpec iv;
     private static ApplicationContext applicationContext;
