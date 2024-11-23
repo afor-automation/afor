@@ -30,8 +30,8 @@ public class GoogleView {
         getSearchButton().click();
     }
 
-    public SelenideElement getResultStats() {
-        return $("div#result-stats");
+    public SelenideElement getResults() {
+        return $("div[role='main'] div[data-hveid][data-ved]");
     }
 
     public ElementsCollection getResultLinks() {
