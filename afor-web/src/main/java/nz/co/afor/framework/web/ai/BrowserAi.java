@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URI;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -56,11 +58,16 @@ public class BrowserAi {
                 }
             }
             // Check the file cache first
-            Object persistentProperty = persistentProperties.get(query.getKey());
-            if (null != persistentProperty) {
-                Selector selector = objectMapper.readValue((String) persistentProperty, Selector.class);
-                if (!browserAi.revalidateCache || getSelenideElement(selector).exists())
-                    return selector;
+            for (Map.Entry<Object, Object> objectObjectEntry : persistentProperties.entrySet()) {
+                String[] entry = String.valueOf(objectObjectEntry.getKey()).split("\\|");
+                if (entry.length == 2) {
+                    AiCache compareCache = new AiCache(entry[1], URI.create(entry[0]), null);
+                    if (Objects.equals(compareCache, query)) {
+                        Selector selector = objectMapper.readValue((String) objectObjectEntry.getValue(), Selector.class);
+                        if (!browserAi.revalidateCache || getSelenideElement(selector).exists())
+                            return selector;
+                    }
+                }
             }
 
             // Cache miss, call the AI service and cache to file

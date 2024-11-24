@@ -34,6 +34,6 @@ public class AiGoogleView {
     }
 
     public SelenideElement getResultLink(String title) {
-        return ai(getResults(), format("find the search result with the title '%s'", title));
+        return ai(getResults(), format("find the title '%s'", title));
     }
 }

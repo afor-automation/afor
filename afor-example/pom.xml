@@ -12,17 +12,17 @@
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-api</artifactId>
-            <version>1.4.52</version>
+            <version>1.4.55</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-web</artifactId>
-            <version>1.4.52</version>
+            <version>1.4.55</version>
         </dependency>
         <dependency>
             <groupId>nz.co.afor.framework</groupId>
             <artifactId>afor-cucumber</artifactId>
-            <version>1.4.52</version>
+            <version>1.4.55</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

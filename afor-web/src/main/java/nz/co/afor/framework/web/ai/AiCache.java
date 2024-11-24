@@ -49,13 +49,25 @@ public class AiCache {
     }
 
     public boolean equals(Object o) {
-        if (!o.getClass().isInstance(AiCache.class))
+        if (!o.getClass().isAssignableFrom(AiCache.class))
             return false;
         AiCache compare = (AiCache) o;
         return Objects.equals(query, compare.query)
-                && Objects.equals(InternetDomainName.from(uri.getHost()).topDomainUnderRegistrySuffix(), InternetDomainName.from(compare.uri.getHost()).topDomainUnderRegistrySuffix())
+                && isSameDomain(compare.uri)
                 && Objects.equals(uri.getPath(), compare.uri.getPath())
                 && Objects.equals(uri.getPort(), compare.uri.getPort())
                 && Objects.equals(uri.getScheme(), compare.uri.getScheme());
+    }
+
+    private boolean isSameDomain(URI compare) {
+        InternetDomainName uriHost = InternetDomainName.from(uri.getHost());
+        InternetDomainName compareHost = InternetDomainName.from(compare.getHost());
+        if (uriHost.isTopDomainUnderRegistrySuffix() && compareHost.isTopDomainUnderRegistrySuffix()) {
+            return Objects.equals(uriHost.topDomainUnderRegistrySuffix(), compareHost.topDomainUnderRegistrySuffix());
+        }
+        if (uriHost.isTopPrivateDomain() && compareHost.isTopPrivateDomain()) {
+            return Objects.equals(uriHost.topPrivateDomain(), compareHost.topPrivateDomain());
+        }
+        return Objects.equals(uri.getHost(), compare.getHost());
     }
 }
