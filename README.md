@@ -180,6 +180,7 @@ A list of possible configuration options are available below
 - `nz.co.afor.ai.model`: The AI model to be used (e.g., `gpt-4o`, `gpt-4o-mini`).
 - `nz.co.afor.ai.request.chunksize`: The size of each chunk when sending requests to the AI service (used for handling
   large data payloads).
+- `nz.co.afor.ai.request.maxsize`: The maximum payload size to send to the AI service
 
 #### Web AI Cache Configuration
 

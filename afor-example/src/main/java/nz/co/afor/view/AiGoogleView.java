@@ -18,7 +18,7 @@ public class AiGoogleView {
     }
 
     public SelenideElement getSearchButton() {
-        return ai("find the search button");
+        return ai("find the 'Google Search' button");
     }
 
     public void search(String searchString) {
