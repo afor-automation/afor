@@ -29,8 +29,8 @@ public class CoreAi {
             ObjectMapper objectMapper = new ObjectMapper();
             CoreAiResponse<T> request = new CoreAiResponse<>();
             request.setObject(object);
-            String objectAsJson = objectMapper.writeValueAsString(object);
-            CoreAiResponse response = applicationContext.getBean(AiClient.class).request(getChatMessage(query, objectAsJson), request.getClass());
+            String objectAsJson = objectMapper.writeValueAsString(request);
+            CoreAiResponse<T> response = applicationContext.getBean(AiClient.class).request(getChatMessage(query, objectAsJson), request.getClass());
             return (T) objectMapper.convertValue(response.getObject(), request.getObject().getClass());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -43,7 +43,7 @@ public class CoreAi {
                 
                 * Using the json data, populate field values as instructed
                 * If no fields are specified, then assume all fields should be populated
-                * Provide the answer in JSON format as follows: {"object": "json-response"}
+                * Provide the answer in JSON format as follows: {"object": {"key":"value"}}
                 
                 ```
                 %s

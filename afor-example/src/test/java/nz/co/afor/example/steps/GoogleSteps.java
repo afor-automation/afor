@@ -17,7 +17,7 @@ public class GoogleSteps implements En {
     public GoogleSteps() {
         Given("^I am on the home page$", () -> open("/"));
         When("^I search for \"([^\"]*)\"$", (String searchString) -> googleView.search(searchString));
-        Then("^I should see some search results$", () -> googleView.getResultStats().shouldBe(visible));
+        Then("^I should see some search results$", () -> googleView.getResults().shouldBe(visible));
         And("^the search results should contain a link with the text \"([^\"]*)\"$", (String expectedLinkText) -> googleView.getResultLinks().findBy(Condition.text(expectedLinkText)).should(exist.because(String.format("The link text '%s' should exist in the results", expectedLinkText))));
     }
 }

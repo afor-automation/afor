@@ -171,13 +171,16 @@ A list of possible configuration options are available below
 
 ### AI Configuration
 
-- `nz.co.afor.ai.key`: The API key used to authenticate requests to the AI service.
-- `nz.co.afor.ai.endpoint`: The endpoint URL for the AI service (e.g., `https://example.openai.azure.com`).
+- `nz.co.afor.ai.key`: The API key used to authenticate requests to the AI service. The environment variable `AI_KEY`
+  may also be used as an alternative
+- `nz.co.afor.ai.endpoint`: The endpoint URL for the AI service (e.g., `https://example.openai.azure.com`). The
+  environment variable `AI_ENDPOINT` may also be used as an alternative
 - `nz.co.afor.ai.openapisecretkey`: The secret key for OpenAPI authentication (used for secure communication with the AI
-  service).
+  service). The environment variable `AI_SECRET_KEY` may also be used as an alternative
 - `nz.co.afor.ai.model`: The AI model to be used (e.g., `gpt-4o`, `gpt-4o-mini`).
 - `nz.co.afor.ai.request.chunksize`: The size of each chunk when sending requests to the AI service (used for handling
   large data payloads).
+- `nz.co.afor.ai.request.maxsize`: The maximum payload size to send to the AI service
 
 #### Web AI Cache Configuration
 
@@ -214,10 +217,12 @@ A list of possible configuration options are available below
 
 #### Encryption configuration
 
-- `nz.co.afor.encrypt.key`: The encryption key used for encrypting data.
+- `nz.co.afor.encrypt.key`: The encryption key used for encrypting data. The environment variable `ENCRYPT_KEY` may also
+  be used as an alternative
 - `nz.co.afor.encrypt.algorithm`: The encryption algorithm to be used
 - `nz.co.afor.encrypt.key.algorithm`: The algorithm used for key generation
-- `nz.co.afor.encrypt.iv`: The initialization vector (IV) used for encryption
+- `nz.co.afor.encrypt.iv`: The initialization vector (IV) used for encryption. The environment variable `ENCRYPT_IV` may
+  also be used as an alternative
 
 #### Fixtures
 

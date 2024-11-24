@@ -1,25 +1,24 @@
 package nz.co.afor.view;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.By;
 import org.springframework.stereotype.Component;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static java.lang.String.format;
+import static nz.co.afor.framework.web.ai.BrowserAi.ai;
 
 /**
  * Created by Matt Belcher on 10/01/2016.
  */
 @Component
-public class GoogleView {
+public class AiGoogleView {
     public SelenideElement getSearchField() {
-        return $(By.name("q"));
+        return ai("find the search field");
     }
 
     public SelenideElement getSearchButton() {
-        return $$("button[value='Search'],input[value='Google Search']").findBy(visible);
+        return ai("find the 'Google Search' button");
     }
 
     public void search(String searchString) {
@@ -31,10 +30,10 @@ public class GoogleView {
     }
 
     public SelenideElement getResults() {
-        return $("div[role='main'] div[data-hveid][data-ved]");
+        return ai($("div[role='main']"), "find the search results main area");
     }
 
-    public ElementsCollection getResultLinks() {
-        return $$("div a h3");
+    public SelenideElement getResultLink(String title) {
+        return ai(getResults(), format("find the title '%s'", title));
     }
 }

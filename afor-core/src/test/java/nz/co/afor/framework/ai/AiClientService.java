@@ -1,8 +1,6 @@
 package nz.co.afor.framework.ai;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import in.wilsonl.minifyhtml.Configuration;
-import in.wilsonl.minifyhtml.MinifyHtml;
 import nz.co.afor.ai.AiClient;
 import nz.co.afor.framework.model.Selector;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class AiClientService {
                 
                 ```
                 %s
-                ```""", "find the Afor title", MinifyHtml.minify(FILE_CONTENT, new Configuration.Builder().build()));
+                ```""", "find the Afor title", FILE_CONTENT);
     }
 
     public Selector chatClientExample() throws JsonProcessingException {

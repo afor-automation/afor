@@ -8,6 +8,8 @@ import in.wilsonl.minifyhtml.Configuration;
 import in.wilsonl.minifyhtml.MinifyHtml;
 import nz.co.afor.ai.AiClient;
 import nz.co.afor.ai.CoreAi;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URI;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -54,11 +58,16 @@ public class BrowserAi {
                 }
             }
             // Check the file cache first
-            Object persistentProperty = persistentProperties.get(query.getKey());
-            if (null != persistentProperty) {
-                Selector selector = objectMapper.readValue((String) persistentProperty, Selector.class);
-                if (!browserAi.revalidateCache || getSelenideElement(selector).exists())
-                    return selector;
+            for (Map.Entry<Object, Object> objectObjectEntry : persistentProperties.entrySet()) {
+                String[] entry = String.valueOf(objectObjectEntry.getKey()).split("\\|");
+                if (entry.length == 2) {
+                    AiCache compareCache = new AiCache(entry[1], URI.create(entry[0]), null);
+                    if (Objects.equals(compareCache, query)) {
+                        Selector selector = objectMapper.readValue((String) objectObjectEntry.getValue(), Selector.class);
+                        if (!browserAi.revalidateCache || getSelenideElement(selector).exists())
+                            return selector;
+                    }
+                }
             }
 
             // Cache miss, call the AI service and cache to file
@@ -120,13 +129,37 @@ public class BrowserAi {
     private static String getChatMessage(String chatMessage, String htmlSource) {
         return format("""
                 This is your task: %s
-
+                
                 * First, create a unique XPath selector. The selector should be as specific as possible, combining attributes or structural relationships to uniquely identify the element. It’s important to avoid generic tags like h1 unless they are uniquely qualified by classes, IDs, or other attributes.
+                * When using text matching, use contains for partial matching
                 * Stop once a valid selector is found. Do not attempt to create multiple options or rectifications. Once a selector is determined to be valid, return it in the requested JSON format without modifications.
                 * Provide the answer in JSON format as follows: {"selector": "unique-selector","type": "XPATH"}
-
+                
                 ```
                 %s
-                ```""", chatMessage, MinifyHtml.minify(htmlSource, new Configuration.Builder().build()));
+                ```""", chatMessage, cleanUpHtml(htmlSource));
+    }
+
+    /**
+     * Attempts to clean up any html, removing unusable content
+     *
+     * @param htmlSource The input source
+     * @return The output source
+     */
+    private static String cleanUpHtml(String htmlSource) {
+        try {
+            org.jsoup.nodes.Document document = Jsoup.parse(htmlSource);
+
+            for (Element element : document.select("style,head,script,meta,link")) {
+                element.remove();
+            }
+            return document.outputSettings(document.outputSettings().prettyPrint(false)).html();
+        } catch (Exception ignore) {
+            try {
+                return MinifyHtml.minify(htmlSource, new Configuration.Builder().build());
+            } catch (Exception ignore2) {
+                return htmlSource;
+            }
+        }
     }
 }
