@@ -241,11 +241,6 @@
             <artifactId>azure-ai-openai-assistants</artifactId>
             <version>1.0.0-beta.4</version>
         </dependency>
-        <dependency>
-            <groupId>in.wilsonl.minifyhtml</groupId>
-            <artifactId>minify-html</artifactId>
-            <version>0.15.0</version>
-        </dependency>
     </dependencies>
 
     <build>
