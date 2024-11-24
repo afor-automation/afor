@@ -3,6 +3,7 @@ package nz.co.afor.framework;
 import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
+import nz.co.afor.ai.AiClient;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -13,6 +14,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
  * Created by Matt on 12/04/2016.
  */
 public class CucumberHooks {
+
     @After
     public void afterScenario(Scenario scenario) {
         // Close our browser between scenarios
@@ -27,5 +29,7 @@ public class CucumberHooks {
             WebDriverRunner.getWebDriver().manage().deleteAllCookies();
             closeWebDriver();
         }
+
+        AiClient.logUsage();
     }
 }

@@ -14,14 +14,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 public class BrowserAi {
@@ -120,14 +133,47 @@ public class BrowserAi {
     private static String getChatMessage(String chatMessage, String htmlSource) {
         return format("""
                 This is your task: %s
-
+                
                 * First, create a unique XPath selector. The selector should be as specific as possible, combining attributes or structural relationships to uniquely identify the element. It’s important to avoid generic tags like h1 unless they are uniquely qualified by classes, IDs, or other attributes.
                 * When using text matching, use contains for partial matching
                 * Stop once a valid selector is found. Do not attempt to create multiple options or rectifications. Once a selector is determined to be valid, return it in the requested JSON format without modifications.
                 * Provide the answer in JSON format as follows: {"selector": "unique-selector","type": "XPATH"}
-
+                
                 ```
                 %s
-                ```""", chatMessage, MinifyHtml.minify(htmlSource, new Configuration.Builder().build()));
+                ```""", chatMessage, cleanUpHtml(htmlSource));
+    }
+
+    private static String cleanUpHtml(String htmlSource) {
+        try {
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = documentBuilderFactory.newDocumentBuilder();
+            InputStream inputStream = new ByteArrayInputStream(htmlSource.getBytes(UTF_8));
+            Document document = builder.parse(inputStream);
+            removeNodes(document, "head");
+            removeNodes(document, "style");
+            removeNodes(document, "script");
+            removeNodes(document, "meta");
+            removeNodes(document, "title");
+            StringWriter stringWriter = new StringWriter();
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "no");
+            transformer.transform(new DOMSource(document), new StreamResult(stringWriter));
+            return MinifyHtml.minify(stringWriter.toString(), new Configuration.Builder().build());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void removeNodes(Document document, String tagName) {
+        NodeList nodeList = document.getElementsByTagName(tagName);
+        List<Node> nodesToRemove = new ArrayList<>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            nodesToRemove.add(nodeList.item(i));
+        }
+        for (Node node : nodesToRemove) {
+            node.getParentNode().removeChild(node);
+        }
     }
 }

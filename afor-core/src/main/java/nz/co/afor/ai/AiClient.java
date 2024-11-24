@@ -58,6 +58,9 @@ public class AiClient {
     @Value("${nz.co.afor.ai.request.chunksize:40000}")
     private Integer chunkSize;
 
+    @Value("${nz.co.afor.ai.request.maxsize:200000}")
+    private Integer maxSize;
+
     private OpenAIClient openAIClient;
     private AssistantsClient assistantsClient;
     private static int completionTokens = 0;
@@ -132,11 +135,12 @@ public class AiClient {
             // Send the message through as a single message
             return getChatCompletions(List.of(new ChatRequestUserMessage(message)));
         }
-        // Break the message up into chunks to send through
+        // Break the message up into chunks to send through, up until a max size
         List<ChatRequestMessage> messages = new ArrayList<>();
-        final String preparedMessage = "The length of this request is too large for one message, multiple messages will be sent in chunks, do not respond until all messages have been received, the final message will end with ====EOM====\n" + message + "\n====EOM====";
+        String messageStart = "The length of this request is too large for one message, multiple messages will be sent in chunks, do not respond until all messages have been received, the final message will end with ====EOM====\n";
+        String messageEnd = "\n====EOM====";
+        final String preparedMessage = messageStart + message.substring(0, Math.min(message.length(), maxSize - messageStart.length() - messageEnd.length())) + messageEnd;
         for (String part : Splitter.fixedLength(chunkSize).splitToList(preparedMessage)) {
-            System.out.println(part);
             messages.add(new ChatRequestUserMessage(part));
         }
         return getChatCompletions(messages);
