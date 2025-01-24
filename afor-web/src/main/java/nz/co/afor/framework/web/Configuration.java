@@ -1,15 +1,14 @@
 package nz.co.afor.framework.web;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by Matt Belcher on 1/09/2015.
  */
 @Component
-public class Configuration {
+public class Configuration implements InitializingBean {
     @Value("${selenide.baseUrl:http://localhost:8080}")
     private String baseUrl;
 
@@ -19,7 +18,11 @@ public class Configuration {
     @Value("${selenide.pollingInterval:100}")
     private Integer pollingInterval;
 
-    @PostConstruct
+    @Override
+    public void afterPropertiesSet() {
+        setConfiguration();
+    }
+
     public void setConfiguration() {
         com.codeborne.selenide.Configuration.baseUrl = getBaseUrl();
         com.codeborne.selenide.Configuration.timeout = getTimeout();

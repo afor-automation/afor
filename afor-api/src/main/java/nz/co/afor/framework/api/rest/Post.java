@@ -20,7 +20,7 @@ public class Post extends AbstractHttpRequest {
     private static final Log log = LogFactory.getLog(Post.class);
 
     public <T> ResponseEntity<T> request(String uri, Object request, Class<T> responseType) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(uri);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uri);
         return request(builder.build().encode().toUri(), request, responseType);
     }
 

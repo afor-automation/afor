@@ -3,18 +3,18 @@ package nz.co.afor.framework.mobile;
 import com.google.common.base.Strings;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 /**
  * Created by Matt on 28/02/2017.
  */
 @Component
-public class Configuration {
+public class Configuration implements InitializingBean {
     private final DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
     @Value("${appium.platformName:Android}")
@@ -101,7 +101,12 @@ public class Configuration {
     @Value("${appium.bundleId:}")
     private String bundleId;
 
-    @PostConstruct
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        setConfiguration();
+    }
+
     public void setConfiguration() throws IOException {
         desiredCapabilities.setCapability("platformName", platformName);
         desiredCapabilities.setCapability("appium:platformVersion", platformVersion);

@@ -7,6 +7,7 @@ import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.HttpRequestInterceptor;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.http.HttpEntityEnclosingRequest;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -15,7 +16,6 @@ import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.ws.transport.http.HttpComponentsMessageSender;
 
-import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created by Matt on 6/09/2017.
  */
-public class AbstractClient extends WebServiceGatewaySupport {
+public class AbstractClient extends WebServiceGatewaySupport implements InitializingBean {
     private final SoapServiceInterceptor soapServiceInterceptor = new SoapServiceInterceptor();
     private String contextPath;
     private final SoapActionCallback soapActionCallback;
@@ -121,7 +121,12 @@ public class AbstractClient extends WebServiceGatewaySupport {
         initialiseWebServiceTemplate();
     }
 
-    @PostConstruct
+    @Override
+    public void initGateway() throws Exception {
+        super.initGateway();
+        initialiseWebServiceTemplate();
+    }
+
     protected void initialiseWebServiceTemplate() throws NoSuchAlgorithmException, KeyManagementException {
         if (null != contextPath) {
             WebServiceTemplate webServiceTemplate = getWebServiceTemplate();
