@@ -164,6 +164,11 @@
             <version>7.20.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.16.0</version>
+        </dependency>
 
         <!-- JSON parsing -->
         <dependency>
@@ -293,6 +298,7 @@
                                 <include>org.slf4j:slf4j-api</include>
                                 <include>org.apache.logging.log4j</include>
                                 <include>com.azure</include>
+                                <include>net.java.dev.jna</include>
                             </includes>
                         </configuration>
                     </execution>
