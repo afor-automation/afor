@@ -3,7 +3,7 @@
     <parent>
         <artifactId>afor-parent</artifactId>
         <groupId>nz.co.afor.framework</groupId>
-        <version>1.4.58</version>
+        <version>1.4.59-SNAPSHOT</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
