@@ -6,6 +6,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import nz.co.afor.api.PostsApi;
 import nz.co.afor.model.Post;
+import nz.co.afor.model.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,8 @@ public class ApiSteps {
     ResponseEntity<Post> getPostResponse;
     ResponseEntity<Post> createPostResponse;
 
-    Post post;
+    @Autowired
+    private Posts posts;
 
     @When("^I call the GET Posts service$")
     public void iCallTheGETPostsService() {
@@ -61,19 +63,21 @@ public class ApiSteps {
 
     @Given("^I have a new Post$")
     public void iHaveANewPost() {
-        post = new Post();
+        Post post = new Post();
         post.setTitle("New Post");
+        posts.add(post);
     }
 
     @Given("^I have a new Post with title \"([^\"]*)\"$")
     public void iHaveANewPostWithTitle(String title) {
-        post = new Post();
+        Post post = new Post();
         post.setTitle(title);
+        posts.add(post);
     }
 
     @When("^I call the Create Post service with my Post$")
     public void iCallTheCreatePostServiceWithMyPost() {
-        createPostResponse = postsApi.createPost(post);
+        createPostResponse = postsApi.createPost(posts.getLast());
     }
 
     @Then("^the Create Post response code should be (\\d+)$")

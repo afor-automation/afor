@@ -10,6 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 @RunWith(Cucumber.class)
 @ContextConfiguration("classpath:cucumber.xml")
 @CucumberContextConfiguration
-@CucumberOptions(plugin = {"pretty", "nz.co.afor.reports.HTML:target/afor"})
+@CucumberOptions(plugin = {"pretty", "nz.co.afor.reports.HTML:target/afor"}, extraGlue = "nz.co.afor")
 public class RunTest {
 }
