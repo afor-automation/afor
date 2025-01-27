@@ -164,6 +164,7 @@ public class AiClient {
         response.setCompletionTokens(usage.getCompletionTokens());
         response.setPromptTokens(usage.getPromptTokens());
         response.setTotalTokens(usage.getTotalTokens());
+        incrementTotalUsage(usage);
         return response;
     }
 

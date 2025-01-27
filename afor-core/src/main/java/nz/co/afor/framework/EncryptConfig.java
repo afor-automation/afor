@@ -1,12 +1,12 @@
 package nz.co.afor.framework;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,7 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 @Component
-class EncryptConfig implements ApplicationContextAware {
+class EncryptConfig implements ApplicationContextAware, InitializingBean {
 
     @Value("${nz.co.afor.encrypt.key:${ENCRYPT_KEY:}}")
     private String base64EncodedKey;
@@ -31,8 +31,8 @@ class EncryptConfig implements ApplicationContextAware {
     private IvParameterSpec iv;
     private static ApplicationContext applicationContext;
 
-    @PostConstruct
-    public void setup() throws NoSuchAlgorithmException {
+    @Override
+    public void afterPropertiesSet() throws NoSuchAlgorithmException {
         if (null != base64EncodedKey && !base64EncodedKey.isEmpty()) {
             byte[] decodedKey = Base64.getDecoder().decode(base64EncodedKey);
             this.key = new SecretKeySpec(decodedKey, 0, decodedKey.length, keyAlgorithm);

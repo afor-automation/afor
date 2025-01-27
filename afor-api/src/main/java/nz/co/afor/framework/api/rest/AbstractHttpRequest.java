@@ -1,5 +1,6 @@
 package nz.co.afor.framework.api.rest;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -8,14 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-
 /**
  * Created by Matt Belcher on 20/01/2016.
  */
 @Scope("thread")
 @Component
-public class AbstractHttpRequest {
+public class AbstractHttpRequest implements InitializingBean {
     private final HttpHeaders headers = new HttpHeaders();
 
     @Autowired()
@@ -25,8 +24,8 @@ public class AbstractHttpRequest {
     @Autowired
     CookieStore cookieStore;
 
-    @PostConstruct
-    private void setupRequest() {
+    @Override
+    public void afterPropertiesSet() {
         getHeaders().setContentType(MediaType.APPLICATION_JSON);
     }
 

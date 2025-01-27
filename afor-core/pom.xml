@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.4.57-SNAPSHOT</version>
+        <version>1.4.59-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -22,22 +22,22 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>6.2.0</version>
+            <version>7.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>6.2.0</version>
+            <version>7.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>6.2.0</version>
+            <version>7.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>6.2.0</version>
+            <version>7.0.0-M1</version>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.11.3</version>
+            <version>5.11.4</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
@@ -164,22 +164,27 @@
             <version>7.20.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.16.0</version>
+        </dependency>
 
         <!-- JSON parsing -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>33.3.1-jre</version>
+            <version>33.4.0-jre</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>2.18.1</version>
+            <version>2.18.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.18.1</version>
+            <version>2.18.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
@@ -189,12 +194,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
-            <version>2.18.1</version>
+            <version>2.18.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.18.1</version>
+            <version>2.18.2</version>
         </dependency>
 
         <!-- Logging -->
@@ -223,18 +228,7 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-ai-openai</artifactId>
-            <version>1.0.0-beta.12</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.azure</groupId>
-                    <artifactId>azure-core-http-netty</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.azure</groupId>
-            <artifactId>azure-core-http-netty</artifactId>
-            <version>1.15.7</version>
+            <version>1.0.0-beta.13</version>
         </dependency>
         <dependency>
             <groupId>com.azure</groupId>
@@ -304,6 +298,7 @@
                                 <include>org.slf4j:slf4j-api</include>
                                 <include>org.apache.logging.log4j</include>
                                 <include>com.azure</include>
+                                <include>net.java.dev.jna</include>
                             </includes>
                         </configuration>
                     </execution>

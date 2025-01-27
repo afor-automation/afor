@@ -4,10 +4,10 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheLoader;
-import in.wilsonl.minifyhtml.Configuration;
-import in.wilsonl.minifyhtml.MinifyHtml;
 import nz.co.afor.ai.AiClient;
 import nz.co.afor.ai.CoreAi;
+import nz.co.afor.framework.minify.Minify;
+import nz.co.afor.framework.minify.RegexMinifyHtml;
 import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,7 @@ public class MobileAi {
 
     private static ApplicationContext applicationContext;
     private static Properties persistentProperties;
+    private static Minify minify = new RegexMinifyHtml();
 
     @Value("${nz.co.afor.mobile.ai.cache.location:.aimobilecache}")
     private String cacheLocation;
@@ -93,6 +94,15 @@ public class MobileAi {
         }
     }
 
+    /**
+     * Sets the class used to minify the AI request
+     *
+     * @param minify The minify class used to minify requests
+     */
+    public static void setMinify(Minify minify) {
+        MobileAi.minify = minify;
+    }
+
     private static SelenideElement getSelenideElement(Selector response) {
         if ("xpath".equalsIgnoreCase(response.getType())) {
             return $x(response.getSelector());
@@ -110,6 +120,6 @@ public class MobileAi {
                 
                 ```
                 %s
-                ```""", chatMessage, MinifyHtml.minify(htmlSource, new Configuration.Builder().build()));
+                ```""", chatMessage, null != minify ? minify.minify(htmlSource) : htmlSource);
     }
 }

@@ -9,6 +9,7 @@ import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.cookie.IgnoreCookieSpecFactory;
 import org.apache.http.client.config.CookieSpecs;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
 import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -30,7 +30,7 @@ import static org.apache.http.auth.AuthScope.ANY_PORT;
  */
 @Scope("thread")
 @Configuration
-public class RestTemplateFactory {
+public class RestTemplateFactory implements InitializingBean {
 
     @Value("${proxy.username:@null}")
     String proxyUsername;
@@ -71,7 +71,12 @@ public class RestTemplateFactory {
     HttpClientBuilder httpClientBuilder;
     ClientHttpRequestFactory requestFactory;
 
-    @PostConstruct
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        setupClientConfig();
+    }
+
     public void setupClientConfig() throws KeyManagementException, NoSuchAlgorithmException {
         HttpClientFactory httpClientFactory = new HttpClientFactory()
                 .withSelfSignedSSLCertificates(acceptSelfSignedSSLCertificates)

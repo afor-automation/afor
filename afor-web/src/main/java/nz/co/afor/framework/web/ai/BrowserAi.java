@@ -4,12 +4,9 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheLoader;
-import in.wilsonl.minifyhtml.Configuration;
-import in.wilsonl.minifyhtml.MinifyHtml;
 import nz.co.afor.ai.AiClient;
 import nz.co.afor.ai.CoreAi;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
+import nz.co.afor.framework.minify.Minify;
 import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +35,8 @@ public class BrowserAi {
 
     @Value("${nz.co.afor.web.ai.cache.revalidate:true}")
     private Boolean revalidateCache;
+
+    private static Minify minify = new MinifyJsoupHtml();
 
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -103,13 +102,6 @@ public class BrowserAi {
         }
     }
 
-    private static SelenideElement getSelenideElement(Selector response) {
-        if ("xpath".equalsIgnoreCase(response.getType())) {
-            return $x(response.getSelector());
-        }
-        return $(response.getSelector());
-    }
-
     /**
      * Find a browser element using an AI query against the html of a parent element
      *
@@ -126,6 +118,22 @@ public class BrowserAi {
         }
     }
 
+    private static SelenideElement getSelenideElement(Selector response) {
+        if ("xpath".equalsIgnoreCase(response.getType())) {
+            return $x(response.getSelector());
+        }
+        return $(response.getSelector());
+    }
+
+    /**
+     * Sets the class used to minify the AI request
+     *
+     * @param minify The minify class used to minify requests
+     */
+    public static void setMinify(Minify minify) {
+        BrowserAi.minify = minify;
+    }
+
     private static String getChatMessage(String chatMessage, String htmlSource) {
         return format("""
                 This is your task: %s
@@ -137,29 +145,6 @@ public class BrowserAi {
                 
                 ```
                 %s
-                ```""", chatMessage, cleanUpHtml(htmlSource));
-    }
-
-    /**
-     * Attempts to clean up any html, removing unusable content
-     *
-     * @param htmlSource The input source
-     * @return The output source
-     */
-    private static String cleanUpHtml(String htmlSource) {
-        try {
-            org.jsoup.nodes.Document document = Jsoup.parse(htmlSource);
-
-            for (Element element : document.select("style,head,script,meta,link")) {
-                element.remove();
-            }
-            return document.outputSettings(document.outputSettings().prettyPrint(false)).html();
-        } catch (Exception ignore) {
-            try {
-                return MinifyHtml.minify(htmlSource, new Configuration.Builder().build());
-            } catch (Exception ignore2) {
-                return htmlSource;
-            }
-        }
+                ```""", chatMessage, null != minify ? minify.minify(htmlSource) : htmlSource);
     }
 }
