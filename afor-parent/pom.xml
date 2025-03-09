@@ -9,7 +9,7 @@
 
     <groupId>nz.co.afor.framework</groupId>
     <artifactId>afor-parent</artifactId>
-    <version>1.4.59-SNAPSHOT</version>
+    <version>1.4.60-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://www.afor.co.nz</url>
     <name>${project.groupId}:${project.artifactId}</name>
