@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>7.7.1</version>
+            <version>7.7.3</version>
         </dependency>
         <!-- Dependencies for AI cleanup -->
         <dependency>
