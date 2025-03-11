@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.switchTo;
 
 /**
  * Created by Matt Belcher on 10/01/2016.
@@ -18,6 +19,17 @@ public class GoogleView {
         return $(By.name("q"));
     }
 
+    public void solveCaptcha() {
+        // Switch to reCAPTCHA iframe
+        switchTo().frame($(By.xpath("//iframe[contains(@title, 'reCAPTCHA')]")));
+
+        // Click the checkbox
+        SelenideElement captchaCheckbox = $(By.id("recaptcha-anchor"));
+        captchaCheckbox.shouldBe(visible).click();
+
+        // Switch back to main content
+        switchTo().defaultContent();
+    }
     public SelenideElement getSearchButton() {
         return $$("button[value='Search'],input[value='Google Search']").findBy(visible);
     }
