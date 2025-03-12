@@ -2,20 +2,19 @@ package nz.co.afor.example.steps;
 
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.not;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byId;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.Condition.*;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
+
 
 import io.cucumber.java8.En;
 
@@ -79,6 +78,7 @@ public class FlickElectricSteps implements En {
 			System.out.println("Verified ability to update personal details.");
 		});
 
+
 		// Scenario: View the latest electricity bill
 		When("I navigate to the \"Billing\" section", () -> {
 			// Implementation for navigating to the Billing section
@@ -95,6 +95,8 @@ public class FlickElectricSteps implements En {
 			System.out.println("Displayed the latest bill details, amount due, and due date.");
 		});
 
+
+		// Scenario: Ensure Flat Rates plan is set on weekdays
 		Given("today is a weekday \\(Monday, Tuesday, Wednesday, Thursday, or Friday)", () -> {
 			// Implement logic to verify today's date is a weekday (Monday through Friday).
 			LocalDate today = LocalDate.now();
@@ -113,6 +115,42 @@ public class FlickElectricSteps implements En {
 		});
 
 
+		// Scenario Outline: Verify plan changes based on the day of the week
+		Given("today is {string}", (String day) -> {
+			// Implement logic to set or verify today's day
+			DayOfWeek today = LocalDate.now().getDayOfWeek();
+			assertEquals("Expected day doesn't match today's day", DayOfWeek.valueOf(day.toUpperCase()), today);
+		});
+
+		And("my current plan is {string}", (String currentPlan) -> {
+			// Implement logic to verify the current plan
+			String actualPlan = getCurrentPlan();
+			assertEquals("The current plan does not match the expected current plan", currentPlan, actualPlan);
+		});
+
+		When("I request to change my plan to {string}", (String requestedPlan) -> {
+			// Implement logic to request a plan change
+//			boolean requestSuccessful = requestPlanChange(requestedPlan); // Replace with the logic to handle the request
+//			assertTrue(requestSuccessful, "Plan change request was not successful");
+			System.out.println("Requested a plan change to " + requestedPlan);
+			throw new io.cucumber.java8.PendingException();
+		});
+
+		And("the system processes the change at midnight", () -> {
+			// Simulate or verify processing of the request at midnight
+//			boolean processed = processChangeAtMidnight(); // Mock or simulate a midnight process
+//			assertTrue(processed, "The system did not process the request at midnight");
+			System.out.println("The system processed the request at midnight");
+			throw new io.cucumber.java8.PendingException();
+		});
+
+		Then("my plan should update to {string} at midnight tonight", (String expectedPlan) -> {
+			// Verify that the plan has been updated correctly after processing at midnight
+//			String updatedPlan = getUpdatedPlan(); // Replace with a method that gets the updated plan
+//			assertEquals(expectedPlan, updatedPlan, "The plan did not update to the expected plan at midnight");
+			System.out.println("The plan updated to " + expectedPlan + " at midnight tonight");
+			throw new io.cucumber.java8.PendingException();
+		});
 	}
 
 	private String getOptimalCurrentPlanBasedOnDay() {

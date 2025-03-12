@@ -22,13 +22,13 @@ Feature: Manage Customer Account and Electricity Plan
     Given today is a weekday (Monday, Tuesday, Wednesday, Thursday, or Friday)
     Then my current plan should be Flat Rates
 
-#  Scenario Outline: Verify plan changes based on the day of the week
-#    Given today is <day>
-#    And my current plan is <current_plan>
-#    When I request to change my plan to <requested_plan>
-#    And the system processes the change at midnight
-#    Then my plan should update to <requested_plan> at midnight tonight
-#    Examples:
-#      | day      | current_plan | requested_plan |
-#      | Friday   | Flat         | Peak           |
-#      | Sunday   | Peak         | Flat           |
+  Scenario Outline: Verify plan changes based on the day of the week
+    Given today is <day>
+    And my current plan is <current_plan>
+    When I request to change my plan to <requested_plan>
+    And the system processes the change at midnight
+    Then my plan should update to <requested_plan> at midnight tonight
+    Examples:
+      | day      | current_plan | requested_plan |
+      | Friday   | Flat         | Peak           |
+      | Sunday   | Peak         | Flat           |
