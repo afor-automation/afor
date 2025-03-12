@@ -28,6 +28,7 @@ Feature: Manage Customer Account and Electricity Plan
     When I request to change my plan to <requested_plan>
     And the system processes the change at midnight
     Then my plan should update to <requested_plan> at midnight tonight
+
     Examples:
       | day      | current_plan | requested_plan |
       | Friday   | Flat         | Peak           |
