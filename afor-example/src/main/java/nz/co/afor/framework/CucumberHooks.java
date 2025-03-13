@@ -3,9 +3,11 @@ package nz.co.afor.framework;
 import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
+import io.cucumber.spring.CucumberContextConfiguration;
 import nz.co.afor.ai.AiClient;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.springframework.test.context.ContextConfiguration;
 
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
@@ -13,6 +15,10 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 /**
  * Created by Matt on 12/04/2016.
  */
+// Below annotations are required to run within IDE,
+// but are causing issues when run via maven
+//@CucumberContextConfiguration
+//@ContextConfiguration("classpath:cucumber.xml")
 public class CucumberHooks {
 
     @After
