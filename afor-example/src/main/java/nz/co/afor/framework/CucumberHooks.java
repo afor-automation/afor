@@ -17,8 +17,8 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
  */
 // Below annotations are required to run within IDE,
 // but are causing issues when run via maven
-@CucumberContextConfiguration
-@ContextConfiguration("classpath:cucumber.xml")
+//@CucumberContextConfiguration
+//@ContextConfiguration("classpath:cucumber.xml")
 public class CucumberHooks {
 
     @After
