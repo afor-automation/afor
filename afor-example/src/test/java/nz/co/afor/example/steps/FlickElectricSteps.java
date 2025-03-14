@@ -12,10 +12,14 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 
 
+import com.codeborne.selenide.Configuration;
+
+import io.cucumber.java.en.Given;
 import io.cucumber.java8.En;
 
 public class FlickElectricSteps implements En {
@@ -34,6 +38,9 @@ public class FlickElectricSteps implements En {
 	public static final String PEAK_PLAN = "Peak";
 
 	public FlickElectricSteps() {
+		// Set global timeout for all steps
+		Configuration.timeout = 10000; // 10 seconds
+
 		// Background
 		Given("I am a registered Flick customer", () -> {
 			// Implementation for verifying the user is a registered Flick customer
@@ -45,7 +52,6 @@ public class FlickElectricSteps implements En {
 			$(byText("Log out")).shouldBe(visible);
 			System.out.println("Verified that the user is a registered Flick customer.");
 		});
-
 		Given("I am logged into my Flick account", () -> {
 			// Implementation for verifying the user is logged in
 			$(byText("Log out")).shouldBe(visible);
@@ -58,43 +64,34 @@ public class FlickElectricSteps implements En {
 			$("a[href='/account']").click();
 			System.out.println("Navigated to the Account section.");
 		});
-
 		Then("I should see my account information including current electricity plan", () -> {
 			// Implementation for verifying account information is displayed
 			$(byText("Account number")).shouldBe(visible);
 			$(byXpath("//span[.=': " + flickCustomerAnumber + "']")).should(exist);
 			System.out.println("Current Plan: " + getCurrentPlan());
-
 			System.out.println("Displayed account information.");
 		});
-
 		Then("I should be able to update my personal details if needed", () -> {
 			// Implementation for verifying ability to update personal details
 			$("a[href='/account/details']").shouldBe(visible).click();
 			$(byXpath("//h2[normalize-space()='Account Details']//following::span[normalize-space()='Daniel&Blanka']")).should(exist).shouldBe(visible);
 			$(byXpath("//*[@id=\"root\"]/main/div[2]/div/section/form/button")).shouldNotBe(enabled);
 			$(byXpath("//button[normalize-space()='Cancel']")).shouldBe(enabled).click();
-
 			System.out.println("Verified ability to update personal details.");
 		});
-
 
 		// Scenario: View the latest electricity bill
 		When("I navigate to the \"Billing\" section", () -> {
 			// Implementation for navigating to the Billing section
 			$("a[href='/bills']").click();
-
 			System.out.println("Navigated to the Billing section.");
 		});
-
 		Then("I should see the latest bill details including the amount owing and credit", () -> {
 			// Implementation for displaying the latest bill details
 			$(byXpath("//p[normalize-space()='Account credit']")).shouldBe(visible);
 			$(byXpath("//p[normalize-space()='Amount owing']")).shouldBe(visible);
-
 			System.out.println("Displayed the latest bill details, amount due, and due date.");
 		});
-
 
 		// Scenario: Ensure Flat Rates plan is set on weekdays
 		Given("today is a weekday \\(Monday, Tuesday, Wednesday, Thursday, or Friday)", () -> {
@@ -104,15 +101,14 @@ public class FlickElectricSteps implements En {
 			assertTrue(dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY,
 					"Today is not a weekday");
 		});
-
 		Then("my current plan should be Flat Rates", () -> {
 			// Retrieve the current plan from the system
 			$("a[href='/account']").click();
 			$(byXpath("//span[.=': Flat']")).should(exist);
-
 			String currentPlan = getCurrentPlan();
 			assertEquals("The current plan should be Flat Rates on weekdays", FLAT_PLAN, currentPlan);
 		});
+
 
 
 		// Scenario Outline: Verify plan changes based on the day of the week
@@ -120,45 +116,39 @@ public class FlickElectricSteps implements En {
 		Given("today is {string}", (String day) -> {
 			// Implement logic to set or verify today's day
 			DayOfWeek today = LocalDate.now().getDayOfWeek();
-//			assertEquals("Expected day doesn't match today's day", DayOfWeek.valueOf(day.toUpperCase()), today);
-			System.out.println("Current day: " + today + ", required day: " + day);
-		});
+			assertEquals("Expected day doesn't match today's day", DayOfWeek.valueOf(day.toUpperCase()), today);
+			System.out.println("Current day: " + today + ", required day: " + day.toUpperCase());
 
+			$(byXpath("//div/p[contains(text(), 'Total usage last month')]")).should(exist, Duration.ofSeconds((20)));
+			$(byXpath("//div/p[contains(text(), 'Total')]/following-sibling::p[1]")).shouldBe(visible);
+			$("a[href='/account']").click();
+		});
 		And("my current plan is {string}", (String currentPlan) -> {
 			// Implement logic to verify the current plan
 			String actualPlan = getCurrentPlan();
 			assertEquals("The current plan does not match the expected current plan", currentPlan, actualPlan);
-//			$(byXpath("//h3[normalize-space()='Flat']")).should(exist);
-			$(byXpath("//h3[normalize-space()='" + FLAT_PLAN + "']")).should(exist);
+			$("a[href='/account/plan']").click();
+
+			$(byXpath("//h3[normalize-space()='" + FLAT_PLAN + "']")).should(exist, Duration.ofSeconds(20));
 			$("#change-plan-select").getValue().equals(currentPlan + "(current)");
-			$("button[type='submit']").shouldNotBe(enabled);
-//			$(byXpath("//*[@id=\"root\"]/main/div[2]/div/section/form/button")).shouldNotBe(enabled);
+			$(byXpath("//button[@type='submit'][contains(text(), 'Change to selected plan')]")).shouldNotBe(enabled);
 			System.out.println("Current plan is: " + currentPlan);
 		});
-
-
 		When("I request to change my plan to {string}", (String requestedPlan) -> {
 			// Implement logic to request a plan change
-//			boolean requestSuccessful = requestPlanChange(requestedPlan); // Replace with the logic to handle the request
-//			assertTrue(requestSuccessful, "Plan change request was not successful");
-			System.out.println("Requested a plan change to " + requestedPlan);
-//			throw new io.cucumber.java8.PendingException();
-		});
+			$("#change-plan-select").selectOption(requestedPlan);
+			$("#change-plan-select").getValue().equals(requestedPlan);
+			$(byXpath("//button[@type='submit'][contains(text(), 'Change to selected plan')]")).shouldBe(enabled).click();
+			System.out.println("Requested plan change to " + requestedPlan);
 
-		And("the system processes the change at midnight", () -> {
+			$(byXpath("//p[contains(@class, 'heading') and contains(text(), \"Sweet as, you're all set!\")]"));
+			$(byXpath("//p[contains(text(),'Your new plan will kick in at midnight tonight.')]"));
+		});
+		Then("the system processes the change of {string} at midnight", (String requestedPlan) -> {
 			// Simulate or verify processing of the request at midnight
-//			boolean processed = processChangeAtMidnight(); // Mock or simulate a midnight process
-//			assertTrue(processed, "The system did not process the request at midnight");
+			$(byXpath("//p[contains(text(),\"You're all set to change to " + requestedPlan + " at midnight tonight.\")]")).shouldBe(visible);
+			$(byXpath("//span[contains(text(),'Any changes to your current plan will kick in at midnight')]"));
 			System.out.println("The system processed the request at midnight");
-//			throw new io.cucumber.java8.PendingException();
-		});
-
-		Then("my plan should update to {string} at midnight tonight", (String expectedPlan) -> {
-			// Verify that the plan has been updated correctly after processing at midnight
-//			String updatedPlan = getUpdatedPlan(); // Replace with a method that gets the updated plan
-//			assertEquals(expectedPlan, updatedPlan, "The plan did not update to the expected plan at midnight");
-			System.out.println("The plan updated to " + expectedPlan + " at midnight tonight");
-//			throw new io.cucumber.java8.PendingException();
 		});
 	}
 
@@ -171,16 +161,14 @@ public class FlickElectricSteps implements En {
 		} else {
 			recommendedPlan = FLAT_PLAN;
 		}
-		System.out.println("Recommended plan: " + recommendedPlan);
+		System.out.println("Recommended plan for today: " + recommendedPlan);
 		return recommendedPlan;
 	}
 	private String getCurrentPlan() {
 		if (FLAT_PLAN.equals(getOptimalCurrentPlanBasedOnDay())) {
-//			$(byXpath("//span[.=': Flat']")).should(exist);
 			$(byXpath("//span[.=': " +  FLAT_PLAN + "']")).should(exist);
 			return FLAT_PLAN;
 		} else {
-//			$(byXpath("//span[.=': Peak']")).should(exist);
 			$(byXpath("//span[.=': " + PEAK_PLAN + "']")).should(exist);
 			return PEAK_PLAN;
 		}
