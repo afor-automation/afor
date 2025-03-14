@@ -1,10 +1,12 @@
 package nz.co.afor.view;
 
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 import org.springframework.stereotype.Component;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static java.lang.String.format;
 import static nz.co.afor.framework.web.ai.BrowserAi.ai;
 
@@ -15,6 +17,18 @@ import static nz.co.afor.framework.web.ai.BrowserAi.ai;
 public class AiGoogleView {
     public SelenideElement getSearchField() {
         return ai("find the search field");
+    }
+
+    public void solveCaptcha() {
+        // Switch to reCAPTCHA iframe
+        switchTo().frame($(By.xpath("//iframe[contains(@title, 'reCAPTCHA')]")));
+
+        // Click the checkbox
+        SelenideElement captchaCheckbox = $(By.id("recaptcha-anchor"));
+        captchaCheckbox.shouldBe(visible).click();
+
+        // Switch back to main content
+        switchTo().defaultContent();
     }
 
     public SelenideElement getSearchButton() {
