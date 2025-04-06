@@ -50,12 +50,12 @@ applications.
 To run the automation features from your IDE, create a new JUnit run configuration against the RunTest unit test.\
 The parameters for the test suite allow different scenarios to be run.
 
-| Description                                                                                               | Example                                                                                                           |
-|-----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| Run all scenarios which have test tags In dev environment, using chrome as the browser                    | -Dspring.profiles.active=dev -Dcucumber.filter.tags="@test" -Dbrowser=chrome                                      |
-| Run all scenarios which don’t have wip or opendefect tags In dev environment, using chrome as the browser | -Dspring.profiles.active=dev -Dcucumber.filter.tags="not @wip and not @opendefect" -Dbrowser=chrome               |
-| Run the scenario on line 7 of GoogleSearch.feature In dev environment, using chrome as the browser        | -Dspring.profiles.active=dev -Dcucumber.features="classpath:features/web/GoogleSearch.feature:7" -Dbrowser=chrome |
-| Running a scenario, using maven from the command line or from a build server                              | mvn test -Dspring.profiles.active=dev -Dcucumber.filter.tags="not @wip and not @opendefect" -Dbrowser=chrome      |
+| Description                                                                                               | Example                                                                                                                    |
+|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| Run all scenarios which have test tags In dev environment, using chrome as the browser                    | -Dspring.profiles.active=dev -Dcucumber.filter.tags="@test" -Dselenide.browser=chrome                                      |
+| Run all scenarios which don’t have wip or opendefect tags In dev environment, using chrome as the browser | -Dspring.profiles.active=dev -Dcucumber.filter.tags="not @wip and not @opendefect" -Dselenide.browser=chrome               |
+| Run the scenario on line 7 of GoogleSearch.feature In dev environment, using chrome as the browser        | -Dspring.profiles.active=dev -Dcucumber.features="classpath:features/web/GoogleSearch.feature:7" -Dselenide.browser=chrome |
+| Running a scenario, using maven from the command line or from a build server                              | mvn test -Dspring.profiles.active=dev -Dcucumber.filter.tags="not @wip and not @opendefect" -Dselenide.browser=chrome      |
 
 ## Interacting with a web page
 
@@ -276,7 +276,7 @@ A list of possible configuration options are available below
 
 ### Afor-web
 
-- `browser`: The web browser to be used for the tests (e.g., `chrome`, `firefox`, `edge`).
+- `selenide.browser`: The web browser to be used for the tests (e.g., `chrome`, `firefox`, `edge`).
 - `selenide.baseUrl`: The base URL to be used for all relative URLs in the tests (e.g., `http://localhost:8080`).
 - `selenide.timeout`: The default timeout (in milliseconds) for all Selenide actions, such as waiting for elements to
   appear.
