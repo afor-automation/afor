@@ -7,6 +7,7 @@ import com.google.common.cache.CacheLoader;
 import nz.co.afor.ai.AiClient;
 import nz.co.afor.ai.CoreAi;
 import nz.co.afor.framework.minify.Minify;
+import nz.co.afor.framework.minify.RegexMinifyHtml;
 import org.openqa.selenium.NotFoundException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 import static java.lang.String.format;
 
 @Component
@@ -36,7 +36,7 @@ public class BrowserAi {
     @Value("${nz.co.afor.web.ai.cache.revalidate:true}")
     private Boolean revalidateCache;
 
-    private static Minify minify = new MinifyJsoupHtml();
+    private static Minify minify = new RegexMinifyHtml();
 
     @Autowired
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -95,7 +95,7 @@ public class BrowserAi {
      */
     public static SelenideElement ai(String query) {
         try {
-            Selector response = cache.load(new AiCache(query, URI.create(WebDriverRunner.currentFrameUrl()), "<html><body>" + $("body").innerHtml() + "</body></html>"));
+            Selector response = cache.load(new AiCache(query, URI.create(WebDriverRunner.currentFrameUrl()), "<html><body>" + executeJavaScript("return document.querySelector('body').getHTML()") + "</body></html>"));
             return getSelenideElement(response);
         } catch (Exception e) {
             throw new NotFoundException(e);
@@ -111,7 +111,7 @@ public class BrowserAi {
      */
     public static SelenideElement ai(SelenideElement parent, String query) {
         try {
-            Selector response = cache.load(new AiCache(query, URI.create(WebDriverRunner.currentFrameUrl()), "<html><body>" + parent.innerHtml() + "</body></html>"));
+            Selector response = cache.load(new AiCache(query, URI.create(WebDriverRunner.currentFrameUrl()), "<html><body>" + executeJavaScript("return arguments[0].getHTML()", parent) + "</body></html>"));
             return getSelenideElement(response);
         } catch (Exception e) {
             throw new NotFoundException(e);

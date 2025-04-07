@@ -265,8 +265,11 @@ section.blockelement.scenario, section.blockelement.background {
 }
 
 .afor-report .failed {
-background-color: #ff3131;
+    background-color: #ff7171;
     cursor: auto;
+    .tag {
+        color: #243aa1;
+    }
 }
 
 .afor-report .name {
