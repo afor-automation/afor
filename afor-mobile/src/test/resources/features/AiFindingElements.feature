@@ -6,8 +6,8 @@ Feature: Find elements on a page using AI
 
   Scenario: Retrieve a field by text reference using AI
     Given I have an android device running
-    Then the AI query "Find the Email field" should find the field with the attribute "resource-id" value "nz.co.afor.mock.androidmock:id/email"
+    Then the AI query "Find the Email field" should find the field with the attribute "class" value "android.widget.EditText"
 
   Scenario: Retrieve a button using AI
     Given I have an android device running
-    Then the AI query "Find the Sign In button" should find the field with the attribute "resource-id" value "nz.co.afor.mock.androidmock:id/email_sign_in_button"
+    Then the AI query "Find the Sign In button" should find the field with the attribute "class" value "android.widget.Button"

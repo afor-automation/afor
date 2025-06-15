@@ -1,5 +1,6 @@
 package nz.co.afor.framework;
 
+import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -7,6 +8,8 @@ import nz.co.afor.framework.mobile.Appium;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Selenide.$;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -17,7 +20,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class MockServiceSteps {
 
     public static final String FIELD_TEXT = "test@afor.co.nz";
-    public static final By EMAIL = By.id("email");
+    public static final By EMAIL = By.xpath("//android.widget.EditText[./android.widget.TextView[@text='Email']]");
 
     @Autowired
     Appium appium;
@@ -25,6 +28,8 @@ public class MockServiceSteps {
     @Given("^I have an android device running$")
     public void iHaveAnAndroidDeviceRunning() {
         appium.cleanLaunch();
+        WebDriverRunner.setWebDriver(appium.getDriver());
+        $(EMAIL).should(exist.because("The email field should exist after launching"));
     }
 
     @When("^I fill in a field$")

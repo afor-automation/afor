@@ -20,7 +20,7 @@ public class Configuration implements InitializingBean {
     @Value("${appium.platformName:Android}")
     private String platformName;
 
-    @Value("${appium.platformVersion:11}")
+    @Value("${appium.platformVersion:16}")
     private String platformVersion;
 
     @Value("${appium.deviceName:Android Emulator}")
