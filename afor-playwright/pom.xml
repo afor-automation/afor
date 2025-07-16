@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
         <version>1.4.62-SNAPSHOT</version>
-        <relativePath>../afor-parent</relativePath>
+        <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>afor-web</artifactId>
-    <description>afor-web enables you to automate web user interfaces</description>
+    <artifactId>afor-playwright</artifactId>
+    <description>afor-playwright enables you to automate web applications using playwright</description>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
@@ -24,10 +25,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>selenide</artifactId>
-            <version>7.9.4</version>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>playwright</artifactId>
+            <version>1.53.0</version>
         </dependency>
+
         <!-- Dependencies for AI cleanup -->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -75,7 +77,7 @@
                             <allowIncrementalUpdates>true</allowIncrementalUpdates>
                             <allowSnapshots>false</allowSnapshots>
                             <includes>
-                                <include>com.codeborne:selenide</include>
+                                <include>com.microsoft.playwright:playwright</include>
                             </includes>
                         </configuration>
                     </execution>

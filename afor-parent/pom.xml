@@ -38,6 +38,7 @@
         <module>../afor-api</module>
         <module>../afor-web</module>
         <module>../afor-mobile</module>
+        <module>../afor-playwright</module>
     </modules>
 
     <scm>

@@ -102,6 +102,12 @@ public void search(String searchString) {
 }
 ```
 
+This example uses Afor-Web, which utilises Selenide however Afor-Playwright may also be used if you choose to use Playwright.
+
+Playwright can be initialised using `Browser.init();`\
+This will set up the browser, context and a new page in a thread safe context\
+You can then access the page instance using `Browser.page.get()`
+
 ## Calling a service
 
 Service calls such as REST services or SOAP services are used in the framework in a similar way to browser based
@@ -282,3 +288,7 @@ A list of possible configuration options are available below
   appear.
 - `selenide.pollingInterval`: The interval (in milliseconds) for polling while waiting for an element or condition to be
   met (e.g., waiting for visibility or clickability).
+
+### Afor-playwright
+
+- `playwright.browser`: The web browser to be used for the tests (e.g., `chromium`, `firefox`, `webkit`).
