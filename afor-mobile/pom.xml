@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>afor-mobile</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-mobile enables you to automate mobile user interfaces</description>
 
     <properties>

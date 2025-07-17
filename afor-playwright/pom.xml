@@ -9,6 +9,7 @@
     </parent>
 
     <artifactId>afor-playwright</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-playwright enables you to automate web applications using playwright</description>
 
     <properties>

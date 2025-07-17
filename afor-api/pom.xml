@@ -9,6 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>afor-api</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-api enables you to automate application programming interfaces</description>
 
     <properties>
