@@ -192,10 +192,10 @@ public class ReportWriter implements ReportContext, ReportDurationFormatter {
     }
 
     public void writeSummaries(File path) {
-        try {
-            JavascriptResults.writeHighLevelSummary(resultSummary, new FileOutputStream(path.getAbsolutePath() + "/summaryreport.js"));
-            JavascriptResults.writePerformanceSummary(scenarioTimelineResults, formatDuration(getTotalRunTime()), new FileOutputStream(path.getAbsolutePath() + "/performancesummaryreport.js"));
-            JavascriptResults.writeFeatureSummary(featureSummaryResults, new FileOutputStream(path.getAbsolutePath() + "/featuresummaryreport.js"));
+        try (FileOutputStream outputStream = new FileOutputStream(path.getAbsolutePath() + "/report.js")) {
+            JavascriptResults.writeHighLevelSummary(resultSummary, outputStream);
+            JavascriptResults.writePerformanceSummary(scenarioTimelineResults, formatDuration(getTotalRunTime()), outputStream);
+            JavascriptResults.writeFeatureSummary(featureSummaryResults, outputStream);
         } catch (IOException e) {
             throw new HtmlWriter.WriterException(e);
         }

@@ -1,24 +1,26 @@
-html {
-    background: none !important;
-    width: 1024px !important;
-}
+@media print {
+    html {
+        background: none !important;
+        width: 1024px !important;
+    }
 
-.col {
-    width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    clear: none !important;
-    display: block !important;
-}
+    .col {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        clear: none !important;
+        display: block !important;
+    }
 
-article {
-    display: block !important;
-}
+    article {
+        display: block !important;
+    }
 
-section {
-    display: block !important;
-}
+    section {
+        display: block !important;
+    }
 
-#filterResults {
-    display: none !important;
+    #filterResults {
+        display: none !important;
+    }
 }

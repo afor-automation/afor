@@ -76,6 +76,16 @@
             <artifactId>commons-text</artifactId>
             <version>1.13.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.yahoo.platform.yui</groupId>
+            <artifactId>yuicompressor</artifactId>
+            <version>2.4.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.javascript</groupId>
+            <artifactId>closure-compiler</artifactId>
+            <version>v20260112</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -127,6 +137,8 @@
                                 <include>io.cucumber:pro-plugin</include>
                                 <include>org.knowm.xchart:xchart</include>
                                 <include>org.apache.commons:commons-text</include>
+                                <include>com.yahoo.platform.yui:yuicompressor</include>
+                                <include>com.google.javascript:closure-compiler</include>
                             </includes>
                         </configuration>
                     </execution>
