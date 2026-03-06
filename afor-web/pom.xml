@@ -5,11 +5,12 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.4.62-SNAPSHOT</version>
+        <version>1.4.66-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
     <artifactId>afor-web</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-web enables you to automate web user interfaces</description>
 
     <properties>
@@ -26,7 +27,7 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>7.9.3</version>
+            <version>7.14.0</version>
         </dependency>
         <!-- Dependencies for AI cleanup -->
         <dependency>

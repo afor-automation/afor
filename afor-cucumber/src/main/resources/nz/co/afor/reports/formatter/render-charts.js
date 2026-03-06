@@ -135,12 +135,11 @@ var loadedFeatures = 0;
 $(window).load(function() {
     loadFeatureBreakdown();
     loadMoreFeatureBreakdownRows();
-});
-
-$(window).scroll(function() {
-    if($('#featureScenarioContainer').scrollTop() + $('#featureScenarioContainer').innerHeight() >= $('#featureScenarioContainer')[0].scrollHeight) {
-        loadMoreFeatureBreakdownRows();
-    }
+    $(window).scroll(function() {
+        if($('#featureScenarioContainer').scrollTop() + $('#featureScenarioContainer').innerHeight() >= $('#featureScenarioContainer')[0].scrollHeight) {
+            loadMoreFeatureBreakdownRows();
+        }
+    });
 });
 
 function loadFeatureBreakdown() {
