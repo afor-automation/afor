@@ -4,7 +4,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.4.66-SNAPSHOT</version>
+        <version>1.4.68-SNAPSHOT</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
 
@@ -33,18 +33,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.18.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-server</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>12.0.15</version>
+            <version>1.22.1</version>
         </dependency>
         <!-- Test mock dependencies -->
         <dependency>
@@ -77,6 +66,7 @@
                             <allowSnapshots>false</allowSnapshots>
                             <includes>
                                 <include>com.microsoft.playwright:playwright</include>
+                                <include>org.jsoup:jsoup</include>
                             </includes>
                         </configuration>
                     </execution>
