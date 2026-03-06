@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>afor-cucumber</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-cucumber provides the basis for BDD with cucumber</description>
 
     <properties>

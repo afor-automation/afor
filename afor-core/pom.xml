@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>afor-core</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>afor-core provides a basis for core dependencies of the afor framework</description>
 
     <properties>
