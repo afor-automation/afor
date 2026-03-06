@@ -7,8 +7,8 @@ import com.google.javascript.jscomp.SourceFile;
 import com.yahoo.platform.yui.compressor.CssCompressor;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -98,10 +98,10 @@ public final class HtmlWriter implements AutoCloseable {
     private void bundleJs() {
         List<SourceFile> inputs = new ArrayList<>();
         for (String jsAsset : JAVASCRIPT_ASSETS) {
-            try {
-                inputs.add(SourceFile.fromPath(Path.of(Objects.requireNonNull(getClass().getResource(jsAsset)).toURI()), StandardCharsets.UTF_8));
-            } catch (URISyntaxException e) {
-                throw new WriterException(e);
+            try (InputStream resource = getClass().getResourceAsStream(jsAsset)) {
+                inputs.add(SourceFile.fromCode(jsAsset, new String(Objects.requireNonNull(resource).readAllBytes(), UTF_8)));
+            } catch (IOException | FileSystemNotFoundException e) {
+                throw new WriterException("Bundler failed with resource '" + jsAsset + "'", e);
             }
         }
         Compiler compiler = new Compiler();
