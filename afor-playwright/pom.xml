@@ -4,7 +4,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.4.64-SNAPSHOT</version>
+        <version>1.4.66-SNAPSHOT</version>
         <relativePath>../afor-parent/pom.xml</relativePath>
     </parent>
 
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.microsoft.playwright</groupId>
             <artifactId>playwright</artifactId>
-            <version>1.53.0</version>
+            <version>1.58.0</version>
         </dependency>
 
         <!-- Dependencies for AI cleanup -->
