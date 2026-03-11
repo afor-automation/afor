@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.4.68-SNAPSHOT</version>
+        <version>1.4.69-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -27,24 +27,13 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>7.14.0</version>
+            <version>7.15.0</version>
         </dependency>
         <!-- Dependencies for AI cleanup -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.18.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-server</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>12.0.15</version>
+            <version>1.22.1</version>
         </dependency>
         <!-- Test mock dependencies -->
         <dependency>
@@ -77,6 +66,7 @@
                             <allowSnapshots>false</allowSnapshots>
                             <includes>
                                 <include>com.codeborne:selenide</include>
+                                <include>org.jsoup:jsoup</include>
                             </includes>
                         </configuration>
                     </execution>
