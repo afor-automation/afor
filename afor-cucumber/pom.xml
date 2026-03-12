@@ -5,7 +5,7 @@
     <parent>
         <groupId>nz.co.afor.framework</groupId>
         <artifactId>afor-parent</artifactId>
-        <version>1.4.69-SNAPSHOT</version>
+        <version>1.4.70-SNAPSHOT</version>
         <relativePath>../afor-parent</relativePath>
     </parent>
 
@@ -94,14 +94,14 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>index.html</include>
+                    <include>nz/co/afor/reports/formatter/index.html</include>
                 </includes>
                 <filtering>true</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
-                    <exclude>index.html</exclude>
+                    <exclude>nz/co/afor/reports/formatter/index.html</exclude>
                 </excludes>
                 <filtering>false</filtering>
             </resource>
