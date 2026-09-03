@@ -4,7 +4,6 @@ import de.erichseifert.vectorgraphics2d.VectorGraphics2D;
 import de.erichseifert.vectorgraphics2d.svg.SVGProcessor;
 import de.erichseifert.vectorgraphics2d.util.PageSize;
 import nz.co.afor.reports.results.ResultSummary;
-import org.knowm.xchart.AnnotationText;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.PieSeries;
 import org.knowm.xchart.style.Styler;
@@ -29,7 +28,8 @@ public class PieChart {
                 .theme(Styler.ChartTheme.GGPlot2)
                 .build();
 
-        pieChart.getStyler().setTheme(new PieTheme())
+        pieChart.getStyler().setTheme(new PieTheme());
+        pieChart.getStyler()
                 .setDonutThickness(0.3)
                 .setDefaultSeriesRenderStyle(PieSeries.PieSeriesRenderStyle.Donut)
                 .setChartBackgroundColor(new Color(239, 235, 229))
@@ -41,7 +41,7 @@ public class PieChart {
                 .setAnnotationTextFont(new Font("Arial", Font.BOLD, 44))
                 .setChartTitleFont(new Font("Arial", Font.BOLD, 18));
 
-        addCentreText(resultSummary, pieChart, width, height);
+        addCentreText(resultSummary, pieChart);
         addData(resultSummary, pieChart);
 
         VectorGraphics2D vectorGraphics2D = new VectorGraphics2D();
@@ -54,11 +54,11 @@ public class PieChart {
         return resultSummary.getScenarios().getPassed() + resultSummary.getScenarios().getFailed() + resultSummary.getScenarios().getUndefined() + resultSummary.getScenarios().getPending();
     }
 
-    private static void addCentreText(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart, int width, int height) {
+    private static void addCentreText(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart) {
         long passedPercentage = Math.round((resultSummary.getScenarios().getPassed().doubleValue() / getTotal(resultSummary)) * 100);
-        AnnotationText centreText = new AnnotationText(passedPercentage + " %", ((double) width / 3) + 22, ((double) height / 2) - 11, true);
-        centreText.init(pieChart);
-        pieChart.addAnnotation(centreText);
+        pieChart.getStyler().setSumFont(new Font("Arial", Font.BOLD, 44));
+        pieChart.getStyler().setSumVisible(true);
+        pieChart.getStyler().setSumFormat(passedPercentage + " %%");
     }
 
     private static void addData(ResultSummary resultSummary, org.knowm.xchart.PieChart pieChart) {
