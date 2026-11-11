@@ -28,6 +28,8 @@ public class GetMockSoapClient extends AbstractClient {
     public GetMockResponse getMockRequest(Mock mock) throws KeyManagementException, NoSuchAlgorithmException {
         GetMockRequest getMockRequest = new ObjectFactory().createGetMockRequest();
         getMockRequest.setMock(mock);
+        addSoapHeader(new ObjectFactory().createMockHeaderOne());
+        addSoapHeader(new ObjectFactory().createMockHeaderTwo());
         return send(getMockRequest, GetMockResponse.class);
     }
 }

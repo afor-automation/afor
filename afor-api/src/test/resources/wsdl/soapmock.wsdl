@@ -3,74 +3,91 @@
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
                   xmlns:tns="http://www.afor.co.nz/framework/mock/soap"
                   targetNamespace="http://www.afor.co.nz/framework/mock/soap">
-  <wsdl:types>
-    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.afor.co.nz/framework/mock/soap">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+                   targetNamespace="http://www.afor.co.nz/framework/mock/soap">
 
-    <xs:element name="getMockRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="mock" type="tns:mock"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+            <xs:element name="MockHeaderOne">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="mockValue" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
 
-    <xs:element name="getMockResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="mock" type="tns:mock"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+            <xs:element name="MockHeaderTwo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="mockValue" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
 
-    <xs:complexType name="mock">
-        <xs:sequence>
-            <xs:element name="string" type="xs:string"/>
-            <xs:element name="integer" type="xs:int"/>
-            <xs:element name="enum" type="tns:enum"/>
-        </xs:sequence>
-    </xs:complexType>
+            <xs:element name="getMockRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="mock" type="tns:mock"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
 
-    <xs:simpleType name="enum">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="ONE"/>
-            <xs:enumeration value="TWO"/>
-            <xs:enumeration value="THREE"/>
-            <xs:enumeration value="FOUR"/>
-        </xs:restriction>
-    </xs:simpleType>
-</xs:schema>
-  </wsdl:types>
-  <wsdl:message name="getMockRequest">
-    <wsdl:part element="tns:getMockRequest" name="getMockRequest">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getMockResponse">
-    <wsdl:part element="tns:getMockResponse" name="getMockResponse">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:portType name="SoapMockPort">
-    <wsdl:operation name="getMock">
-      <wsdl:input message="tns:getMockRequest" name="getMockRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:getMockResponse" name="getMockResponse">
-    </wsdl:output>
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:binding name="SoapMockPortSoap11" type="tns:SoapMockPort">
-    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="getMock">
-      <soap:operation soapAction=""/>
-      <wsdl:input name="getMockRequest">
-        <soap:body use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="getMockResponse">
-        <soap:body use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
-  <wsdl:service name="SoapMockPortService">
-    <wsdl:port binding="tns:SoapMockPortSoap11" name="SoapMockPortSoap11">
-      <soap:address location="http://127.0.0.1:16151/ws"/>
-    </wsdl:port>
-  </wsdl:service>
+            <xs:element name="getMockResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="mock" type="tns:mock"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:complexType name="mock">
+                <xs:sequence>
+                    <xs:element name="string" type="xs:string"/>
+                    <xs:element name="integer" type="xs:int"/>
+                    <xs:element name="enum" type="tns:enum"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:simpleType name="enum">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="ONE"/>
+                    <xs:enumeration value="TWO"/>
+                    <xs:enumeration value="THREE"/>
+                    <xs:enumeration value="FOUR"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getMockRequest">
+        <wsdl:part element="tns:getMockRequest" name="getMockRequest">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getMockResponse">
+        <wsdl:part element="tns:getMockResponse" name="getMockResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="SoapMockPort">
+        <wsdl:operation name="getMock">
+            <wsdl:input message="tns:getMockRequest" name="getMockRequest">
+            </wsdl:input>
+            <wsdl:output message="tns:getMockResponse" name="getMockResponse">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SoapMockPortSoap11" type="tns:SoapMockPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getMock">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="getMockRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getMockResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SoapMockPortService">
+        <wsdl:port binding="tns:SoapMockPortSoap11" name="SoapMockPortSoap11">
+            <soap:address location="http://127.0.0.1:16151/ws"/>
+        </wsdl:port>
+    </wsdl:service>
 </wsdl:definitions>

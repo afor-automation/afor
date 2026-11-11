@@ -19,7 +19,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,7 +30,7 @@ import java.util.Map;
 public class SoapActionCallback implements WebServiceMessageCallback {
     private final String soapAction;
     private Map<String, String> soapHeaders = new HashMap<>();
-    private Object soapComplexHeader;
+    private List<Object> soapComplexHeaders = new ArrayList<>();
 
     public SoapActionCallback(String soapAction) {
         if (!StringUtils.hasText(soapAction)) {
@@ -42,8 +44,16 @@ public class SoapActionCallback implements WebServiceMessageCallback {
         this.soapHeaders = soapHeaders;
     }
 
-    public void setSoapHeader(Object header) {
-        soapComplexHeader = header;
+    public void addSoapComplexHeader(Object header) {
+        soapComplexHeaders.add(header);
+    }
+
+    public void setSoapComplexHeaders(List<Object> headers) {
+        soapComplexHeaders = headers;
+    }
+
+    public List<Object> getSoapComplexHeaders() {
+        return soapComplexHeaders;
     }
 
     public void addSoapHeader(String header, String value) {
@@ -58,7 +68,7 @@ public class SoapActionCallback implements WebServiceMessageCallback {
         Assert.isInstanceOf(SoapMessage.class, message);
         SoapMessage soapMessage = (SoapMessage) message;
         SoapHeader soapHeader = soapMessage.getSoapHeader();
-        if (null != soapComplexHeader) {
+        for (Object soapComplexHeader : soapComplexHeaders) {
             try {
                 JAXBContext context = JAXBContext.newInstance(soapComplexHeader.getClass());
 
