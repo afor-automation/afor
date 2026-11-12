@@ -19,6 +19,7 @@ import org.springframework.ws.transport.http.HttpComponentsMessageSender;
 import java.net.URI;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -103,7 +104,15 @@ public class AbstractClient extends WebServiceGatewaySupport implements Initiali
     }
 
     public void addSoapHeader(Object header) {
-        soapActionCallback.setSoapHeader(header);
+        soapActionCallback.addSoapComplexHeader(header);
+    }
+
+    public void setSoapHeaders(List<Object> headers) {
+        soapActionCallback.setSoapComplexHeaders(headers);
+    }
+
+    public List<Object> getSoapComplexHeaders() {
+        return soapActionCallback.getSoapComplexHeaders();
     }
 
     public Map<String, String> getSoapHeaders() {
